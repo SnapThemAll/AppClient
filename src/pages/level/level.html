@@ -5,8 +5,9 @@
 </ion-header>
 
 <ion-content>
-  {{levelName}}
-
-  <button ion-button (click)="buttonClicked()">Default</button>
+  <button ion-button (click)="buttonClicked()">
+    <ion-icon name='ios-camera-outline' padding-right="10"></ion-icon>
+    SNAP IT
+  </button>
   <img [src]="base64Image" *ngIf="base64Image" />
 </ion-content>
