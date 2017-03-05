@@ -33,7 +33,7 @@ export class LeaderboardPage {
   ];
 
   itemSelected(item: string) {
-    console.log("Selected Item", item);
+    console.log("Selected Item :", item);
   }
 
 }

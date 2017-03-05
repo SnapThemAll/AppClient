@@ -1,73 +1,18 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Play</ion-title>
+    <ion-title>Snap Them All</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item>
+    <ion-item *ngFor="let item of items.slice(0, 9); let index = index" (click)="itemSelected(item)">
       <ion-thumbnail item-left>
-        <img src="assets/icon/numbers/1.svg">
+        <img src="assets/icon/numbers/{{index + 1}}.svg">
       </ion-thumbnail>
-      <h2>Level 1</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+      <h2>Level {{index + 1}}</h2>
+      <p>{{item}}</p>
       <button ion-button clear item-right>Play</button>
     </ion-item>
-
-    <ion-item>
-      <ion-thumbnail item-left>
-        <img src="assets/icon/numbers/2.svg">
-      </ion-thumbnail>
-      <h2>Level 2</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing</p>
-      <button ion-button clear item-right>Play</button>
-    </ion-item>
-
-    <ion-item>
-      <ion-thumbnail item-left>
-        <img src="assets/icon/numbers/3.svg">
-      </ion-thumbnail>
-      <h2>Level 3</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing</p>
-      <button ion-button clear item-right>Play</button>
-    </ion-item>
-
-    <ion-item>
-      <ion-thumbnail item-left>
-        <img src="assets/icon/numbers/4.svg">
-      </ion-thumbnail>
-      <h2>Level 4</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing</p>
-      <button ion-button clear item-right>Play</button>
-    </ion-item>
-
-    <ion-item>
-      <ion-thumbnail item-left>
-        <img src="assets/icon/numbers/5.svg">
-      </ion-thumbnail>
-      <h2>Level 5</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing</p>
-      <button ion-button clear item-right>Play</button>
-    </ion-item>
-
-    <ion-item>
-      <ion-thumbnail item-left>
-        <img src="assets/icon/numbers/6.svg">
-      </ion-thumbnail>
-      <h2>Level 6</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing</p>
-      <button ion-button clear item-right>Play</button>
-    </ion-item>
-
-    <ion-item>
-      <ion-thumbnail item-left>
-        <img src="assets/icon/numbers/7.svg">
-      </ion-thumbnail>
-      <h2>Level 7</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing</p>
-      <button ion-button clear item-right>Play</button>
-    </ion-item>
-
   </ion-list>
 </ion-content>
