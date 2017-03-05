@@ -1,0 +1,36 @@
+import { Component } from '@angular/core';
+
+import { Camera } from 'ionic-native';
+
+import {NavController, NavParams} from 'ionic-angular';
+
+@Component({
+  selector: 'page-level',
+  templateUrl: 'level.html'
+})
+export class LevelPage {
+  levelName: string
+  levelNum: number
+  base64Image: string;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.levelName = navParams.get("levelName")
+    this.levelNum = navParams.get("levelNum")
+
+  }
+
+  buttonClicked() {
+    Camera.getPicture({
+      destinationType: Camera.DestinationType.DATA_URL,
+      targetWidth: 1000,
+      targetHeight: 1000
+    }).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64:
+      this.base64Image = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+}

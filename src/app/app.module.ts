@@ -5,6 +5,7 @@ import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 import { SettingsPage } from '../pages/settings/settings';
 import { PlayPage } from '../pages/play/play';
 import { TabsPage } from '../pages/tabs/tabs';
+import {LevelPage} from "../pages/level/level";
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { TabsPage } from '../pages/tabs/tabs';
     LeaderboardPage,
     SettingsPage,
     PlayPage,
-    TabsPage
+    TabsPage,
+    LevelPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -23,7 +25,8 @@ import { TabsPage } from '../pages/tabs/tabs';
     LeaderboardPage,
     SettingsPage,
     PlayPage,
-    TabsPage
+    TabsPage,
+    LevelPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

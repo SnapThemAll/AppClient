@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
 
+import { LevelPage } from '../level/level'
+
 @Component({
-  selector: 'page-home',
+  selector: 'page-play',
   templateUrl: 'play.html'
 })
 export class PlayPage {
@@ -32,7 +34,10 @@ export class PlayPage {
     'Halo'
   ];
 
-  itemSelected(item: string) {
-    console.log("Selected Item :", item);
+  itemSelected(levelName: string, levelNum: number) {
+    this.navCtrl.push(LevelPage, {
+      levelName: levelName,
+      levelNum: levelNum
+    })
   }
 }
