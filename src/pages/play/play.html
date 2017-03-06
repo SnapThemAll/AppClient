@@ -6,13 +6,15 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let levelName of items.slice(0, 9); let levelNum = index" (click)="itemSelected(levelName, levelNum + 1)">
+    <ion-item
+      *ngFor="let level of levels"
+      (click)="itemSelected(level)">
       <ion-thumbnail item-left>
-        <img src="assets/icon/numbers/{{levelNum + 1}}.svg" />
+        <img src="assets/icon/numbers/{{level.id}}.svg" />
       </ion-thumbnail>
-      <h2>Level {{levelNum + 1}}</h2>
-      <p>{{levelName}}</p>
-      <button ion-button clear item-right>Play</button>
+      <h2>Level {{level.id}}</h2>
+      <p>{{level.title}}</p>
+      <p item-right>{{level.score}}/ 200</p>
     </ion-item>
   </ion-list>
 </ion-content>

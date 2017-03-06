@@ -1,13 +1,25 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Level {{levelNum}}</ion-title>
+    <ion-title>Level {{level.id}} : {{level.title}}</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <button ion-button (click)="buttonClicked()">
+<ion-content class="card-background-page">
+  <ion-grid>
+    <ion-row *ngFor="let cardRow of grid.cards; let i = index">
+      <ion-col class="grid-col" *ngFor="let card of grid.cards[i]; let j = index">
+        <ion-card (click)="imgClicked(i, j)" >
+          <img class="card-img" src="{{card.uri}}" />
+          <div class="card-title">{{card.title}}</div>
+          <div class="card-subtitle">{{card.score}} / 10</div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!--<button ion-button (click)="buttonClicked()">
     <ion-icon name='ios-camera-outline' padding-right="10"></ion-icon>
     SNAP IT
   </button>
-  <img [src]="base64Image" *ngIf="base64Image" />
+  -->
+  <!--<img [src]="base64Image" *ngIf="base64Image" />-->
 </ion-content>

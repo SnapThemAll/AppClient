@@ -3,41 +3,33 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { LevelPage } from '../level/level'
+import {Level} from "../level/level.interface";
 
 @Component({
   selector: 'page-play',
   templateUrl: 'play.html'
 })
+
 export class PlayPage {
+  levels: Level[];
 
   constructor(public navCtrl: NavController) {
+    this.levels = [];
 
+    for(let i = 1; i < 10; i++){
+      this.levels.push({
+        title: "Title of level " + i,
+        id: i,
+        score: i * 20 + 20
+      });
+    }
   }
 
-  items = [
-    'Pokémon Yellow',
-    'Super Metroid',
-    'Mega Man X',
-    'The Legend of Zelda',
-    'Pac-Man',
-    'Super Mario World',
-    'Street Fighter II',
-    'Half Life',
-    'Final Fantasy VII',
-    'Star Fox',
-    'Tetris',
-    'Donkey Kong III',
-    'GoldenEye 007',
-    'Doom',
-    'Fallout',
-    'GTA',
-    'Halo'
-  ];
 
-  itemSelected(levelName: string, levelNum: number) {
+  itemSelected(level: Level) {
     this.navCtrl.push(LevelPage, {
-      levelName: levelName,
-      levelNum: levelNum
+      level: level
     })
   }
+
 }
