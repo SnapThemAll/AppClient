@@ -5,17 +5,14 @@
 </ion-header>
 
 <ion-content class="card-background-page">
-  <ion-grid>
-    <ion-row *ngFor="let cardRow of grid.cards; let i = index">
-      <ion-col class="grid-col" *ngFor="let card of grid.cards[i]; let j = index">
-        <ion-card (click)="imgClicked(i, j)" >
-          <img class="card-img" src="{{card.uri}}" />
-          <div class="card-title">{{card.title}}</div>
-          <div class="card-subtitle">{{card.score}} / 10</div>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
+  <div class="cardContainer" *ngFor="let card of cards; let idx = index;">
+    <ion-card (click)="imgClicked(idx)">
+      <img class="card-img" src="{{card.uri}}" />
+      <div class="card-title">{{card.title}}</div>
+      <div class="card-subtitle">{{card.score}} / 10</div>
+    </ion-card>
+  </div>
   <!--<button ion-button (click)="buttonClicked()">
     <ion-icon name='ios-camera-outline' padding-right="10"></ion-icon>
     SNAP IT
