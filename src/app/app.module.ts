@@ -6,6 +6,7 @@ import { SettingsPage } from '../pages/settings/settings';
 import { PlayPage } from '../pages/play/play';
 import { TabsPage } from '../pages/tabs/tabs';
 import {LevelPage} from "../pages/level/level";
+import {Storage} from "@ionic/storage";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,6 @@ import {LevelPage} from "../pages/level/level";
     TabsPage,
     LevelPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Storage]
 })
 export class AppModule {}

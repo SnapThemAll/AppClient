@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Storage } from "@ionic/storage";
 
 import { Camera } from 'ionic-native';
 
@@ -18,20 +19,46 @@ export interface Card {
 export class LevelPage {
   level: Level;
   cards: Card[];
-  base64Image: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage) {
     this.level = navParams.get("level");
-    this.cards = this.initCards(9, 3)
+    this.cards = this.initCards(10);
+    this.cards = this.fetchCards();
+
+
   }
 
-  private static initCards(num: number, col: number): Card[] {
+  private fetchCards(): Card[]{
     let cards: Card[] = [];
-    for(let i = 1; i <= num; i++) {
+    for (let i = 0; i < this.cards.length; i++) {
+      cards.push(this.cards[i]);
+
+      /* UPDATE TITLE
+      this.storage.get("card_title_" + i).then((storedTitle) => {
+        cards[i].title = storedTitle;
+      });*/
+
+      this.storage.get("card_uri_"+ this.level.id + "_" + i).then((storedURI) => {
+        if(storedURI != null) {
+          cards[i].uri = storedURI;
+        }
+      }, (err) => {
+        console.log(err)
+      });
+    }
+    return cards;
+  }
+
+  private initCards(num: number): Card[] {
+    let cards: Card[] = [];
+    for(let i = 0; i < num; i++) {
+      /*
+      */
+
       let card: Card = {
-        uri: "assets/img/black.jpg",
-        title: "Title " + i,
-        score: i
+        uri: "assets/img/black.svg",
+        title: "Title " + (i + 1),
+        score: (i + 1)
       };
       cards.push(card);
     }
@@ -39,24 +66,25 @@ export class LevelPage {
   }
 
   imgClicked(index: number) {
-    this.cards[index].uri = (index % 2 == 0) ? "assets/img/large.jpg" : "assets/img/tall.jpg";
+    this.takePicture(index);
+  }
+
+  takePicture(index: number): void {
     Camera.getPicture({
-      quality : 100,
-      destinationType : Camera.DestinationType.DATA_URL,
-      sourceType : Camera.PictureSourceType.CAMERA,
-      encodingType: Camera.EncodingType.JPEG,
+      quality: 75,
       targetWidth: 1000,
       targetHeight: 1000,
-      saveToPhotoAlbum: false
-    }).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64:
-      this.base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.cards[index].uri = this.base64Image;
+      //saveToPhotoAlbum : true,
+      destinationType: Camera.DestinationType.FILE_URI,
+      cameraDirection : Camera.Direction.BACK,
+      encodingType : Camera.EncodingType.JPEG
+    }).then((imageURI) => {
+      // imageData is a base64 encoded string
+      //base64Image = "data:image/jpeg;base64," + imageData;
+      this.storage.set("card_uri_" + this.level.id + "_" + index, imageURI);
+      this.cards[index].uri = imageURI;
     }, (err) => {
       console.log(err);
     });
-
   }
-
 }

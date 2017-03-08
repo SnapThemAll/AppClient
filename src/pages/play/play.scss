@@ -1,0 +1,30 @@
+ion-item.levelLocked {
+  opacity: 0.5;
+
+  ion-icon {
+    position: absolute;
+    left: 50%;
+    font-size: 40px;
+  }
+}
+
+
+
+ion-icon.levelUnlocked {
+  display : none;
+}
+
+
+$lineHeight: 50px;
+
+.item-md ion-thumbnail {
+    min-width: $lineHeight;
+    min-height: $lineHeight;
+}
+
+.item-md ion-thumbnail img {
+  width: $lineHeight;
+  height: $lineHeight;
+}
+
+
