@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-title>
+      {{card.title}}
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Back</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content text-center>
+  <img src="{{card.uri}}" />
+  <button text-center ion-button class="snap-it-button" (click)="buttonClicked()">
+    <ion-icon name='ios-camera-outline' padding-right="10"></ion-icon>
+    SNAP IT<span *ngIf="card.snapped">&nbsp;AGAIN</span>
+  </button>
+</ion-content>

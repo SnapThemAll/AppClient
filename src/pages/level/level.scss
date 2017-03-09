@@ -1,50 +1,52 @@
-.card-background-page {
+page-level {
+  .card-background-page {
 
-  $columns : 2;
-  $cardWidth : ((100% - (4% + 2 * ($columns - 1))) / $columns);
+    $columns : 2;
+    $cardWidth : ((100% - (4% + 2 * ($columns - 1))) / $columns);
 
-  margin: 1% 0 1% 1%;
+    margin: 1% 0 1% 1%;
 
-  .cardContainer {
-    position: relative;
-    display: inline-block;
-    float:left;
-    width: $cardWidth;
-    padding-bottom: $cardWidth;
-    margin: 1%;
+    .cardContainer {
+      position: relative;
+      display: inline-block;
+      float:left;
+      width: $cardWidth;
+      padding-bottom: $cardWidth;
+      margin: 1%;
+    }
+
+    ion-card {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+
+    .card-img {
+      object-fit: cover ;
+      width: 100%;
+      height: 100%;
+      opacity: 0.6;
+    }
+
+    .card-title {
+      position: absolute;
+      text-align: center;
+      top: 35%;
+      width: 100%;
+      font-size: 2.0em;
+      font-weight: bold;
+      color: white;
+    }
+
+    .card-subtitle {
+      position: absolute;
+      text-align: center;
+      top: 60%;
+      width: 100%;
+      font-size: 1.0em;
+      color: white;
+    }
+
   }
-
-  ion-card {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    margin: 0;
-  }
-
-  .card-img {
-    object-fit: cover ;
-    width: 100%;
-    height: 100%;
-    opacity: 0.6;
-  }
-
-  .card-title {
-    position: absolute;
-    text-align: center;
-    top: 35%;
-    width: 100%;
-    font-size: 2.0em;
-    font-weight: bold;
-    color: white;
-  }
-
-  .card-subtitle {
-    position: absolute;
-    text-align: center;
-    top: 60%;
-    width: 100%;
-    font-size: 1.0em;
-    color: white;
-  }
-
 }

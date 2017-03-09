@@ -1,16 +1,12 @@
 import { Component } from '@angular/core';
 import { Storage } from "@ionic/storage";
 
-import { Camera } from 'ionic-native';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
 
-import { NavController, NavParams } from 'ionic-angular';
 import { Level } from "./level.interface";
+import { CardPage } from "../card/card";
 
-export interface Card {
-  uri: string,
-  title: string,
-  score: number
-}
+import { Card } from "../card/card.interface";
 
 @Component({
   selector: 'page-level',
@@ -20,71 +16,52 @@ export class LevelPage {
   level: Level;
   cards: Card[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public storage: Storage,
+    public modalCtrl: ModalController
+  ) {
     this.level = navParams.get("level");
     this.cards = this.initCards(10);
-    this.cards = this.fetchCards();
 
-
+    this.fetchCards();
   }
 
-  private fetchCards(): Card[]{
-    let cards: Card[] = [];
+  private fetchCards() {
     for (let i = 0; i < this.cards.length; i++) {
-      cards.push(this.cards[i]);
-
-      /* UPDATE TITLE
-      this.storage.get("card_title_" + i).then((storedTitle) => {
-        cards[i].title = storedTitle;
-      });*/
-
-      this.storage.get("card_uri_"+ this.level.id + "_" + i).then((storedURI) => {
-        if(storedURI != null) {
-          cards[i].uri = storedURI;
+      this.storage.get(this.cards[i].uuid).then((storedCard) => {
+        if(storedCard != null) {
+          this.cards[i] = storedCard;
         }
       }, (err) => {
         console.log(err)
       });
     }
-    return cards;
   }
 
   private initCards(num: number): Card[] {
     let cards: Card[] = [];
     for(let i = 0; i < num; i++) {
-      /*
-      */
-
-      let card: Card = {
+      cards.push({
         uri: "assets/img/black.svg",
         title: "Title " + (i + 1),
-        score: (i + 1)
-      };
-      cards.push(card);
+        score: (i + 1),
+        uuid: "card_" + this.level.id + "_" + i,
+        snapped: false,
+      });
     }
     return cards;
   }
 
   imgClicked(index: number) {
-    this.takePicture(index);
+    let profileModal = this.modalCtrl.create(
+      CardPage, {
+        card: this.cards[index]
+      }
+    );
+    profileModal.present();
   }
 
-  takePicture(index: number): void {
-    Camera.getPicture({
-      quality: 75,
-      targetWidth: 1000,
-      targetHeight: 1000,
-      //saveToPhotoAlbum : true,
-      destinationType: Camera.DestinationType.FILE_URI,
-      cameraDirection : Camera.Direction.BACK,
-      encodingType : Camera.EncodingType.JPEG
-    }).then((imageURI) => {
-      // imageData is a base64 encoded string
-      //base64Image = "data:image/jpeg;base64," + imageData;
-      this.storage.set("card_uri_" + this.level.id + "_" + index, imageURI);
-      this.cards[index].uri = imageURI;
-    }, (err) => {
-      console.log(err);
-    });
-  }
 }
+

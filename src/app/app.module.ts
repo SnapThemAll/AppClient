@@ -5,8 +5,9 @@ import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 import { SettingsPage } from '../pages/settings/settings';
 import { PlayPage } from '../pages/play/play';
 import { TabsPage } from '../pages/tabs/tabs';
-import {LevelPage} from "../pages/level/level";
-import {Storage} from "@ionic/storage";
+import { LevelPage } from "../pages/level/level";
+import { CardPage } from "../pages/card/card";
+import { Storage } from "@ionic/storage";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {Storage} from "@ionic/storage";
     SettingsPage,
     PlayPage,
     TabsPage,
-    LevelPage
+    LevelPage,
+    CardPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -27,7 +29,8 @@ import {Storage} from "@ionic/storage";
     SettingsPage,
     PlayPage,
     TabsPage,
-    LevelPage
+    LevelPage,
+    CardPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Storage]
 })
