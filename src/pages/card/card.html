@@ -14,9 +14,9 @@
 </ion-header>
 
 <ion-content text-center>
-  <img src="{{card.uri}}" />
+  <img src="{{card.picturesURI[card.bestPicture]}}"/>
   <button text-center ion-button class="snap-it-button" (click)="buttonClicked()">
     <ion-icon name='ios-camera-outline' padding-right="10"></ion-icon>
-    SNAP IT<span *ngIf="card.snapped">&nbsp;AGAIN</span>
+    SNAP IT<span *ngIf="card.bestPicture > 0">&nbsp;AGAIN</span>
   </button>
 </ion-content>

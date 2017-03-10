@@ -1,12 +1,9 @@
-import { Component } from '@angular/core';
-import { Storage } from "@ionic/storage";
-
-import { NavController, NavParams, ModalController } from 'ionic-angular';
-
-import { Level } from "./level.interface";
-import { CardPage } from "../card/card";
-
-import { Card } from "../card/card.interface";
+import {Component} from "@angular/core";
+import {Storage} from "@ionic/storage";
+import {NavController, NavParams, ModalController} from "ionic-angular";
+import {Level} from "./level.interface";
+import {CardPage} from "../card/card";
+import {Card} from "../card/card.interface";
 
 @Component({
   selector: 'page-level',
@@ -23,13 +20,12 @@ export class LevelPage {
     public modalCtrl: ModalController
   ) {
     this.level = navParams.get("level");
-    this.cards = this.initCards(10);
-
-    this.fetchCards();
+    this.cards = this.level.cards;
   }
 
+  /*
   private fetchCards() {
-    for (let i = 0; i < this.cards.length; i++) {
+   for (let i = 0; i < this.cards.length; ++i) {
       this.storage.get(this.cards[i].uuid).then((storedCard) => {
         if(storedCard != null) {
           this.cards[i] = storedCard;
@@ -44,15 +40,16 @@ export class LevelPage {
     let cards: Card[] = [];
     for(let i = 0; i < num; i++) {
       cards.push({
-        uri: "assets/img/black.svg",
+   picturesURI: "assets/img/black.svg",
         title: "Title " + (i + 1),
         score: (i + 1),
-        uuid: "card_" + this.level.id + "_" + i,
+   uuid: "card_" + this.level.num + "_" + i,
         snapped: false,
       });
     }
     return cards;
   }
+   */
 
   imgClicked(index: number) {
     let profileModal = this.modalCtrl.create(

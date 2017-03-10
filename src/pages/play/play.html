@@ -7,17 +7,17 @@
 <ion-content>
   <ion-list>
     <ion-item
-      *ngFor="let level of levels"
+      *ngFor="let level of levels; let idx = index"
       (click)="itemSelected(level)"
-      [class.levelLocked]="!level.unlocked"
+      [class.levelLocked]="!level.isUnlocked()"
     >
-      <ion-icon name="lock" [class.levelUnlocked]="level.unlocked"></ion-icon>
+      <ion-icon name="lock" [class.levelUnlocked]="level.isUnlocked()"></ion-icon>
       <ion-thumbnail item-left>
-        <img src="assets/icon/numbers/{{level.id}}.svg" />
+        <img src="assets/icon/numbers/{{idx + 1}}.svg"/>
       </ion-thumbnail>
-      <h2>Level {{level.id}}</h2>
+      <h2>Level {{idx + 1}}</h2>
       <p>{{level.title}}</p>
-      <p item-right>{{level.score}} / 200</p>
+      <p item-right>{{level.score}} / 100</p>
     </ion-item>
   </ion-list>
 </ion-content>

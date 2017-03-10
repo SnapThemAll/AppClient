@@ -8,9 +8,9 @@
 
   <div class="cardContainer" *ngFor="let card of cards; let idx = index;">
     <ion-card (click)="imgClicked(idx)">
-      <img class="card-img" src="{{card.uri}}" />
+      <img class="card-img" src="{{card.picturesURI[card.bestPicture]}}"/>
       <div class="card-title">{{card.title}}</div>
-      <div class="card-subtitle">{{card.score}} / 10</div>
+      <div class="card-subtitle">{{card.scores[card.bestPicture]}} / 10</div>
     </ion-card>
   </div>
 </ion-content>

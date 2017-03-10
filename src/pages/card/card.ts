@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import { Storage } from "@ionic/storage";
+import {Storage} from "@ionic/storage";
 import {NavParams, Platform, ViewController} from "ionic-angular";
 import {Card} from "./card.interface";
 import {Camera} from "ionic-native";
@@ -40,8 +40,8 @@ export class CardPage {
     }).then((imageURI) => {
       // imageData is a base64 encoded string
       //base64Image = "data:image/jpeg;base64," + imageData;
-      this.card.uri = imageURI;
-      this.card.snapped = true;
+      this.card.picturesURI.push(imageURI);
+      this.card.scores.push(Math.random() * 10);
       this.storage.set(this.card.uuid, this.card).then(() => {
         console.log("card successfully stored");
       });
