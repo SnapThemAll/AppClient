@@ -23,11 +23,7 @@ export class PlayPage {
     }).then((levels: Level[]) => {
       this.levels = levels;
     }).catch((err: Error) => {
-      console.log("while assigning levels this error occurred :\n" +
-        "name : " + err.name + "\n" +
-        "message : " + err.message + "\n" +
-        "stack : " + err.stack + "\n"
-      );
+      console.log("while getting levels UUIDs this error occurred : " + err.stack);
     });
   }
 
