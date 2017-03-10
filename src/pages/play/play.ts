@@ -18,7 +18,7 @@ export class PlayPage {
   }
 
   private initLevels(): void {
-    this.storage.get("levelsUUID").then((uuids: string[]) => {
+    this.storage.get("levels_uuid").then((uuids: string[]) => {
       return Promise.all(uuids.map((uuid) => Level.fromStorage(this.storage, uuid)))
     }).then((levels: Level[]) => {
       this.levels = levels;

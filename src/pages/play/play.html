@@ -15,9 +15,9 @@
       <ion-thumbnail item-left>
         <img src="assets/icon/numbers/{{idx + 1}}.svg"/>
       </ion-thumbnail>
-      <h2>Level {{idx}}</h2>
+      <h2>Level {{idx }}</h2>
       <p>{{level.title}}</p>
-      <p item-right>{{level.score}} / 100</p>
+      <p item-right>{{level.score}} / {{level.cards.length * 10}}</p>
     </ion-item>
   </ion-list>
 </ion-content>

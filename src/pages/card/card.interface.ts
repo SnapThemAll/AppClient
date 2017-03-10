@@ -10,7 +10,7 @@ export class Card {
   }
 
   static fromStorage(storage: Storage, uuid: string): Promise<Card> {
-    let title, picturesURI, scores, bestPicture;
+    let title: string, picturesURI: string[], scores: number[], bestPicture: number;
 
     return storage.get(uuid).then((cardStored: CardStored) => {
         title = cardStored.title;

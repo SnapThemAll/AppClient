@@ -62,7 +62,6 @@ export class Level {
 
 export interface LevelStored {
   title: string,
-  score: number,
   scoreToUnlock: number,
   cardsUUID: string[],
 }

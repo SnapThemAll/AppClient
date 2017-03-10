@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
-
-import { PlayPage } from '../play/play';
-import { LeaderboardPage } from '../leaderboard/leaderboard';
-import { SettingsPage } from '../settings/settings';
+import {Component} from "@angular/core";
+import {PlayPage} from "../play/play";
+import {LeaderboardPage} from "../leaderboard/leaderboard";
+import {SettingsPage} from "../settings/settings";
 
 @Component({
   templateUrl: 'tabs.html'
@@ -15,6 +14,5 @@ export class TabsPage {
   tab3Root: any = SettingsPage;
 
   constructor() {
-
   }
 }
