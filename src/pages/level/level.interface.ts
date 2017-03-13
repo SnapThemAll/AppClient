@@ -14,7 +14,6 @@ export class Level {
    */
   constructor(public storage: Storage,
               public title: string,
-              public score: number,
               public scoreToUnlock: number,
               public cards: Card[],
               public uuid: string,) {
@@ -28,9 +27,8 @@ export class Level {
       scoreToUnlock = levelStored.scoreToUnlock;
       return Promise.all(levelStored.cardsUUID.map((cardUUID) => Card.fromStorage(storage, cardUUID)));
     }).then((cards: Card[]) => {
-      let score = cards.map((card) => card.bestScore()).reduce((a, b) => a + b);
       console.log("Level " + uuid + " created");
-      return new Level(storage, title, score, scoreToUnlock, cards, uuid);
+      return new Level(storage, title, scoreToUnlock, cards, uuid);
     }).catch((err: Error) => {
       console.log("while getting " + uuid + " this error occurred : " + err.stack);
     });
@@ -51,12 +49,16 @@ export class Level {
   }
    */
 
-  isLocked(): boolean {
-    return this.score < this.scoreToUnlock;
+  isLocked(totalScore: number): boolean {
+    return totalScore < this.scoreToUnlock;
   }
 
-  isUnlocked(): boolean {
-    return !this.isLocked();
+  isUnlocked(totalScore: number): boolean {
+    return !this.isLocked(totalScore);
+  }
+
+  score(): number {
+    return this.cards.map((card) => card.bestScore()).reduce((a, b) => a + b);
   }
 }
 

@@ -38,6 +38,33 @@ export class Card {
     return this.picturesURI[this.picturesURI.length - 1];
   }
 
+  addPic(uri: string) {
+    this.picturesURI.push(uri);
+    let newScore = this.simulateScore(uri);
+    this.scores.push(newScore);
+    if (newScore > this.bestScore()) {
+      this.bestPicture = this.scores.length - 1;
+    }
+    this.saveCard();
+  }
+
+  simulateScore(uri: string): number {
+    return Math.random() * 10;
+  }
+
+  saveCard(): Promise<CardStored> {
+    return this.storage.set(this.uuid, this.toCardStored())
+  }
+
+  toCardStored(): CardStored {
+    return {
+      title: this.title,
+      picturesURI: this.picturesURI,
+      scores: this.scores,
+      bestPicture: this.bestPicture,
+    }
+  }
+
 }
 
 export interface CardStored {

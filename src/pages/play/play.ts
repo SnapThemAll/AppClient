@@ -28,11 +28,11 @@ export class PlayPage {
   }
 
   totalScore(): number {
-    return this.levels.map((lvl) => lvl.score).reduce((left, right) => left + right);
+    return this.levels == null ? 0 : this.levels.map((lvl) => lvl.score()).reduce((left, right) => left + right);
   }
 
   itemSelected(level: Level) {
-    if (level.isUnlocked()) {
+    if (level.isUnlocked(this.totalScore())) {
       this.navCtrl.push(LevelPage, {
         level: level
       })

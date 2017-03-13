@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="io.gregunz.snap-them-all" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.gregunz.snap-them-all" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
   <name>Snap Them All</name>
   <description>Take Snaps while discovering world.</description>
   <author email="contact@gregunz.io" href="http://gregunz.io/">gregunz.io</author>
   <content src="index.html"/>
   <access origin="*"/>
   <allow-navigation href="http://ionic.local/*"/>
+  <allow-navigation href="http://192.168.1.54:8101"/>
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>

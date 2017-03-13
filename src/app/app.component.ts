@@ -5,7 +5,8 @@ import {TabsPage} from "../pages/tabs/tabs";
 import {LevelStored} from "../pages/level/level.interface";
 import {CardStored} from "../pages/card/card.interface";
 import {Storage} from "@ionic/storage";
-
+import {Http} from "@angular/http";
+import {Observable} from "rxjs";
 
 @Component({
   templateUrl: 'app.html'
@@ -13,33 +14,37 @@ import {Storage} from "@ionic/storage";
 export class MyApp {
   rootPage;
 
-  constructor(platform: Platform, storage: Storage) {
+  constructor(platform: Platform, storage: Storage, http: Http) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+
       let FIRST_START = "first_start_0";
 
-      storage.get(FIRST_START).then((value) => {
-        if (value != null) {
-          return Promise.resolve();
+      Observable.fromPromise(storage.get(FIRST_START)).flatMap((value) => {
+        if (value == null) {
+          return this.storeDataFromJson(FIRST_START, storage, http);
         } else {
-          console.log("Setting database on first start...");
-          let levelsData: LevelData[] = [{
-            title: "title level 0",
-            scoreToUnlock: 0,
-            cardTitles: ["title card 0", "title card 1"],
-          },];
-          let data = new Data(levelsData);
-          storage.set(FIRST_START, false);
-          return data.storeData(storage);
+          return Observable.range(0, 1);
         }
-      }).then(() => {
+      }).subscribe(() => {
         console.log("Database ready!");
         this.rootPage = TabsPage;
         StatusBar.styleDefault();
         Splashscreen.hide();
       })
     });
+  }
+
+  private storeDataFromJson(firstStart: string, storage: Storage, http: Http): Observable<any> {
+    console.log("Setting up database on first start...");
+    return http.get("assets/lvl/levels.json")
+      .map(res => res.json())
+      .flatMap((levelsData) => {
+        let data = new Data(levelsData);
+        storage.set(firstStart, false);
+        return data.storeData(storage);
+      })
   }
 }
 

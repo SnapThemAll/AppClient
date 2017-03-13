@@ -9,15 +9,19 @@
     <ion-item
       *ngFor="let level of levels; let idx = index"
       (click)="itemSelected(level)"
-      [class.levelLocked]="!level.isUnlocked()"
+      [class.levelLocked]="level.isLocked(totalScore())"
     >
-      <ion-icon name="lock" [class.levelUnlocked]="level.isUnlocked()"></ion-icon>
+      <ion-icon name="lock" [class.levelUnlocked]="level.isUnlocked(totalScore())"></ion-icon>
       <ion-thumbnail item-left>
         <img src="assets/icon/numbers/{{idx + 1}}.svg"/>
       </ion-thumbnail>
       <h2>Level {{idx }}</h2>
       <p>{{level.title}}</p>
-      <p item-right>{{level.score}} / {{level.cards.length * 10}}</p>
+      <p item-right>{{level.score()}} / {{level.cards.length * 10}}</p>
+    </ion-item>
+    <ion-item>
+      <p text-center>Total score : {{totalScore()}}</p>
+      <p text-center>more levels coming soon :)</p>
     </ion-item>
   </ion-list>
 </ion-content>

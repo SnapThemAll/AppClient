@@ -25,8 +25,10 @@ export class CardPage {
   }
 
   buttonClicked() {
-    this.takePicture();
+    this.card.addPic("assets/img/black.svg");
+    //this.takePicture();
   }
+
 
   takePicture(): void {
     Camera.getPicture({
@@ -40,13 +42,10 @@ export class CardPage {
     }).then((imageURI) => {
       // imageData is a base64 encoded string
       //base64Image = "data:image/jpeg;base64," + imageData;
-      this.card.picturesURI.push(imageURI);
-      this.card.scores.push(Math.random() * 10);
-      this.storage.set(this.card.uuid, this.card).then(() => {
-        console.log("card successfully stored");
-      });
+      this.card.addPic(imageURI);
     }, (err) => {
       console.log(err);
     });
   }
+
 }
