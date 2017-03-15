@@ -14,7 +14,16 @@
 </ion-header>
 
 <ion-content text-center>
-  <img *ngIf="card.bestPicture > 0" src="{{card.bestPictureURI()}}"/>
+  <ion-slides [options]="slideOptions">
+    <ion-slide *ngFor="let pictureURI of card.picturesURI; let i = index">
+      <img src="{{pictureURI}}"/>
+      <p>score : {{card.scores[i]}}</p>
+    </ion-slide>
+  </ion-slides>
+  <!--<img src="{{card.bestPictureURI()}}"/>
+  <p *ngIf="card.bestPicture > 0">
+  </p>
+  -->
   <button text-center ion-button class="snap-it-button" (click)="buttonClicked()">
     <ion-icon name='ios-camera-outline' padding-right="10"></ion-icon>
     SNAP IT<span *ngIf="card.bestPicture > 0">&nbsp;AGAIN</span>

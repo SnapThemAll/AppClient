@@ -6,7 +6,8 @@ import {LevelStored} from "../pages/level/level.interface";
 import {CardStored} from "../pages/card/card.interface";
 import {Storage} from "@ionic/storage";
 import {Http} from "@angular/http";
-import {Observable} from "rxjs";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/toPromise";
 
 @Component({
   templateUrl: 'app.html'
@@ -18,33 +19,54 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      let dbVersion: Version = {
+        key: "version",
+        value: "0.0.0"
+      };
 
-      let FIRST_START = "first_start_0";
 
-      Observable.fromPromise(storage.get(FIRST_START)).flatMap((value) => {
-        if (value == null) {
-          return this.storeDataFromJson(FIRST_START, storage, http);
+      this.getVersion(dbVersion, storage).then((versionIsDifferent) => {
+        if (versionIsDifferent) {
+          return this.storeDataFromJson(storage, http);
         } else {
-          return Observable.range(0, 1);
+          console.log("Database up to date already");
+          Promise.resolve();
         }
-      }).subscribe(() => {
+      }).then(() => {
         console.log("Database ready!");
         this.rootPage = TabsPage;
         StatusBar.styleDefault();
         Splashscreen.hide();
-      })
+      });
+
     });
   }
 
-  private storeDataFromJson(firstStart: string, storage: Storage, http: Http): Observable<any> {
+
+  private getVersion(version: Version, storage: Storage): Promise<boolean> {
+    return storage.get(version.key).then((versionValue) => {
+      let versionIsDifferent = versionValue != version.value;
+      if (versionIsDifferent) {
+        storage.clear().then(() => {
+          console.log("Database cleared.");
+          return storage.set(version.key, version.value);
+        }).then(() => {
+          console.log("Database updated to version " + version.value);
+        })
+      }
+      return versionIsDifferent;
+    });
+  }
+
+  private storeDataFromJson(storage: Storage, http: Http): Promise<any> {
     console.log("Setting up database on first start...");
-    return http.get("assets/lvl/levels.json")
+    return http.get("assets/levels.json")
       .map(res => res.json())
-      .flatMap((levelsData) => {
+      .map((levelsData) => {
         let data = new Data(levelsData);
-        storage.set(firstStart, false);
         return data.storeData(storage);
       })
+      .toPromise();
   }
 }
 
@@ -52,6 +74,12 @@ interface LevelData {
   title: string,
   scoreToUnlock: 0,
   cardTitles: string[],
+}
+
+
+interface Version {
+  key: string,
+  value: string,
 }
 
 class Data {
@@ -88,9 +116,10 @@ class Data {
   private toCardsStored(): CardStored[] {
     return this.levelsData.map((levelData) =>
       levelData.cardTitles.map((cardTitle) => {
+        let fileType = "png";
         return {
           title: cardTitle,
-          picturesURI: ["assets/img/cards/" + this.titleToUUID(cardTitle) + ".jpg"],
+          picturesURI: ["assets/cards/" + fileType + "/" + this.titleToUUID(cardTitle) + "." + fileType],
           scores: [0],
           bestPicture: 0,
         };

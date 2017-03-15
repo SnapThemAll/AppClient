@@ -15,13 +15,14 @@
       <ion-thumbnail item-left>
         <img src="assets/icon/numbers/{{idx + 1}}.svg"/>
       </ion-thumbnail>
-      <h2>Level {{idx }}</h2>
+      <h2>Level {{idx + 1}}</h2>
       <p>{{level.title}}</p>
       <p item-right>{{level.score()}} / {{level.cards.length * 10}}</p>
     </ion-item>
     <ion-item>
       <p text-center>Total score : {{totalScore()}}</p>
-      <p text-center>more levels coming soon :)</p>
+      <p text-center>There will be at least 10 levels soon. No worries :)</p>
+      <p text-center>Update your app to get the latest levels</p>
     </ion-item>
   </ion-list>
 </ion-content>

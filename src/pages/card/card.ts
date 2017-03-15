@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {Storage} from "@ionic/storage";
-import {NavParams, Platform, ViewController} from "ionic-angular";
+import {NavParams, Platform, ViewController, Slides} from "ionic-angular";
 import {Card} from "./card.interface";
 import {Camera} from "ionic-native";
 
@@ -10,6 +10,8 @@ import {Camera} from "ionic-native";
 })
 export class CardPage {
   card: Card;
+  @ViewChild(Slides) slides: Slides;
+  slideOptions: any;
 
   constructor(
     public platform: Platform,

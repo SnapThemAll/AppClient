@@ -1,7 +1,7 @@
 import {Storage} from "@ionic/storage";
 export class Card {
 
-  constructor(public storage: Storage,
+  constructor(private storage: Storage,
               public title: string,
               public picturesURI: string[],
               public scores: number[],
@@ -13,6 +13,7 @@ export class Card {
     let title: string, picturesURI: string[], scores: number[], bestPicture: number;
 
     return storage.get(uuid).then((cardStored: CardStored) => {
+
         title = cardStored.title;
         picturesURI = cardStored.picturesURI;
         scores = cardStored.scores;
@@ -38,6 +39,7 @@ export class Card {
     return this.picturesURI[this.picturesURI.length - 1];
   }
 
+
   addPic(uri: string) {
     this.picturesURI.push(uri);
     let newScore = this.simulateScore(uri);
@@ -49,7 +51,7 @@ export class Card {
   }
 
   simulateScore(uri: string): number {
-    return Math.random() * 10;
+    return Math.round(100 * (Math.random() * 10)) / 100;
   }
 
   saveCard(): Promise<CardStored> {
