@@ -11,7 +11,6 @@ import {Camera} from "ionic-native";
 export class CardPage {
   card: Card;
   @ViewChild(Slides) slides: Slides;
-  slideOptions: any;
 
   constructor(
     public platform: Platform,
@@ -20,6 +19,7 @@ export class CardPage {
     public viewCtrl: ViewController
   ) {
     this.card = navParams.get("card");
+    //this.slides.slideTo(this.card.bestPictureIndex);
   }
 
   dismiss() {
@@ -27,8 +27,8 @@ export class CardPage {
   }
 
   buttonClicked() {
-    this.card.addPic("assets/img/black.svg");
-    //this.takePicture();
+    //this.card.addPic("assets/img/black.svg");
+    this.takePicture();
   }
 
 
@@ -45,6 +45,7 @@ export class CardPage {
       // imageData is a base64 encoded string
       //base64Image = "data:image/jpeg;base64," + imageData;
       this.card.addPic(imageURI);
+      this.slides.slideTo(this.card.bestPictureIndex);
     }, (err) => {
       console.log(err);
     });

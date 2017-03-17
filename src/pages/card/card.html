@@ -14,18 +14,18 @@
 </ion-header>
 
 <ion-content text-center>
-  <ion-slides [options]="slideOptions">
+  <ion-slides>
     <ion-slide *ngFor="let pictureURI of card.picturesURI; let i = index">
       <img src="{{pictureURI}}"/>
       <p>score : {{card.scores[i]}}</p>
+      <button text-center ion-button class="snap-it-button" (click)="buttonClicked()">
+        <ion-icon name='ios-camera-outline' padding-right="10"></ion-icon>
+        SNAP IT<span *ngIf="card.bestPictureIndex > 0">&nbsp;AGAIN</span>
+      </button>
     </ion-slide>
   </ion-slides>
   <!--<img src="{{card.bestPictureURI()}}"/>
-  <p *ngIf="card.bestPicture > 0">
+  <p *ngIf="card.bestPictureIndex > 0">
   </p>
   -->
-  <button text-center ion-button class="snap-it-button" (click)="buttonClicked()">
-    <ion-icon name='ios-camera-outline' padding-right="10"></ion-icon>
-    SNAP IT<span *ngIf="card.bestPicture > 0">&nbsp;AGAIN</span>
-  </button>
 </ion-content>

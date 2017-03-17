@@ -5,7 +5,7 @@ export class Card {
               public title: string,
               public picturesURI: string[],
               public scores: number[],
-              public bestPicture: number,
+              public bestPictureIndex: number,
               public uuid: string,) {
   }
 
@@ -28,11 +28,11 @@ export class Card {
   }
 
   bestScore(): number {
-    return this.scores[this.bestPicture]
+    return this.scores[this.bestPictureIndex]
   }
 
   bestPictureURI(): string {
-    return this.picturesURI[this.bestPicture];
+    return this.picturesURI[this.bestPictureIndex];
   }
 
   latestPictureURI(): string {
@@ -45,7 +45,7 @@ export class Card {
     let newScore = this.simulateScore(uri);
     this.scores.push(newScore);
     if (newScore > this.bestScore()) {
-      this.bestPicture = this.scores.length - 1;
+      this.bestPictureIndex = this.scores.length - 1;
     }
     this.saveCard();
   }
@@ -63,7 +63,7 @@ export class Card {
       title: this.title,
       picturesURI: this.picturesURI,
       scores: this.scores,
-      bestPicture: this.bestPicture,
+      bestPicture: this.bestPictureIndex,
     }
   }
 
