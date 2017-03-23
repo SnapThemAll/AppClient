@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {Storage} from "@ionic/storage";
-import {NavController, NavParams, ModalController} from "ionic-angular";
+import {ModalController, NavController, NavParams} from "ionic-angular";
 import {Level} from "./level.interface";
 import {CardPage} from "../card/card";
 import {Card} from "../card/card.interface";
@@ -54,7 +54,7 @@ export class LevelPage {
   imgClicked(index: number) {
     let profileModal = this.modalCtrl.create(
       CardPage, {
-        card: this.cards[index]
+        card: this.cards[index],
       }
     );
     profileModal.present();

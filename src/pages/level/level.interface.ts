@@ -58,7 +58,7 @@ export class Level {
   }
 
   score(): number {
-    return this.cards.map((card) => card.bestScore()).reduce((a, b) => a + b);
+    return Math.round(this.cards.map((card) => card.bestScore()).reduce((a, b) => a + b) * 100) / 100;
   }
 }
 

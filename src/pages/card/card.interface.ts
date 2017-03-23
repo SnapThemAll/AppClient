@@ -4,7 +4,7 @@ export class Card {
   constructor(private storage: Storage,
               public title: string,
               public picturesURI: string[],
-              public scores: number[],
+              private scores: number[],
               public bestPictureIndex: number,
               public uuid: string,) {
   }
@@ -27,8 +27,12 @@ export class Card {
     });
   }
 
+  score(i: number): number {
+    return Math.round(100 * this.scores[i]) / 100;
+  }
+
   bestScore(): number {
-    return this.scores[this.bestPictureIndex]
+    return Math.round(100 * this.scores[this.bestPictureIndex]) / 100;
   }
 
   bestPictureURI(): string {
@@ -51,7 +55,7 @@ export class Card {
   }
 
   simulateScore(uri: string): number {
-    return Math.round(100 * (Math.random() * 10)) / 100;
+    return Math.random() * 10;
   }
 
   saveCard(): Promise<CardStored> {
