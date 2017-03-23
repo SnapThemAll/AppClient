@@ -3,20 +3,11 @@ import {Storage} from "@ionic/storage";
 
 export class Level {
 
-  /*
-   var promises = [];
-   for (var i = 0; i < fileNames.length; ++i) {
-   promises.push(fs.readFileAsync(fileNames[i]));
-   }
-   Promise.all(promises).then(function() {
-   console.log("done");
-   });
-   */
-  constructor(public storage: Storage,
-              public title: string,
-              public scoreToUnlock: number,
-              public cards: Card[],
-              public uuid: string,) {
+  constructor(private storage: Storage,
+              private title: string,
+              private scoreToUnlock: number,
+              private cards: Card[],
+              private uuid: string,) {
   }
 
   static fromStorage(storage: Storage, uuid: string): Promise<Level> {
@@ -34,20 +25,21 @@ export class Level {
     });
   }
 
-  storeLevel(): Promise<LevelStored> {
-    return this.storage.set(this.uuid, {
-      title: this.title,
-      scoreToUnlock: this.scoreToUnlock,
-      cardsUUID: this.cards.map((card) => card.getUUID()),
-    });
+  getTitle(): string {
+    return this.title;
   }
 
-  /*
-  updateScore(newScore: number): Promise<LevelStored> {
-    this.getScore = newScore;
-    return this.storeLevel();
+  getScoreToUnlock(): number {
+    return this.scoreToUnlock;
   }
-   */
+
+  getCards(): Card[] {
+    return this.cards;
+  }
+
+  getUUID(): string {
+    return this.uuid;
+  }
 
   isLocked(totalScore: number): boolean {
     return totalScore < this.scoreToUnlock;
@@ -59,6 +51,14 @@ export class Level {
 
   score(): number {
     return Math.round(this.cards.map((card) => card.bestScore()).reduce((a, b) => a + b) * 100) / 100;
+  }
+
+  storeLevel(): Promise<LevelStored> {
+    return this.storage.set(this.uuid, {
+      title: this.title,
+      scoreToUnlock: this.scoreToUnlock,
+      cardsUUID: this.cards.map((card) => card.getUUID()),
+    });
   }
 }
 

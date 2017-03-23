@@ -20,36 +20,8 @@ export class LevelPage {
     public modalCtrl: ModalController
   ) {
     this.level = navParams.get("level");
-    this.cards = this.level.cards;
+    this.cards = this.level.getCards();
   }
-
-  /*
-  private fetchCards() {
-   for (let i = 0; i < this.cards.length; ++i) {
-      this.storage.get(this.cards[i].uuid).then((storedCard) => {
-        if(storedCard != null) {
-          this.cards[i] = storedCard;
-        }
-      }, (err) => {
-        console.log(err)
-      });
-    }
-  }
-
-  private initCards(num: number): Card[] {
-    let cards: Card[] = [];
-    for(let i = 0; i < num; i++) {
-      cards.push({
-   picturesURI: "assets/img/black.svg",
-        title: "Title " + (i + 1),
-        score: (i + 1),
-   uuid: "card_" + this.level.num + "_" + i,
-        snapped: false,
-      });
-    }
-    return cards;
-  }
-   */
 
   imgClicked(index: number) {
     let profileModal = this.modalCtrl.create(
