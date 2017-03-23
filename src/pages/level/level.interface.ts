@@ -38,13 +38,13 @@ export class Level {
     return this.storage.set(this.uuid, {
       title: this.title,
       scoreToUnlock: this.scoreToUnlock,
-      cardsUUID: this.cards.map((card) => card.uuid),
+      cardsUUID: this.cards.map((card) => card.getUUID()),
     });
   }
 
   /*
   updateScore(newScore: number): Promise<LevelStored> {
-    this.score = newScore;
+    this.getScore = newScore;
     return this.storeLevel();
   }
    */
