@@ -1,7 +1,7 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "name": "snap-them-all",
+  "author": "gregunz.io",
+  "homepage": "http://gregunz.io/",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
@@ -19,7 +19,8 @@
     "@angular/platform-browser": "2.2.1",
     "@angular/platform-browser-dynamic": "2.2.1",
     "@angular/platform-server": "2.2.1",
-    "@ionic/storage": "1.1.7",
+    "@ionic-native/transfer": "^3.2.1",
+    "@ionic/storage": "^1.1.7",
     "ionic-angular": "2.1.0",
     "ionic-native": "2.4.1",
     "ionicons": "3.0.0",
@@ -40,5 +41,5 @@
     "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [],
-  "description": "SnapThemAll: An Ionic project"
+  "description": "Snap Them All: Best game of 2017"
 }
