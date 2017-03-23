@@ -20,7 +20,7 @@ export class CardPage {
   ) {
     this.card = navParams.get("card");
     //this.slides.slideTo(this.card.bestPictureIndex);
-    this.slideToWhenReady(this.card.bestPictureIndex);
+    this.slideToWhenReady(this.card.getBestPictureIndex());
   }
 
   slideToWhenReady(index: number, speed?: number) {
@@ -28,12 +28,12 @@ export class CardPage {
       setTimeout(() => {
         this.slideToWhenReady(index);
         console.log("slides not ready");
-      }, 20);
+      }, 50);
     } else {
       setTimeout(() => {
         console.log("slides ready");
         this.slides.slideTo(index, !speed ? 0 : speed);
-      }, 20);
+      }, 50);
     }
   }
 
@@ -58,7 +58,7 @@ export class CardPage {
   }
 
   uploadButtonClicked(index: number): any {
-    this.uploadPicture(this.card.picturesURI[index]);
+    this.uploadPicture(this.card.getPicture(index));
   }
 
   uploadPicture(pictureURI: string): number {
@@ -104,7 +104,7 @@ export class CardPage {
       //base64Image = "data:image/jpeg;base64," + imageData;
       this.card.addPic(imageURI);
       this.slides.update();
-      this.slideToWhenReady(this.card.picturesURI.length - 1, 500);
+      this.slideToWhenReady(this.card.size() - 1, 500);
     }, (err) => {
       console.log(err);
     });

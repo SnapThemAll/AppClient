@@ -15,18 +15,21 @@
 
 <ion-content text-center>
   <ion-slides pager (ionSlideDidChange)="slideChanged()">
-    <ion-slide *ngFor="let pictureURI of card.picturesURI; let i = index">
+    <ion-slide *ngFor="let pictureURI of card.getPicturesURI(); let i = index">
       <div class="squareContainer">
         <div class="imageContainer">
           <img src="{{pictureURI}}"/>
         </div>
       </div>
-      <p>score : {{card.score(i)}}</p>
+      <p>score : {{card.getScore(i)}}</p>
       <button text-center ion-button class="snap-it-button" (click)="snapItButtonClicked()">
         <ion-icon name='ios-camera-outline' padding-right="10"></ion-icon>
-        SNAP IT<span *ngIf="card.bestPictureIndex > 0">&nbsp;AGAIN</span>
+        SNAP IT<span *ngIf="!card.isEmpty()">&nbsp;AGAIN</span>
       </button>
-      <button text-center ion-button class="snap-it-button" (click)="uploadButtonClicked(i)">
+      <button text-center ion-button class="snap-it-button"
+              (click)="uploadButtonClicked(i)"
+              *ngIf="i > 0"
+      >
         UPLOAD IT
       </button>
     </ion-slide>

@@ -2,11 +2,11 @@ import {Storage} from "@ionic/storage";
 export class Card {
 
   constructor(private storage: Storage,
-              public title: string,
-              public picturesURI: string[],
+              private title: string,
+              private picturesURI: string[],
               private scores: number[],
-              public bestPictureIndex: number,
-              public uuid: string,) {
+              private bestPictureIndex: number,
+              private uuid: string,) {
   }
 
   static fromStorage(storage: Storage, uuid: string): Promise<Card> {
@@ -27,7 +27,35 @@ export class Card {
     });
   }
 
-  score(i: number): number {
+  isEmpty(): boolean {
+    return this.picturesURI.length > 1
+  }
+
+  size(): number {
+    return this.picturesURI.length;
+  }
+
+  getTitle(): string {
+    return this.title;
+  }
+
+  getUUID(): string {
+    return this.uuid;
+  }
+
+  getBestPictureIndex(): number {
+    return this.bestPictureIndex;
+  }
+
+  getPicturesURI(): Array<string> {
+    return this.picturesURI;
+  }
+
+  getPicture(i: number): string {
+    return this.picturesURI[i];
+  }
+
+  getScore(i: number): number {
     return Math.round(100 * this.scores[i]) / 100;
   }
 
