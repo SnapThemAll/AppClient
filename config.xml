@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.gregunz.snap-them-all" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
+<widget id="io.gregunz.SnapThemAll" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
     <name>Snap Them All</name>
     <description>Take Snaps while discovering the world.</description>
     <author email="contact@gregunz.io" href="http://gregunz.io/">gregunz.io</author>
