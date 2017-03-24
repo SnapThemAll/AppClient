@@ -38,6 +38,9 @@
     "cordova-plugin-console",
     "cordova-plugin-statusbar",
     "cordova-plugin-splashscreen",
+    "cordova-plugin-camera",
+    "cordova-plugin-file-transfer",
+    "cordova-sqlite-storage",
     "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [],
