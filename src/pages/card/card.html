@@ -24,7 +24,7 @@
       <p>score : {{card.getScore(i)}}</p>
       <button text-center ion-button class="snap-it-button" (click)="snapItButtonClicked()">
         <ion-icon name='ios-camera-outline' padding-right="10"></ion-icon>
-        SNAP IT<span *ngIf="!card.isEmpty()">&nbsp;AGAIN</span>
+        SNAP<span *ngIf="i == 0">&nbsp;IT</span><span *ngIf="i > 0">&nbsp;AGAIN</span>
       </button>
       <button text-center ion-button class="snap-it-button"
               (click)="uploadButtonClicked(i)"
