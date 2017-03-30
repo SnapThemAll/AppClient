@@ -9,8 +9,17 @@
 
 
 <ion-content padding>
-  <p>
-    {{user.name}}
-  </p>
-  <img src="{{user.pictureURL}}" />
+  <div *ngIf="!isLoggedIn()">
+    <p>You need to login first.</p>
+    <button ion-button (click)="doFbLogin()">
+      LOGIN
+    </button>
+  </div>
+  <div *ngIf="isLoggedIn()">
+    <p>{{user.name}}</p>
+    <img src="{{user.pictureURL}}" />
+    <button ion-button (click)="doFbLogout()">
+      LOGOUT
+    </button>
+  </div>
 </ion-content>

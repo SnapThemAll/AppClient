@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { Facebook } from 'ionic-native';
-import { NavController } from 'ionic-angular';
+import {Component} from "@angular/core";
+import {Facebook} from "ionic-native";
+import {NavController} from "ionic-angular";
 import {Storage} from "@ionic/storage";
 import {User} from "../../providers/user-data/user-data";
 import {UserPage} from "../user/user";
@@ -14,7 +14,7 @@ export class LoginPage {
 
   constructor(
     public navCtrl: NavController,
-    public storage: Storage
+    public storage: Storage,
   ) {
     Facebook.browserInit(this.FB_APP_ID, "v2.8");
   }
@@ -22,10 +22,9 @@ export class LoginPage {
   doFbLogin(){
     let nav = this.navCtrl;
     let storage = this.storage;
-    let permissions = [];
 
     //the permissions your facebook app needs from the user
-    permissions = ["public_profile", "user_friends"];
+    let permissions = ["public_profile", "user_friends"];
 
     Facebook.login(permissions)
       .then(function(response){
@@ -49,11 +48,11 @@ export class LoginPage {
             };
 
             storage.set("user", user)
+              /*
               .then(() => {
-                nav.push(UserPage, {
-                  user: user
-                });
+                nav.push(UserPage);
               })
+              */
               .catch((error) => {
                 console.log("An error occured during the storage of the logged user:" + error);
               });
@@ -64,21 +63,6 @@ export class LoginPage {
       })
       .catch((error) => {
         console.log("An error occured during the facebook login:" + error);
-      });
-  }
-
-
-  doFbLogout(){
-    let storage = this.storage;
-    Facebook.logout()
-      .then(function(response) {
-        //user logged out so we will remove him from the Storage
-        storage.remove('user').then(() => {
-          alert("LOGGED OUT");
-        })
-      }, function(error){
-        console.log(error);
-        alert("ERROR");
       });
   }
 }
