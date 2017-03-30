@@ -40,6 +40,8 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-camera",
     "cordova-plugin-file-transfer",
+    "cordova-plugin-facebook4",
+    "cordova-plugin-inappbrowser",
     "cordova-sqlite-storage",
     "ionic-plugin-keyboard"
   ],

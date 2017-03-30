@@ -1,7 +1,6 @@
 import {Component, ViewChild} from "@angular/core";
-import {Storage} from "@ionic/storage";
 import {NavParams, Platform, Slides, ViewController} from "ionic-angular";
-import {Card} from "./card.interface";
+import {Card} from "../../providers/game-data/card-data";
 import {Camera, FileUploadOptions, FileUploadResult, Transfer} from "ionic-native";
 
 @Component({
@@ -15,7 +14,6 @@ export class CardPage {
   constructor(
     public platform: Platform,
     public navParams: NavParams,
-    public storage: Storage,
     public viewCtrl: ViewController
   ) {
     this.card = navParams.get("card");
