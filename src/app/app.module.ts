@@ -5,6 +5,8 @@ import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 import { SettingsPage } from '../pages/settings/settings';
 import { PlayPage } from '../pages/play/play';
 import { TabsPage } from '../pages/tabs/tabs';
+import { UserPage } from '../pages/user/user'
+import { LoginPage } from '../pages/login/login'
 import { LevelPage } from "../pages/level/level";
 import { CardPage } from "../pages/card/card";
 import { Storage } from "@ionic/storage";
@@ -12,12 +14,14 @@ import { Storage } from "@ionic/storage";
 @NgModule({
   declarations: [
     MyApp,
+    TabsPage,
     LeaderboardPage,
     SettingsPage,
     PlayPage,
-    TabsPage,
     LevelPage,
-    CardPage
+    CardPage,
+    UserPage,
+    LoginPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -25,12 +29,14 @@ import { Storage } from "@ionic/storage";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    TabsPage,
     LeaderboardPage,
     SettingsPage,
     PlayPage,
-    TabsPage,
     LevelPage,
-    CardPage
+    CardPage,
+    UserPage,
+    LoginPage,
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Storage]
 })

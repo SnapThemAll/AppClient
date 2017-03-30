@@ -1,9 +1,9 @@
 import {Component} from "@angular/core";
 import {Storage} from "@ionic/storage";
 import {ModalController, NavController, NavParams} from "ionic-angular";
-import {Level} from "./level.interface";
+import {Level} from "../../providers/game-data/level-data";
 import {CardPage} from "../card/card";
-import {Card} from "../card/card.interface";
+import {Card} from "../../providers/game-data/card-data";
 
 @Component({
   selector: 'page-level',
