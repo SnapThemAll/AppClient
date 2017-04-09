@@ -17,6 +17,8 @@
   </div>
   <div *ngIf="isLoggedIn()">
     <p>{{user.name}}</p>
+    <p class="selectable">{{user.id}}</p>
+    <p class="selectable">{{user.authToken}}</p>
     <img src="{{user.pictureURL}}" />
     <button ion-button (click)="doFbLogout()">
       LOGOUT
