@@ -1,6 +1,5 @@
 import {Component} from "@angular/core";
 import {NavController} from "ionic-angular";
-import {LoginPage} from "../login/login";
 import {Storage} from "@ionic/storage";
 import {User} from "../../providers/user-data/user-data";
 import {Facebook} from "ionic-native";
@@ -56,6 +55,7 @@ export class UserPage {
       .then(function(response){
         //let userId = response.authResponse.userID;
         let params = [];
+        let token = response.authResponse.accessToken;
 
         //Getting name property
         Facebook.api("/me?fields=id,name,friends{id,name}", params)
@@ -65,6 +65,7 @@ export class UserPage {
               id : fbUser.id,
               name : fbUser.name,
               pictureURL : "https://graph.facebook.com/" + fbUser.id + "/picture?type=large",
+              authToken: token,
               friends: fbUser.friends.data.map((friend) => {
                 return {
                   id: friend.id,

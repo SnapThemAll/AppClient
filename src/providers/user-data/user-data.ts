@@ -3,6 +3,7 @@ export interface User {
   id: string,
   name: string,
   pictureURL: string,
+  authToken: string,
   friends: Friend[],
 }
 

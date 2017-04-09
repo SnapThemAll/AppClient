@@ -11,7 +11,7 @@ import {LoginPage} from "../login/login";
 export class TabsPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  tab1Root: any = LoginPage;
+  tab1Root: any = LeaderboardPage;
   tab2Root: any = PlayPage;
   tab3Root: any = UserPage;
 
