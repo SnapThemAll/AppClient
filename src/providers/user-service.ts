@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
+import {Injectable} from "@angular/core";
+import "rxjs/add/operator/map";
 import {User} from "./user-data/user-data";
 import {Storage} from "@ionic/storage";
 

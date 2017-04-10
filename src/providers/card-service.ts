@@ -30,9 +30,12 @@ export class CardService {
     return this.apiGet("/authenticate/token/" + provider + "?access_token=" + accessToken )
   }
 
-  fbAuth(): Observable<Response> {
+  fbAuth(): any {
     let env = this;
-    return env.authenticate("facebook", env.userService.user.authToken)
+    env.authenticate("facebook", env.userService.user.authToken)
+      .subscribe((res) => {
+        console.log("Authenticating to the server: " + res.text())
+      })
   }
 
   uploadPicture(cardName: string, pictureURI: string): Observable<Response> {
@@ -53,6 +56,7 @@ export class CardService {
           return env.apiPost("/uploadpic/" + cardName, formData).toPromise()
         })
         .catch((error) => {
+          env.fbAuth();
           alert("Upload failed. Try again");
           console.log("Error while trying to upload the picture: " + error)
         })

@@ -74,7 +74,7 @@ export class Card {
 
   addPic(uri: string) {
     this.picturesURI.push(uri);
-    let newScore = this.simulateScore(uri);
+    let newScore = 0;
     this.scores.push(newScore);
     if (newScore > this.bestScore()) {
       this.bestPictureIndex = this.scores.length - 1;
@@ -84,6 +84,14 @@ export class Card {
 
   simulateScore(uri: string): number {
     return Math.random() * 10;
+  }
+
+  updateScore(index: number, newScore: number){
+    this.scores[index] = newScore;
+    if (newScore > this.bestScore()) {
+      this.bestPictureIndex = index;
+    }
+    this.saveCard();
   }
 
   saveCard(): Promise<CardStored> {
