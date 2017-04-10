@@ -3,7 +3,7 @@ import {NavParams, Platform, Slides, ViewController} from "ionic-angular";
 import {Card} from "../../providers/game-data/card-data";
 import {Camera} from "@ionic-native/camera";
 import {CardService} from "../../providers/card-service";
-import {FileUploadOptions, FileUploadResult, Transfer, TransferObject} from "@ionic-native/transfer";
+import {Transfer} from "@ionic-native/transfer";
 import {File} from "@ionic-native/file";
 @Component({
   selector: 'page-card',
@@ -24,7 +24,11 @@ export class CardPage {
   ) {
     this.card = navParams.get("card");
     //this.slides.slideTo(this.card.bestPictureIndex);
-    this.slideToWhenReady(this.card.getBestPictureIndex());
+    //this.slideToWhenReady(this.card.getBestPictureIndex());
+  }
+
+  ionViewDidLoad(){
+    this.slides.slideTo(this.card.getBestPictureIndex(), 0);
   }
 
   slideToWhenReady(index: number, speed?: number) {
@@ -52,53 +56,21 @@ export class CardPage {
   }
 
   snapItButtonClicked() {
-    /*/
-     this.card.addPic("assets/img/cat.jpg");
-     this.slides.update();
-     this.slideToWhenReady(this.card.picturesURI.length - 1, 500);
-     /*/
     this.takePicture();
-    //*/
   }
 
   uploadButtonClicked(index: number): any {
-    this.uploadPicture(this.card.getPicture(index));
+    this.uploadPicture(this.card, index);
   }
 
-  uploadPicture(pictureURI: string): number {
+  uploadPicture(card: Card, index: number) {
 
+    this.cardService.uploadPicture(card.getUUID(), card.getPicture(index))
+      .subscribe((res) => {
+        let score = res.json().score;
+        card.updateScore(index, score);
+      });
 
-    let url = "http://ts.gregunz.com/uploadpic/" + this.card.getUUID();
-
-    // File for Upload
-    let targetPath = pictureURI;
-
-    // File name only
-    let filename = targetPath.replace(/^.*[\\\/]/, '');
-
-    let cardSrv = this.cardService;
-
-    cardSrv.alertResponseTextAndHeaders(
-      cardSrv.uploadPicture(this.card.getUUID(), pictureURI)
-    );
-
-    /*
-    let options: FileUploadOptions = {
-      fileKey: "picture",
-      fileName: filename,
-      chunkedMode: false,
-      mimeType: "multipart/form-data",
-      params: {'fileName': filename}
-    };
-
-    this.transfer.create().upload(targetPath, url, options).then((res: FileUploadResult) => {
-      alert("Success " + res.response);
-    }).catch((e) => {
-      alert("Failure \n" + JSON.stringify(e, null, 4));
-    });
-
-    */
-    return 0;
   }
 
 

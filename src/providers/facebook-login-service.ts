@@ -1,11 +1,9 @@
 import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
 import "rxjs/add/operator/map";
 import {Facebook} from "@ionic-native/facebook";
 import {User} from "./user-data/user-data";
 import {UserService} from "./user-service";
 import {CardService} from "./card-service";
-import {LoginPage} from "../pages/login/login";
 
 
 @Injectable()
@@ -14,7 +12,6 @@ export class FacebookLoginService {
   FB_APP_ID: number = 216698218808232;
 
   constructor(
-    private http: Http,
     private facebook: Facebook,
     private userService : UserService,
     private cardService : CardService,
@@ -53,10 +50,7 @@ export class FacebookLoginService {
               })
             };
 
-            return Promise.all([
-              env.userService.save(user),
-              env.cardService.fbAuth(),
-            ])
+            return env.userService.save(user).then(() => env.cardService.fbAuth());
           })
           .catch((error) => {
             console.log("An error occured during the facebook api call:" + error);
