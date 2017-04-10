@@ -1,9 +1,7 @@
 import {Component} from "@angular/core";
 import {PlayPage} from "../play/play";
 import {LeaderboardPage} from "../leaderboard/leaderboard";
-import {SettingsPage} from "../settings/settings"
 import {UserPage} from "../user/user";
-import {LoginPage} from "../login/login";
 
 @Component({
   templateUrl: 'tabs.html'

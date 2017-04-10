@@ -1,8 +1,10 @@
 import {Component, ViewChild} from "@angular/core";
 import {NavParams, Platform, Slides, ViewController} from "ionic-angular";
 import {Card} from "../../providers/game-data/card-data";
-import {Camera, FileUploadOptions, FileUploadResult, Transfer} from "ionic-native";
-
+import {Camera} from "@ionic-native/camera";
+import {CardService} from "../../providers/card-service";
+import {FileUploadOptions, FileUploadResult, Transfer, TransferObject} from "@ionic-native/transfer";
+import {File} from "@ionic-native/file";
 @Component({
   selector: 'page-card',
   templateUrl: 'card.html'
@@ -14,7 +16,11 @@ export class CardPage {
   constructor(
     public platform: Platform,
     public navParams: NavParams,
-    public viewCtrl: ViewController
+    public viewCtrl: ViewController,
+    public cardService: CardService,
+    private transfer: Transfer,
+    private file: File,
+    private camera: Camera,
   ) {
     this.card = navParams.get("card");
     //this.slides.slideTo(this.card.bestPictureIndex);
@@ -60,9 +66,9 @@ export class CardPage {
   }
 
   uploadPicture(pictureURI: string): number {
-    let fileTransfer = new Transfer();
 
-    let url = "http://gregunz.io/SnapThemAll/upload.php";
+
+    let url = "http://ts.gregunz.com/uploadpic/" + this.card.getUUID();
 
     // File for Upload
     let targetPath = pictureURI;
@@ -70,33 +76,41 @@ export class CardPage {
     // File name only
     let filename = targetPath.replace(/^.*[\\\/]/, '');
 
+    let cardSrv = this.cardService;
+
+    cardSrv.alertResponseTextAndHeaders(
+      cardSrv.uploadPicture(this.card.getUUID(), pictureURI)
+    );
+
+    /*
     let options: FileUploadOptions = {
-      fileKey: "file",
+      fileKey: "picture",
       fileName: filename,
       chunkedMode: false,
       mimeType: "multipart/form-data",
       params: {'fileName': filename}
     };
 
-    fileTransfer.upload(targetPath, url, options).then((res: FileUploadResult) => {
-      alert("Success " + targetPath + " " + filename + " " + res.response);
+    this.transfer.create().upload(targetPath, url, options).then((res: FileUploadResult) => {
+      alert("Success " + res.response);
     }).catch((e) => {
-      alert("Failure " + targetPath + " " + filename + " " + e);
+      alert("Failure \n" + JSON.stringify(e, null, 4));
     });
 
+    */
     return 0;
   }
 
 
   takePicture(): void {
-    Camera.getPicture({
+    this.camera.getPicture({
       quality: 75,
       targetWidth: 1000,
       targetHeight: 1000,
       //saveToPhotoAlbum : true,
-      destinationType: Camera.DestinationType.FILE_URI,
-      cameraDirection : Camera.Direction.BACK,
-      encodingType : Camera.EncodingType.JPEG
+      destinationType: this.camera.DestinationType.FILE_URI,
+      cameraDirection : this.camera.Direction.BACK,
+      encodingType : this.camera.EncodingType.JPEG
     }).then((imageURI) => {
       // imageData is a base64 encoded string
       //base64Image = "data:image/jpeg;base64," + imageData;

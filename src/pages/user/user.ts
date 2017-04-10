@@ -1,108 +1,78 @@
 import {Component} from "@angular/core";
 import {NavController} from "ionic-angular";
-import {Storage} from "@ionic/storage";
 import {User} from "../../providers/user-data/user-data";
-import {Facebook} from "ionic-native";
+import {CardService} from "../../providers/card-service";
+import {UserService} from "../../providers/user-service";
+import {FacebookLoginService} from "../../providers/facebook-login-service";
+import {Observable} from "rxjs";
+import {Response} from "@angular/http";
 
 @Component({
   selector: 'page-user',
-  templateUrl: 'user.html'
+  templateUrl: 'user.html',
+  providers: [
+    FacebookLoginService,
+    CardService,
+    UserService,
+  ],
 })
 
 export class UserPage {
 
   user: User;
-  FB_APP_ID: number = 216698218808232;
 
   constructor(
     public navCtrl: NavController,
-    public storage: Storage,
+    public facebookLoginService: FacebookLoginService,
+    public cardService: CardService,
+    public userService: UserService,
   ) {
+    this.user = userService.user
   }
 
-  ionViewDidEnter() {
+  ionViewDidLoad() {
     this.retrieveUser();
   }
 
   retrieveUser() {
     let env = this;
-
-    env.storage.get('user')
-      .then(function (data){
-        env.user = data;
-        if(data){
-          Facebook.browserInit(this.FB_APP_ID, "v2.8");
-        }
-      }, function(error){
-        console.log("Error when retrieving user data from Storage:" + error);
-      });
+    this.userService.fetch()
+      .then((user) => {
+        env.user = user;
+      })
   }
 
   isLoggedIn(): boolean {
     return this.user != null;
   }
 
-
-  doFbLogin(){
+  login() {
     let env = this;
-    //let nav = this.navCtrl;
-    let storage = this.storage;
-
-    //the permissions your facebook app needs from the user
-    let permissions = ["public_profile", "user_friends"];
-
-    Facebook.login(permissions)
-      .then(function(response){
-        //let userId = response.authResponse.userID;
-        let params = [];
-        let token = response.authResponse.accessToken;
-
-        //Getting name property
-        Facebook.api("/me?fields=id,name,friends{id,name}", params)
-          .then((fbUser) => {
-
-            let user: User = {
-              id : fbUser.id,
-              name : fbUser.name,
-              pictureURL : "https://graph.facebook.com/" + fbUser.id + "/picture?type=large",
-              authToken: token,
-              friends: fbUser.friends.data.map((friend) => {
-                return {
-                  id: friend.id,
-                  name: friend.name,
-                };
-              })
-            };
-
-            storage.set("user", user)
-             .then(() => {
-              env.retrieveUser();
-             })
-              .catch((error) => {
-                console.log("An error occured during the storage of the logged user:" + error);
-              });
-          })
-          .catch((error) => {
-            console.log("An error occured during the facebook api call:" + error);
-          });
-      })
-      .catch((error) => {
-        console.log("An error occured during the facebook login:" + error);
-      });
+    env.facebookLoginService.login().then(() => {
+      env.user = env.userService.user;
+    })
+  }
+  logout() {
+    let env = this;
+    env.facebookLoginService.logout().then(() => {
+      env.user = env.userService.user;
+    })
   }
 
-  doFbLogout(){
-    let storage = this.storage;
-    let env = this;
-
-    Facebook.logout()
-      .then(function(response) {
-        //user logged out so we will remove him from the Storage
-        storage.remove('user').then(() => {
-          env.retrieveUser();
-        })
-      }, function(error){
-        console.log(error);
-      });
+  auth(){
+    this.cardService.alertResponseTextAndHeaders(this.cardService.authenticate("facebook", this.user.authToken));
   }
+
+  auth2(){
+    this.cardService.alertResponseTextAndHeaders(this.cardService.http.get("http://localhost:8100/api/authenticate/token/facebook?access_token=EAADFFfxbA6gBACtkMjPmE2DGrqQlVwtYsokbJMiMitb1WqkKMe8kfxMRutVglsksF7nX5Fvr0Fuxclj5EjJ6Gb8R6xdu3C97uh7ODUyEz1D5m5B2n6iPFM5FtPSejUAeJodeEMhgKstxppvUIZB60QCy26bb4JZBrsY9wTogwctysBhhJCZC2vn0I06kzFqPBnd0W1HxR9PhACXm5d1"));
+  }
+
+  uploadPic(){
+    this.cardService.alertResponseTextAndHeaders(this.cardService.apiPost("/uploadpic/cardNameXx", new FormData()));
+  }
+
+  uploadPic2(){
+    this.cardService.alertResponseTextAndHeaders(this.cardService.http.post("http://localhost:8100/api/uploadpic/cardNameXx", new FormData()));
+  }
+
 }

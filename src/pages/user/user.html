@@ -11,7 +11,7 @@
 <ion-content padding>
   <div *ngIf="!isLoggedIn()">
     <p>You need to login first.</p>
-    <button ion-button (click)="doFbLogin()">
+    <button ion-button (click)="login()">
       LOGIN
     </button>
   </div>
@@ -20,7 +20,13 @@
     <p class="selectable">{{user.id}}</p>
     <p class="selectable">{{user.authToken}}</p>
     <img src="{{user.pictureURL}}" />
-    <button ion-button (click)="doFbLogout()">
+    <button ion-button (click)="auth()">
+      auth
+    </button>
+    <button ion-button (click)="isAuth()">
+      isAuth
+    </button>
+    <button ion-button (click)="logout()">
       LOGOUT
     </button>
   </div>
