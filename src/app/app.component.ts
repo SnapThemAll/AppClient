@@ -1,12 +1,13 @@
 import {Component} from "@angular/core";
 import {Platform} from "ionic-angular";
-import {StatusBar, Splashscreen} from "ionic-native";
+import {StatusBar} from "@ionic-native/status-bar";
+import { SplashScreen } from '@ionic-native/splash-screen';
 import {TabsPage} from "../pages/tabs/tabs";
 import {Storage} from "@ionic/storage";
 import {Http} from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import {Version, Data} from "../providers/start-up-data/load-data";
+import {Data, Version} from "../providers/start-up-data/load-data";
 
 @Component({
   templateUrl: 'app.html'
@@ -14,7 +15,13 @@ import {Version, Data} from "../providers/start-up-data/load-data";
 export class MyApp {
   rootPage;
 
-  constructor(platform: Platform, storage: Storage, http: Http) {
+  constructor(
+    platform: Platform,
+    storage: Storage,
+    http: Http,
+    private splashScreen : SplashScreen,
+    private statusBar: StatusBar
+  ) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -34,15 +41,12 @@ export class MyApp {
         .then(() => {
           console.log("Database ready! Splashscreen hiding...");
           this.rootPage = TabsPage;
-          this.initApp();
+          statusBar.styleDefault();
+          splashScreen.hide();
         });
 
     });
   }
 
-  private initApp(): any {
-    StatusBar.styleDefault();
-    Splashscreen.hide();
-  }
 }
 

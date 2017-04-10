@@ -2,5 +2,11 @@
   "name": "Snap Them All",
   "app_id": "318ab6c5",
   "v2": true,
-  "typescript": true
+  "typescript": true,
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://ts.gregunz.com"
+    }
+  ]
 }

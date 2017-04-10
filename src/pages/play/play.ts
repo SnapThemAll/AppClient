@@ -1,8 +1,10 @@
 import {Component} from "@angular/core";
 import {Storage} from "@ionic/storage";
-import {NavController} from "ionic-angular";
+import {ModalController, NavController} from "ionic-angular";
 import {LevelPage} from "../level/level";
 import {Level} from "../../providers/game-data/level-data";
+import {LoginPage} from "../login/login";
+import {FacebookLoginService} from "../../providers/facebook-login-service";
 
 @Component({
   selector: 'page-play',
@@ -13,13 +15,21 @@ export class PlayPage {
   levels: Level[];
 
   constructor(
-    public navCtrl: NavController,
-    public storage: Storage,
+    private navCtrl: NavController,
+    private storage: Storage,
+    private modalCtrl: ModalController,
+    private facebookLoginService: FacebookLoginService,
   ) {
   }
 
   ionViewCanEnter(){
     return this.initLevels();
+  }
+
+  ionViewDidEnter(){
+    if(!this.facebookLoginService.isLoggedIn()){
+      this.showLoginPage();
+    }
   }
 
   totalScore(): number {
@@ -32,6 +42,16 @@ export class PlayPage {
         level: level
       })
     }
+  }
+
+  showLoginPage() {
+    let env = this;
+    let loginModal = env.modalCtrl.create(
+      LoginPage
+    );
+    loginModal.present({
+      animate: false,
+    });
   }
 
   private initLevels(): Promise<boolean> {

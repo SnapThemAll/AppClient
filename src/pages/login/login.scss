@@ -1,3 +1,25 @@
 page-login {
 
+  ion-content {
+
+    .backgroundImage{
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -10;
+    }
+
+    .loginButton{
+      position: absolute;
+      text-align: center;
+      bottom: 50px;
+      width: 80%;
+      left: 10%;
+      overflow: hidden;
+    }
+
+  }
+
 }

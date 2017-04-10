@@ -1,5 +1,4 @@
 import {Component} from "@angular/core";
-import {Storage} from "@ionic/storage";
 import {ModalController, NavController, NavParams} from "ionic-angular";
 import {Level} from "../../providers/game-data/level-data";
 import {CardPage} from "../card/card";
@@ -16,7 +15,6 @@ export class LevelPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public storage: Storage,
     public modalCtrl: ModalController
   ) {
     this.level = navParams.get("level");
@@ -24,12 +22,12 @@ export class LevelPage {
   }
 
   imgClicked(index: number) {
-    let profileModal = this.modalCtrl.create(
+    let cardModal = this.modalCtrl.create(
       CardPage, {
         card: this.cards[index],
       }
     );
-    profileModal.present();
+    cardModal.present();
   }
 
 }

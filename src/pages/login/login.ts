@@ -1,21 +1,37 @@
 import {Component} from "@angular/core";
-import {Facebook} from "ionic-native";
-import {NavController} from "ionic-angular";
-import {Storage} from "@ionic/storage";
-import {User} from "../../providers/user-data/user-data";
-import {UserPage} from "../user/user";
+import {Platform, ViewController} from "ionic-angular";
+import {FacebookLoginService} from "../../providers/facebook-login-service";
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
+  providers: [
+    FacebookLoginService,
+  ]
 })
 export class LoginPage {
-  FB_APP_ID: number = 216698218808232;
+
+
 
   constructor(
-    public navCtrl: NavController,
-    public storage: Storage,
+    public platform: Platform,
+    public viewCtrl: ViewController,
+    public facebookLoginService: FacebookLoginService,
   ) {
+    platform.registerBackButtonAction(() => {}, 1)
+  }
+
+
+  dismiss() {
+
+    this.viewCtrl.dismiss();
+  }
+
+  fbLogin() {
+    let env = this;
+    this.facebookLoginService.login().then(() => {
+      env.dismiss();
+    });
   }
 
 
