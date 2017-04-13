@@ -50,7 +50,7 @@ export class FacebookLoginService {
               })
             };
 
-            return env.userService.save(user).then(() => env.cardService.fbAuth());
+            env.userService.save(user).then(() => env.cardService.fbAuth());
           })
           .catch((error) => {
             console.log("An error occured during the facebook api call:" + error);
@@ -76,6 +76,7 @@ export class FacebookLoginService {
   }
 
   isLoggedIn(): boolean {
+
     return this.userService.user != null;
   }
 

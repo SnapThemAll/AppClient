@@ -10,21 +10,6 @@ export class Level {
               private uuid: string,) {
   }
 
-  static fromStorage(storage: Storage, uuid: string): Promise<Level> {
-    let title, scoreToUnlock;
-
-    return storage.get(uuid).then((levelStored: LevelStored) => {
-      title = levelStored.title;
-      scoreToUnlock = levelStored.scoreToUnlock;
-      return Promise.all(levelStored.cardsUUID.map((cardUUID) => Card.fromStorage(storage, cardUUID)));
-    }).then((cards: Card[]) => {
-      console.log("Level " + uuid + " created");
-      return new Level(storage, title, scoreToUnlock, cards, uuid);
-    }).catch((err: Error) => {
-      console.log("while getting " + uuid + " this error occurred : " + err.stack);
-    });
-  }
-
   getTitle(): string {
     return this.title;
   }
