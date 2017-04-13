@@ -5,9 +5,6 @@ import {FacebookLoginService} from "../../providers/facebook-login-service";
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
-  providers: [
-    FacebookLoginService,
-  ]
 })
 export class LoginPage {
 

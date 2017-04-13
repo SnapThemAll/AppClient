@@ -1,10 +1,10 @@
 import {Component} from "@angular/core";
-import {Storage} from "@ionic/storage";
 import {ModalController, NavController} from "ionic-angular";
 import {LevelPage} from "../level/level";
 import {Level} from "../../providers/game-data/level-data";
 import {LoginPage} from "../login/login";
 import {FacebookLoginService} from "../../providers/facebook-login-service";
+import {LevelsService} from "../../providers/levels-service";
 
 @Component({
   selector: 'page-play',
@@ -16,14 +16,11 @@ export class PlayPage {
 
   constructor(
     private navCtrl: NavController,
-    private storage: Storage,
     private modalCtrl: ModalController,
     private facebookLoginService: FacebookLoginService,
+    private levelsService: LevelsService,
   ) {
-  }
-
-  ionViewCanEnter(){
-    return this.initLevels();
+    this.levels = this.levelsService.levels;
   }
 
   ionViewDidEnter(){
@@ -51,17 +48,6 @@ export class PlayPage {
     );
     loginModal.present({
       animate: false,
-    });
-  }
-
-  private initLevels(): Promise<boolean> {
-    return this.storage.get("levels_uuid").then((uuids: string[]) => {
-      return Promise.all(uuids.map((uuid) => Level.fromStorage(this.storage, uuid)))
-    }).then((levels: Level[]) => {
-      this.levels = levels;
-      return true;
-    }).catch((err) => {
-      console.log("Error when initializing the levels:" + err);
     });
   }
 }

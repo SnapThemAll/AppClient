@@ -21,6 +21,8 @@ import {Facebook} from "@ionic-native/facebook";
 import {Camera} from "@ionic-native/camera";
 import {File} from "@ionic-native/file";
 import {Transfer} from "@ionic-native/transfer";
+import {GameCreationService} from "../providers/game-creation-service";
+import {LevelsService} from "../providers/levels-service";
 
 
 @NgModule({
@@ -55,15 +57,17 @@ import {Transfer} from "@ionic-native/transfer";
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    UserService,
-    FacebookLoginService,
-    CardService,
     StatusBar,
     SplashScreen,
     Facebook,
     Camera,
     File,
-    Transfer
+    Transfer,
+    UserService,
+    FacebookLoginService,
+    CardService,
+    GameCreationService,
+    LevelsService,
   ]
 })
 export class AppModule {}

@@ -8,11 +8,6 @@ import {FacebookLoginService} from "../../providers/facebook-login-service";
 @Component({
   selector: 'page-user',
   templateUrl: 'user.html',
-  providers: [
-    FacebookLoginService,
-    CardService,
-    UserService,
-  ],
 })
 
 export class UserPage {
