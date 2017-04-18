@@ -6,7 +6,7 @@
   "proxies": [
     {
       "path": "/api",
-      "proxyUrl": "http://ts.gregunz.com"
+      "proxyUrl": "http://api.snap-them-all.com/"
     }
   ]
 }

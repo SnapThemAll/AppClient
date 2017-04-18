@@ -4,7 +4,7 @@ page-level {
     $columns : 2;
     $cardWidth : ((100% - (4% + 2 * ($columns - 1))) / $columns);
 
-    margin: 1% 0 1% 1%;
+    margin: 0 0 1% 1%;
 
     .cardContainer {
       position: relative;
@@ -20,7 +20,7 @@ page-level {
       height: 100%;
       width: 100%;
       margin: 0;
-      background-color: black;
+      //background-color: black;
       border-radius: 50%;
     }
 

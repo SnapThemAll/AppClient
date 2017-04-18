@@ -57,9 +57,11 @@ export class Data {
         let fileType = "png";
         return {
           title: cardTitle,
-          picturesURI: ["assets/cards/" + fileType + "/" + Data.titleToUUID(cardTitle) + "." + fileType],
-          scores: [0],
-          bestPicture: 0,
+          pictures: [{
+            pictureURI: "assets/cards/" + fileType + "/" + Data.titleToUUID(cardTitle) + "." + fileType,
+            score: 0,
+          }],
+          bestPic: 0,
         };
       })
     ).reduce((a, b) => a.concat(b));

@@ -1,9 +1,9 @@
 import {Component} from "@angular/core";
 import {NavController} from "ionic-angular";
 import {User} from "../../providers/user-data/user-data";
-import {CardService} from "../../providers/card-service";
+import {ApiService} from "../../providers/api-service";
 import {UserService} from "../../providers/user-service";
-import {FacebookLoginService} from "../../providers/facebook-login-service";
+import {FacebookService} from "../../providers/facebook-service";
 
 @Component({
   selector: 'page-user',
@@ -15,24 +15,15 @@ export class UserPage {
   user: User;
 
   constructor(
-    public navCtrl: NavController,
-    public facebookLoginService: FacebookLoginService,
-    public cardService: CardService,
-    public userService: UserService,
+    private navCtrl: NavController,
+    private facebookService: FacebookService,
+    private apiService: ApiService,
+    private userService: UserService,
   ) {
-    this.user = userService.user
   }
 
-  ionViewDidLoad() {
-    this.retrieveUser();
-  }
-
-  retrieveUser() {
-    let env = this;
-    this.userService.fetch()
-      .then((user) => {
-        env.user = user;
-      })
+  ionViewDidEnter() {
+    this.user = this.userService.user
   }
 
   isLoggedIn(): boolean {
@@ -41,18 +32,18 @@ export class UserPage {
 
   login() {
     let env = this;
-    env.facebookLoginService.login().then(() => {
+    env.facebookService.login().then(() => {
       env.user = env.userService.user;
     })
   }
   logout() {
     let env = this;
-    env.facebookLoginService.logout().then(() => {
+    env.facebookService.logout().then(() => {
       env.user = env.userService.user;
     })
   }
 
   auth(){
-    this.cardService.alertResponseTextAndHeaders(this.cardService.authenticate("facebook", this.user.authToken));
+    this.apiService.alertResponseTextAndHeaders(this.apiService.fbAuth());
   }
 }

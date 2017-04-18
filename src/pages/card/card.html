@@ -2,7 +2,7 @@
 
   <ion-toolbar>
     <ion-title>
-      {{card.title}}
+      {{card.getTitle()}}
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -15,27 +15,30 @@
 
 <ion-content text-center>
   <ion-slides pager (ionSlideDidChange)="slideChanged()">
-    <ion-slide *ngFor="let pictureURI of card.getPicturesURI(); let i = index">
+    <ion-slide *ngFor="let picture of card.getPictures(); let i = index">
       <div class="squareContainer">
         <div class="imageContainer">
-          <img src="{{pictureURI}}"/>
+          <img src="{{picture.pictureURI}}"/>
         </div>
       </div>
-      <p>score : {{card.getScore(i)}}</p>
-      <button text-center ion-button class="snap-it-button" (click)="snapItButtonClicked()">
-        <ion-icon name='ios-camera-outline' padding-right="10"></ion-icon>
+      <p *ngIf="i == 0">Best Score : {{card.bestScore()}}</p>
+      <p *ngIf="i > 0 && picture.score == 0">Computing score..</p>
+      <p *ngIf="picture.score > 0">Score : {{picture.score.toFixed(2)}}</p>
+      <div text-center >
+      <button ion-button color="dark" (click)="snapItButtonClicked()">
+        <ion-icon name='camera' padding-right="10"></ion-icon>
         SNAP<span *ngIf="i == 0">&nbsp;IT</span><span *ngIf="i > 0">&nbsp;AGAIN</span>
       </button>
-      <button text-center ion-button class="snap-it-button"
-              (click)="uploadButtonClicked(i)"
-              *ngIf="i > 0"
-      >
-        UPLOAD IT
+      <button ion-button color="dark" (click)="removeButtonClicked(i)" *ngIf="i > 0">
+        <ion-icon name='trash' padding-right="10"></ion-icon>
+        REMOVE
       </button>
+      <button ion-button color="dark" (click)="computeScoreButtonClicked(i)"
+              *ngIf="i > 0 && picture.score == 0 && !uploadInProgress"
+      >
+        COMPUTE SCORE
+      </button>
+      </div>
     </ion-slide>
   </ion-slides>
-  <!--<img src="{{card.bestPictureURI()}}"/>
-  <p *ngIf="card.bestPictureIndex > 0">
-  </p>
-  -->
 </ion-content>

@@ -7,12 +7,24 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list no-lines>
-    <ion-item *ngFor="let item of items; let rank = index" (click)="itemSelected(item)">
+    <ion-item *ngFor="let friend of friends; let rank = index"  (click)="itemSelected(friend)">
       <p item-left>{{rank + 1}}.</p>
       <ion-label>
-        {{ item }}
+        {{ friend.name }}
       </ion-label>
+      <p item-right>{{ friend.score.toFixed(2) }}</p>
     </ion-item>
   </ion-list>
+  <div text-center>
+    Swipe down to reload
+  </div>
+  <div text-center *ngIf="friends.length <= 5">
+    <button ion-button color="dark" (click)="socialSharingService.inviteFriends()" >
+      Invite Friends
+    </button>
+  </div>
 </ion-content>

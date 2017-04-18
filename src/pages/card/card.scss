@@ -28,5 +28,9 @@ page-card {
       position: fixed;
       bottom: 10px;
     }
+    .swiper-pagination-bullet-active{
+      //opacity: 0.8;
+      background-color: #222;
+    }
   }
 }

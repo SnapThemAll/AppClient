@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 import {PlayPage} from "../play/play";
 import {LeaderboardPage} from "../leaderboard/leaderboard";
-import {UserPage} from "../user/user";
+import {SettingsPage} from "../settings/settings";
 
 @Component({
   templateUrl: 'tabs.html'
@@ -11,7 +11,7 @@ export class TabsPage {
   // should be each tab's root Page
   tab1Root: any = LeaderboardPage;
   tab2Root: any = PlayPage;
-  tab3Root: any = UserPage;
+  tab3Root: any = SettingsPage;
 
   constructor() {
   }

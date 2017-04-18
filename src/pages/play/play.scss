@@ -1,6 +1,8 @@
 page-play {
+
+
   ion-item.levelLocked {
-    opacity: 0.5;
+    opacity: 0.4;
 
     ion-icon {
       position: absolute;
@@ -11,8 +13,10 @@ page-play {
 
 
 
-  ion-icon.levelUnlocked {
-    display : none;
+  ion-item.levelUnlocked {
+    ion-icon {
+      display: none;
+    }
   }
 
 
