@@ -61,7 +61,7 @@ export class GameCreationService {
     console.log("Setting up database...");
 
     return env.http.get("assets/levels.json")
-      .map(res => res.json())
+      .map(res => res.json().levels)
       .map((levelsData) => {
         let data = new Data(levelsData);
         return data.storeData(env.storage);

@@ -1,106 +1,58 @@
-import {Storage} from "@ionic/storage";
+import {Picture, PictureStored} from "./picture-data";
+
 export class Card {
 
-  constructor(private storage: Storage,
-              private title: string,
-              private pictures: Picture[],
-              private bestPic: number,
-              private uuid: string,
+  constructor(
+    private title: string,
+    private illustrationURI: string,
+    private pictures: Picture[],
+    private id: string,
   ) {}
 
-  static fromStorage(storage: Storage, uuid: string): Promise<Card> {
-    let title: string, pictures: Picture[], bestPicture: number;
+  // GETTERS
+  getTitle(): string { return this.title; }
+  getIllustrationURI(): string { return this.illustrationURI; }
+  getPictures(): Picture[] { return this.pictures; } //TODO make it encapsulated
+  getID(): string { return this.id; }
 
-    return storage.get(uuid).then((cardStored: CardStored) => {
-
-        title = cardStored.title;
-        pictures = cardStored.pictures;
-        bestPicture = cardStored.bestPic;
-
-        console.log("Card " + uuid + " created");
-        return new Card(storage, title, pictures, bestPicture, uuid);
-      }
-    ).catch((err: Error) => {
-      console.log("while getting " + uuid + " this error occurred : " + err.stack);
-    });
-  }
-
+  // USEFUL FUNCTIONS
   isEmpty(): boolean {
-    return !(this.pictures.length > 1);
+    return this.size() == 0;
   }
 
   size(): number {
     return this.pictures.length;
   }
 
-  getTitle(): string {
-    return this.title;
-  }
-
-  getUUID(): string {
-    return this.uuid;
-  }
-
-  getPictures(): Array<Picture> {
-    return this.pictures;
-  }
-
-  getPictureURI(i: number): string {
-    return this.pictures[i].pictureURI;
-  }
-
-  getScore(i: number): number {
-    return Math.round(100 * this.pictures[i].score) / 100;
+  bestPicture(): Picture {
+    return this.pictures[this.computeBestPic()];
   }
 
   bestScore(): number {
-    return Math.round(100 * this.getScore(this.bestPic)) / 100;
-  }
-
-  bestPictureURI(): string {
-    return this.getPictureURI(this.bestPic);
-  }
-
-  latestPictureURI(): string {
-    return this.getPictureURI(this.size() - 1);
-  }
-
-  savePicture(pictureURI: string, score: number): Promise<CardStored> {
-    this.pictures.push({
-      pictureURI: pictureURI,
-      score: score,
-    });
-    return this.saveCard();
-  }
-
-  savePictureURI(pictureURI: string): Promise<CardStored> {
-    return this.savePicture(pictureURI, 0);
-  }
-
-  updateScore(index: number, newScore: number): Promise<CardStored> {
-    let pictureURI = this.getPictureURI(index);
-    this.pictures[index] = {
-      pictureURI: pictureURI,
-      score: newScore,
-    };
-    if (newScore > this.bestScore()) {
-      this.bestPic = index;
+    if(this.isEmpty()){
+      return 0;
+    } else {
+      return this.bestPicture().getScore();
     }
-    return this.saveCard();
   }
 
-  removePicture(index: number): Promise<CardStored> {
+  // SETTERS
+  addPicture(picture: Picture): Card {
+    this.pictures.push(picture);
+    return this;
+  }
+
+  removePicture(picture: Picture): Card {
+    let index = this.pictures.indexOf(picture);
     if (index > -1) {
       this.pictures.splice(index, 1);
-      this.bestPic = this.computeBestPic();
-      return this.saveCard();
-    } else {
-      return Promise.resolve(this.toCardStored());
     }
+    return this;
   }
 
-  computeBestPic(): number {
-    let scores = this.pictures.map((pic) => pic.score);
+  // PRIVATE
+  private computeBestPic(): number {
+    let scores = this.pictures.map((pic) => pic.getScore());
     let bestScore = -1;
     let bestPic = 0;
     scores.forEach((score, index) => {
@@ -112,26 +64,28 @@ export class Card {
     return bestPic;
   }
 
-  saveCard(): Promise<CardStored> {
-    return this.storage.set(this.uuid, this.toCardStored())
-  }
-
+  // EXPORT
   toCardStored(): CardStored {
     return {
       title: this.title,
-      pictures: this.pictures,
-      bestPic: this.bestPic,
+      illustrationURI: this.illustrationURI,
+      pictures: this.pictures.map((pic) => pic.toPictureStored()),
     }
+  }
+
+  // IMPORT
+  static fromCardStored(cardStored: CardStored, cardID: string): Card {
+    let title = cardStored.title;
+    let illustrationURI = cardStored.illustrationURI;
+    let pictures = cardStored.pictures.map((pictureStored) => Picture.fromPictureStored(pictureStored, cardID));
+
+    return new Card(title, illustrationURI, pictures, cardID);
   }
 }
 
-export interface Picture {
-  pictureURI: string,
-  score: number,
-}
 
 export interface CardStored {
   title: string,
-  pictures: Picture[],
-  bestPic: number,
+  illustrationURI: string,
+  pictures: PictureStored[],
 }

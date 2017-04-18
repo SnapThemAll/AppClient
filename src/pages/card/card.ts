@@ -1,8 +1,10 @@
 import {Component, ViewChild} from "@angular/core";
-import {NavParams, Slides, ViewController} from "ionic-angular";
+import {NavParams, Slides, ViewController, AlertController} from "ionic-angular";
 import {Card} from "../../providers/game-data/card-data";
 import {Camera} from "@ionic-native/camera";
 import {ApiService} from "../../providers/api-service";
+import {GameStorageService} from "../../providers/game-storage-service";
+import {Picture} from "../../providers/game-data/picture-data";
 @Component({
   selector: 'page-card',
   templateUrl: 'card.html'
@@ -10,21 +12,20 @@ import {ApiService} from "../../providers/api-service";
 export class CardPage {
   card: Card;
   @ViewChild(Slides) slides: Slides;
-  uploadInProgress: boolean = false;
 
   constructor(
     private navParams: NavParams,
     private viewCtrl: ViewController,
+    private alertCtrl: AlertController,
+    private gameStorageService: GameStorageService,
     private apiService: ApiService,
     private camera: Camera,
   ) {
     this.card = navParams.get("card");
-    //this.slides.slideTo(this.card.bestPictureIndex);
-    //this.slideToWhenReady(this.card.getBestPictureIndex());
   }
 
-  ionViewDidLoad(){
-    //this.slideToWhenReady(this.card.getBestPictureIndex());
+  ionViewDidEnter(){
+    console.log("ionViewDidEnter Card Page " + this.card.getID())
   }
 
   slideToWhenReady(index: number, speed?: number) {
@@ -51,40 +52,90 @@ export class CardPage {
     this.viewCtrl.dismiss();
   }
 
+  displayScore(picture: Picture): string {
+    if ( picture.isUploading() ) {
+      return "Computing score..."
+    } else if ( !picture.isUploaded() ){
+      return "Upload picture to compute score"
+    } else {
+      return "Score: " + picture.getScore().toFixed(2)
+    }
+  }
+
   snapItButtonClicked() {
     this.takePicture();
   }
 
-  removeButtonClicked(index: number): any {
+  removeButtonClicked(picture: Picture): any {
+    this.presentConfirm(picture);
+  }
+
+  computeScoreButtonClicked(picture: Picture): any {
+    this.uploadPicture(picture);
+  }
+
+  private presentConfirm(picture: Picture) {
+    let alert = this.alertCtrl.create({
+      title: 'Remove picture',
+      message: 'Are you sure you want to remove this picture on the device and on the server?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: () => {
+            this.removePicture(picture);
+            console.log('Confirm clicked');
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  private removePicture(picture: Picture): any {
     let env = this;
-    env.apiService.removePicture(env.card.getUUID(), env.card.getPictureURI(index))
+    if(picture.isUploaded()) {
+      env.apiService.removePicture(env.card.getID(), picture.getPictureURI())
+        .subscribe(
+          () => {
+            env.slides.slidePrev();
+            env.card.removePicture(picture);
+            env.gameStorageService.saveCard(env.card);
+            env.slides.update();
+          },
+          (error) => {
+            env.apiService.fbAuth();
+            console.log("Error while trying to remove a picture: " + error);
+            alert("Connection to the server failed. Try again");
+          })
+    } else {
+      env.slides.slidePrev();
+      env.card.removePicture(picture);
+      env.slides.update();
+    }
+  }
+
+
+  private uploadPicture(picture: Picture) {
+    let env = this;
+    picture.setUploading(true);
+    env.apiService.uploadPicture(this.card.getID(), picture.getPictureURI())
       .subscribe(
-        () => {
-          env.card.removePicture(index);
-          env.slides.slidePrev();
-          env.slides.update();
+        (score) => {
+          picture.setScore(score);
+          picture.setUploading(false);
+          picture.setUploaded(true);
+          env.gameStorageService.saveCard(env.card)
         },
         (error) => {
           env.apiService.fbAuth();
-          console.log("Error while trying to remove a picture: " + error);
-          alert("Connection to the server failed. Try again");
-        })
-  }
-
-  computeScoreButtonClicked(index: number): any {
-    this.uploadPicture(this.card, index);
-  }
-
-  uploadPicture(card: Card, index: number) {
-    let env = this;
-    env.uploadInProgress = true;
-    env.apiService.uploadPicture(card.getUUID(), card.getPictureURI(index))
-      .subscribe((score) => {
-          card.updateScore(index, score);
-          env.uploadInProgress = false;
-        },
-        (error) => {
-          env.apiService.fbAuth();
+          picture.setUploading(false);
           console.log("Error while trying to upload a picture: " + error);
           alert("Connection to the server failed. Try again");
         }
@@ -93,7 +144,7 @@ export class CardPage {
   }
 
 
-  takePicture(): Promise<any> {
+  private takePicture(): Promise<any> {
     return this.camera.getPicture({
       quality: 75,
       targetWidth: 1000,
@@ -105,11 +156,12 @@ export class CardPage {
     }).then((imageURI) => {
       // imageData is a base64 encoded string
       //base64Image = "data:image/jpeg;base64," + imageData;
-      this.card.savePictureURI(imageURI);
-      this.uploadPicture(this.card, this.card.size() - 1);
+      let picture = new Picture(imageURI);
+      this.card.addPicture(picture);
+      this.uploadPicture(picture);
       this.slides.update();
       this.slideToWhenReady(this.card.size() - 1, 500);
-    }, (err) => {
+    }).catch((err) => {
       console.log(err);
     });
   }

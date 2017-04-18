@@ -9,28 +9,46 @@
 <ion-content>
   <ion-content>
     <ion-list no-border no-lines>
+
       <ion-item>
         <ion-icon name='logo-facebook' item-left></ion-icon>
         <ion-label>
           Logged with facebook
         </ion-label>
       </ion-item>
+
       <div text-center>
         <button ion-button color="dark" (click)="loginService.logout()" >
           Logout
         </button>
       </div>
+
       <ion-item *ngIf="userService.user != null">
         <ion-icon name='contacts' item-left></ion-icon>
         <ion-label>
           {{userService.user.friends.length}} out of {{userService.user.totalCount}} friends are playing
         </ion-label>
       </ion-item>
+
       <div text-center>
         <button ion-button color="dark" (click)="socialSharingService.inviteFriends()" >
           Invite Friends
         </button>
       </div>
+
+      <ion-item *ngIf="userService.user != null">
+        <ion-icon name='cloud-upload' item-left></ion-icon>
+        <ion-label>
+          {{picturesNotUploaded.length}} have not been uploaded
+        </ion-label>
+      </ion-item>
+
+      <div text-center>
+        <button ion-button color="dark" (click)="socialSharingService.inviteFriends()" >
+          Invite Friends
+        </button>
+      </div>
+
     </ion-list>
 
   </ion-content>

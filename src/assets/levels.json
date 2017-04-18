@@ -1,42 +1,46 @@
-[
-  {
-    "title": "Let's get started",
-    "scoreToUnlock": 0,
-    "cardTitles": [
-      "Aquarium Fish",
-      "Car",
-      "Train",
-      "Keyboard",
-      "Lamp",
-      "Flower",
-      "Clock",
-      "Cloud",
-      "Bottles",
-      "Woman"
-    ]
-  },
-  {
-    "title": "Gonna snap them all",
-    "scoreToUnlock": 0,
-    "cardTitles": [
-      "TV",
-      "Motorcycle",
-      "Man",
-      "Plates",
-      "Bike",
-      "Baby"
-    ]
-  },
-  {
-    "title": "title level 3",
-    "scoreToUnlock": 20,
-    "cardTitles": [
-      "TV",
-      "Motorcycle",
-      "Man",
-      "Plates",
-      "Bike",
-      "Baby"
-    ]
-  }
-]
+{
+  "version": "0.0.1",
+  "levels":
+  [
+    {
+      "title": "Let's get started",
+      "scoreToUnlock": 0,
+      "cardTitles": [
+        "Aquarium Fish",
+        "Car",
+        "Train",
+        "Keyboard",
+        "Lamp",
+        "Flower",
+        "Clock",
+        "Cloud",
+        "Bottles",
+        "Woman"
+      ]
+    },
+    {
+      "title": "Gonna snap them all",
+      "scoreToUnlock": 0,
+      "cardTitles": [
+        "TV",
+        "Motorcycle",
+        "Man",
+        "Plates",
+        "Bike",
+        "Baby"
+      ]
+    },
+    {
+      "title": "title level 3",
+      "scoreToUnlock": 20,
+      "cardTitles": [
+        "TV",
+        "Motorcycle",
+        "Man",
+        "Plates",
+        "Bike",
+        "Baby"
+      ]
+    }
+  ]
+}
