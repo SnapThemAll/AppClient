@@ -7,8 +7,8 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import {VersionStored} from "../providers/start-up-data/load-data";
 import {UserService} from "../providers/user-service";
-import {LevelsService} from "../providers/levels-service";
 import {GameCreationService} from "../providers/game-creation-service";
+import {GameStorageService} from "../providers/game-storage-service";
 
 @Component({
   templateUrl: 'app.html'
@@ -22,7 +22,7 @@ export class MyApp {
     private statusBar: StatusBar,
     private gameCreationService: GameCreationService,
     private userService: UserService,
-    private levelsService: LevelsService,
+    private gameStorageService: GameStorageService,
   ) {
     let env = this;
 
@@ -39,7 +39,7 @@ export class MyApp {
         .then(() => {
           return Promise.all([
             env.userService.fetch(),
-            env.levelsService.loadLevels(),
+            env.gameStorageService.retrieveLevels(),
           ]);
         })
         .then(() => {

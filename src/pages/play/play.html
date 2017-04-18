@@ -7,7 +7,7 @@
 <ion-content>
   <ion-list no-lines>
     <ion-item
-      *ngFor="let level of levelsService.levels; let idx = index"
+      *ngFor="let level of levels(); let idx = index"
       (click)="itemSelected(level)"
       [class.levelLocked]="level.isLocked(score())"
       [class.levelUnlocked]="level.isUnlocked(score())"

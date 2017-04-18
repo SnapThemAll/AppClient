@@ -21,6 +21,10 @@ export class LevelPage {
     this.cards = this.level.getCards();
   }
 
+  ionViewDidEnter(){
+    console.log("ionViewDidEnter Level Page");
+  }
+
   imgClicked(index: number) {
     let cardModal = this.modalCtrl.create(
       CardPage, {

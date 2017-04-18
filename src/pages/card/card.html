@@ -15,30 +15,53 @@
 
 <ion-content text-center>
   <ion-slides pager (ionSlideDidChange)="slideChanged()">
-    <ion-slide *ngFor="let picture of card.getPictures(); let i = index">
+
+    <ion-slide>
       <div class="squareContainer">
         <div class="imageContainer">
-          <img src="{{picture.pictureURI}}"/>
+          <img src="{{card.getIllustrationURI()}}"/>
         </div>
       </div>
-      <p *ngIf="i == 0">Best Score : {{card.bestScore()}}</p>
-      <p *ngIf="i > 0 && picture.score == 0">Computing score..</p>
-      <p *ngIf="picture.score > 0">Score : {{picture.score.toFixed(2)}}</p>
-      <div text-center >
-      <button ion-button color="dark" (click)="snapItButtonClicked()">
-        <ion-icon name='camera' padding-right="10"></ion-icon>
-        SNAP<span *ngIf="i == 0">&nbsp;IT</span><span *ngIf="i > 0">&nbsp;AGAIN</span>
-      </button>
-      <button ion-button color="dark" (click)="removeButtonClicked(i)" *ngIf="i > 0">
-        <ion-icon name='trash' padding-right="10"></ion-icon>
-        REMOVE
-      </button>
-      <button ion-button color="dark" (click)="computeScoreButtonClicked(i)"
-              *ngIf="i > 0 && picture.score == 0 && !uploadInProgress"
+      <p *ngIf="card.bestScore() > 0">Best Score: {{card.bestScore().toFixed(2)}}</p>
+      <button
+        (click)="snapItButtonClicked()"
+        ion-button color="dark" icon-left
       >
-        COMPUTE SCORE
+        <ion-icon name='camera'></ion-icon>
+        SNAP IT
       </button>
+    </ion-slide>
+
+    <ion-slide *ngFor="let picture of card.getPictures();">
+      <div class="squareContainer">
+        <div class="imageContainer">
+          <img src="{{picture.getPictureURI()}}"/>
+        </div>
       </div>
+      <p>{{displayScore(picture)}}</p>
+
+      <button
+        (click)="snapItButtonClicked()"
+        ion-button color="dark" icon-only
+      >
+        <ion-icon name='camera'></ion-icon>
+      </button>
+
+      <button
+        *ngIf="picture.canRemove()"
+        (click)="removeButtonClicked(picture)"
+        ion-button color="dark" icon-only
+      >
+        <ion-icon name='trash'></ion-icon>
+      </button>
+
+      <button
+        *ngIf="picture.canUpload()"
+        (click)="computeScoreButtonClicked(picture)"
+        ion-button color="dark" icon-only
+      >
+        <ion-icon name='cloud-upload'></ion-icon>
+      </button>
     </ion-slide>
   </ion-slides>
 </ion-content>

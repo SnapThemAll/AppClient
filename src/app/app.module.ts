@@ -23,9 +23,9 @@ import {Camera} from "@ionic-native/camera";
 import {File} from "@ionic-native/file";
 import {Transfer} from "@ionic-native/transfer";
 import {GameCreationService} from "../providers/game-creation-service";
-import {LevelsService} from "../providers/levels-service";
 import {LoginService} from "../providers/login-service";
 import {SocialSharingService} from "../providers/social-sharing";
+import {GameStorageService} from "../providers/game-storage-service";
 
 
 @NgModule({
@@ -71,7 +71,7 @@ import {SocialSharingService} from "../providers/social-sharing";
     FacebookService,
     ApiService,
     GameCreationService,
-    LevelsService,
+    GameStorageService,
     LoginService,
     SocialSharingService,
   ]

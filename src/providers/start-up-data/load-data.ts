@@ -15,18 +15,18 @@ export interface VersionStored {
 }
 
 export class Data {
-  LEVELS_UUID = "levels_uuid";
+  LEVEL_IDS = "level_ids";
 
   cardsStored: CardStored[];
   levelsStored: LevelStored[];
-  cardsUUID: string[];
-  levelsUUID: string[];
+  cardIDs: string[];
+  levelIDs: string[];
 
   constructor(public levelsData: LevelData[]) {
     this.levelsStored = this.toLevelsStored();
-    this.levelsUUID = this.levelsStored.map((levelStored) => Data.titleToUUID(levelStored.title));
+    this.levelIDs = this.levelsStored.map((levelStored) => Data.titleToID(levelStored.title));
     this.cardsStored = this.toCardsStored();
-    this.cardsUUID = this.cardsStored.map((cardStored) => Data.titleToUUID(cardStored.title));
+    this.cardIDs = this.cardsStored.map((cardStored) => Data.titleToID(cardStored.title));
   }
 
   storeData(storage: Storage): Promise<any> {
@@ -34,9 +34,9 @@ export class Data {
 
     return Promise.all(
       [
-        storage.set(env.LEVELS_UUID, env.levelsUUID),
-        Promise.all(env.levelsUUID.map((levelUUID, index) => storage.set(levelUUID, env.levelsStored[index]))),
-        Promise.all(env.cardsUUID.map((cardUUID, index) => storage.set(cardUUID, env.cardsStored[index]))),
+        storage.set(env.LEVEL_IDS, env.levelIDs),
+        Promise.all(env.levelIDs.map((levelID, index) => storage.set(levelID, env.levelsStored[index]))),
+        Promise.all(env.cardIDs.map((cardID, index) => storage.set(cardID, env.cardsStored[index]))),
       ]
     );
   }
@@ -46,7 +46,7 @@ export class Data {
       return {
         title: levelData.title,
         scoreToUnlock: levelData.scoreToUnlock,
-        cardsUUID: levelData.cardTitles.map((title) => Data.titleToUUID(title)),
+        cardIDs: levelData.cardTitles.map((title) => Data.titleToID(title)),
       };
     });
   }
@@ -57,17 +57,14 @@ export class Data {
         let fileType = "png";
         return {
           title: cardTitle,
-          pictures: [{
-            pictureURI: "assets/cards/" + fileType + "/" + Data.titleToUUID(cardTitle) + "." + fileType,
-            score: 0,
-          }],
-          bestPic: 0,
+          illustrationURI:  "assets/cards/" + fileType + "/" + Data.titleToID(cardTitle) + "." + fileType,
+          pictures: [],
         };
       })
     ).reduce((a, b) => a.concat(b));
   }
 
-  private static titleToUUID(title: String): string {
+  private static titleToID(title: String): string {
     return title.replace(/ +/g, "_").toLocaleLowerCase();
   }
 }

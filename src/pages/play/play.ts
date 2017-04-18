@@ -2,9 +2,9 @@ import {Component} from "@angular/core";
 import {NavController, ToastController} from "ionic-angular";
 import {LevelPage} from "../level/level";
 import {Level} from "../../providers/game-data/level-data";
-import {LevelsService} from "../../providers/levels-service";
 import {LoginService} from "../../providers/login-service";
 import {ApiService} from "../../providers/api-service";
+import {GameStorageService} from "../../providers/game-storage-service";
 
 @Component({
   selector: 'page-play',
@@ -18,7 +18,7 @@ export class PlayPage {
     private toastCtrl: ToastController,
     private loginService: LoginService,
     private apiService: ApiService,
-    private levelsService: LevelsService,
+    private gameStorageService: GameStorageService,
   ) {
     if(!this.loginService.isLoggedIn()){
       this.loginService.login();
@@ -31,8 +31,12 @@ export class PlayPage {
     console.log("ionViewDidEnter Play Page");
   }
 
+  levels(): Level[] {
+    return this.gameStorageService.levels;
+  }
+
   score(): number {
-    return this.levelsService.totalScore();
+    return this.gameStorageService.totalScore();
   }
 
   presentToast(message: string) {

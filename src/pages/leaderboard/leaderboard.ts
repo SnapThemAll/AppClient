@@ -3,7 +3,7 @@ import {UserService} from "../../providers/user-service";
 import {Friend} from "../../providers/user-data/user-data";
 import {SocialSharingService} from "../../providers/social-sharing";
 import {FacebookService} from "../../providers/facebook-service";
-import {LevelsService} from "../../providers/levels-service";
+import {GameStorageService} from "../../providers/game-storage-service";
 
 @Component({
   selector: 'page-leaderboard',
@@ -17,7 +17,7 @@ export class LeaderboardPage {
     private facebookService: FacebookService,
     private userService: UserService,
     public socialSharingService: SocialSharingService,
-    private levelsService: LevelsService,
+    private gameStorageService: GameStorageService,
   ) {
     this.loadFriends();
   }
@@ -34,7 +34,7 @@ export class LeaderboardPage {
       this.friends = user.friends.concat({
         id: user.id,
         name: user.name,
-        score: this.levelsService.totalScore(),
+        score: this.gameStorageService.totalScore(),
       }).sort((f1, f2) => f2.score - f1.score)
     }
   }
