@@ -21,6 +21,10 @@ export class LevelsService {
     console.log('Hello LevelsService Provider');
   }
 
+  totalScore(): number {
+    return this.levels == null ? 0 : this.levels.map((lvl) => lvl.score()).reduce((left, right) => left + right);
+  }
+
   loadLevels(): Promise<Level[]> {
     let env = this;
     return env.storage.get("levels_uuid").then((uuids: string[]) => {

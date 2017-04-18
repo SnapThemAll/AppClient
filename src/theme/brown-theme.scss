@@ -1,0 +1,34 @@
+
+// Content + StatusBar + TabBar transparent => apply a texture
+$top-bottom-background-color: transparent;
+$content-background-color: transparent;
+
+$toolbar-background: $top-bottom-background-color;
+$tabs-background: $top-bottom-background-color;
+$background-color: $content-background-color;
+$list-background-color: $content-background-color;
+
+// Texture
+.toolbar{
+  background-image: url("../assets/backgrounds/texture_dark_1350x2400.jpg");
+  background-size: cover;
+}
+
+.tabbar {
+  background-image: url("../assets/backgrounds/texture_dark_1350x2400.jpg") !important;
+  background-size: cover !important;
+}
+
+ion-content{
+  background-image: url("../assets/backgrounds/texture_light_1350x2400.jpg");
+  background-size: cover;
+}
+
+// Tab icons colors
+$tabs-tab-color-active: #dbdbdb;
+$tabs-tab-color-inactive: #7c7c7c;
+
+
+$tabs-ios-tab-color-inactive: $tabs-tab-color-inactive;
+$tabs-md-tab-color-inactive: $tabs-tab-color-inactive;
+

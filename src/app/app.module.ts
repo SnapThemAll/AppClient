@@ -11,11 +11,12 @@ import {LevelPage} from "../pages/level/level";
 import {CardPage} from "../pages/card/card";
 import {IonicStorageModule } from "@ionic/storage";
 import {UserService} from "../providers/user-service";
-import {FacebookLoginService} from "../providers/facebook-login-service";
-import {CardService} from "../providers/card-service";
+import {FacebookService} from "../providers/facebook-service";
+import {ApiService} from "../providers/api-service";
 import {BrowserModule} from "@angular/platform-browser";
 import {HttpModule} from "@angular/http";
 import {SplashScreen} from "@ionic-native/splash-screen";
+import {SocialSharing} from "@ionic-native/social-sharing";
 import {StatusBar} from "@ionic-native/status-bar";
 import {Facebook} from "@ionic-native/facebook";
 import {Camera} from "@ionic-native/camera";
@@ -23,6 +24,8 @@ import {File} from "@ionic-native/file";
 import {Transfer} from "@ionic-native/transfer";
 import {GameCreationService} from "../providers/game-creation-service";
 import {LevelsService} from "../providers/levels-service";
+import {LoginService} from "../providers/login-service";
+import {SocialSharingService} from "../providers/social-sharing";
 
 
 @NgModule({
@@ -63,11 +66,14 @@ import {LevelsService} from "../providers/levels-service";
     Camera,
     File,
     Transfer,
+    SocialSharing,
     UserService,
-    FacebookLoginService,
-    CardService,
+    FacebookService,
+    ApiService,
     GameCreationService,
     LevelsService,
+    LoginService,
+    SocialSharingService,
   ]
 })
 export class AppModule {}

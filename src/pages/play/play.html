@@ -5,24 +5,24 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list no-lines>
     <ion-item
-      *ngFor="let level of levels; let idx = index"
+      *ngFor="let level of levelsService.levels; let idx = index"
       (click)="itemSelected(level)"
-      [class.levelLocked]="level.isLocked(totalScore().toFixed(2))"
+      [class.levelLocked]="level.isLocked(score())"
+      [class.levelUnlocked]="level.isUnlocked(score())"
     >
-      <ion-icon name="lock" [class.levelUnlocked]="level.isUnlocked(totalScore())"></ion-icon>
+      <ion-icon name="lock" ></ion-icon>
       <ion-thumbnail item-left>
-        <img src="assets/icon/numbers/{{idx + 1}}.svg"/>
+        <img src="assets/numbers/{{idx + 1}}.png"/>
       </ion-thumbnail>
       <h2>Level {{idx + 1}}</h2>
-      <p>{{level.title}}</p>
-      <p item-right>{{level.score()}} / {{level.cards.length * 10}}</p>
+      <p>{{level.getTitle()}}</p>
+      <p *ngIf="level.isUnlocked(score())" item-right>{{level.score()}} / {{level.getCards().length * 10}}</p>
+      <p *ngIf="level.isLocked(score())" item-right>Locked [{{level.getScoreToUnlock()}}]</p>
     </ion-item>
     <ion-item>
-      <p text-center>Total score : {{totalScore().toFixed()}}</p>
-      <p text-center>There will be at least 10 levels soon. No worries :)</p>
-      <p text-center>Update your app to get the latest levels</p>
+      <p text-center>Total Score : {{score().toFixed(2)}}</p>
     </ion-item>
   </ion-list>
 </ion-content>

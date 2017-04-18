@@ -1,10 +1,8 @@
 import {Component, ViewChild} from "@angular/core";
-import {NavParams, Platform, Slides, ViewController} from "ionic-angular";
+import {NavParams, Slides, ViewController} from "ionic-angular";
 import {Card} from "../../providers/game-data/card-data";
 import {Camera} from "@ionic-native/camera";
-import {CardService} from "../../providers/card-service";
-import {Transfer} from "@ionic-native/transfer";
-import {File} from "@ionic-native/file";
+import {ApiService} from "../../providers/api-service";
 @Component({
   selector: 'page-card',
   templateUrl: 'card.html'
@@ -12,14 +10,12 @@ import {File} from "@ionic-native/file";
 export class CardPage {
   card: Card;
   @ViewChild(Slides) slides: Slides;
+  uploadInProgress: boolean = false;
 
   constructor(
-    public platform: Platform,
-    public navParams: NavParams,
-    public viewCtrl: ViewController,
-    public cardService: CardService,
-    private transfer: Transfer,
-    private file: File,
+    private navParams: NavParams,
+    private viewCtrl: ViewController,
+    private apiService: ApiService,
     private camera: Camera,
   ) {
     this.card = navParams.get("card");
@@ -28,7 +24,7 @@ export class CardPage {
   }
 
   ionViewDidLoad(){
-    this.slides.slideTo(this.card.getBestPictureIndex(), 0);
+    //this.slideToWhenReady(this.card.getBestPictureIndex());
   }
 
   slideToWhenReady(index: number, speed?: number) {
@@ -59,23 +55,46 @@ export class CardPage {
     this.takePicture();
   }
 
-  uploadButtonClicked(index: number): any {
+  removeButtonClicked(index: number): any {
+    let env = this;
+    env.apiService.removePicture(env.card.getUUID(), env.card.getPictureURI(index))
+      .subscribe(
+        () => {
+          env.card.removePicture(index);
+          env.slides.slidePrev();
+          env.slides.update();
+        },
+        (error) => {
+          env.apiService.fbAuth();
+          console.log("Error while trying to remove a picture: " + error);
+          alert("Connection to the server failed. Try again");
+        })
+  }
+
+  computeScoreButtonClicked(index: number): any {
     this.uploadPicture(this.card, index);
   }
 
   uploadPicture(card: Card, index: number) {
-
-    this.cardService.uploadPicture(card.getUUID(), card.getPicture(index))
-      .subscribe((res) => {
-        let score = res.json().score;
-        card.updateScore(index, score);
-      });
+    let env = this;
+    env.uploadInProgress = true;
+    env.apiService.uploadPicture(card.getUUID(), card.getPictureURI(index))
+      .subscribe((score) => {
+          card.updateScore(index, score);
+          env.uploadInProgress = false;
+        },
+        (error) => {
+          env.apiService.fbAuth();
+          console.log("Error while trying to upload a picture: " + error);
+          alert("Connection to the server failed. Try again");
+        }
+      );
 
   }
 
 
-  takePicture(): void {
-    this.camera.getPicture({
+  takePicture(): Promise<any> {
+    return this.camera.getPicture({
       quality: 75,
       targetWidth: 1000,
       targetHeight: 1000,
@@ -86,7 +105,8 @@ export class CardPage {
     }).then((imageURI) => {
       // imageData is a base64 encoded string
       //base64Image = "data:image/jpeg;base64," + imageData;
-      this.card.addPic(imageURI);
+      this.card.savePictureURI(imageURI);
+      this.uploadPicture(this.card, this.card.size() - 1);
       this.slides.update();
       this.slideToWhenReady(this.card.size() - 1, 500);
     }, (err) => {

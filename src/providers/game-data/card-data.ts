@@ -3,24 +3,22 @@ export class Card {
 
   constructor(private storage: Storage,
               private title: string,
-              private picturesURI: string[],
-              private scores: number[],
-              private bestPictureIndex: number,
-              private uuid: string,) {
-  }
+              private pictures: Picture[],
+              private bestPic: number,
+              private uuid: string,
+  ) {}
 
   static fromStorage(storage: Storage, uuid: string): Promise<Card> {
-    let title: string, picturesURI: string[], scores: number[], bestPicture: number;
+    let title: string, pictures: Picture[], bestPicture: number;
 
     return storage.get(uuid).then((cardStored: CardStored) => {
 
         title = cardStored.title;
-        picturesURI = cardStored.picturesURI;
-        scores = cardStored.scores;
-        bestPicture = cardStored.bestPicture;
+        pictures = cardStored.pictures;
+        bestPicture = cardStored.bestPic;
 
         console.log("Card " + uuid + " created");
-        return new Card(storage, title, picturesURI, scores, bestPicture, uuid);
+        return new Card(storage, title, pictures, bestPicture, uuid);
       }
     ).catch((err: Error) => {
       console.log("while getting " + uuid + " this error occurred : " + err.stack);
@@ -28,11 +26,11 @@ export class Card {
   }
 
   isEmpty(): boolean {
-    return this.picturesURI.length > 1
+    return !(this.pictures.length > 1);
   }
 
   size(): number {
-    return this.picturesURI.length;
+    return this.pictures.length;
   }
 
   getTitle(): string {
@@ -43,55 +41,75 @@ export class Card {
     return this.uuid;
   }
 
-  getBestPictureIndex(): number {
-    return this.bestPictureIndex;
+  getPictures(): Array<Picture> {
+    return this.pictures;
   }
 
-  getPicturesURI(): Array<string> {
-    return this.picturesURI;
-  }
-
-  getPicture(i: number): string {
-    return this.picturesURI[i];
+  getPictureURI(i: number): string {
+    return this.pictures[i].pictureURI;
   }
 
   getScore(i: number): number {
-    return Math.round(100 * this.scores[i]) / 100;
+    return Math.round(100 * this.pictures[i].score) / 100;
   }
 
   bestScore(): number {
-    return Math.round(100 * this.scores[this.bestPictureIndex]) / 100;
+    return Math.round(100 * this.getScore(this.bestPic)) / 100;
   }
 
   bestPictureURI(): string {
-    return this.picturesURI[this.bestPictureIndex];
+    return this.getPictureURI(this.bestPic);
   }
 
   latestPictureURI(): string {
-    return this.picturesURI[this.picturesURI.length - 1];
+    return this.getPictureURI(this.size() - 1);
   }
 
+  savePicture(pictureURI: string, score: number): Promise<CardStored> {
+    this.pictures.push({
+      pictureURI: pictureURI,
+      score: score,
+    });
+    return this.saveCard();
+  }
 
-  addPic(uri: string) {
-    this.picturesURI.push(uri);
-    let newScore = 0;
-    this.scores.push(newScore);
+  savePictureURI(pictureURI: string): Promise<CardStored> {
+    return this.savePicture(pictureURI, 0);
+  }
+
+  updateScore(index: number, newScore: number): Promise<CardStored> {
+    let pictureURI = this.getPictureURI(index);
+    this.pictures[index] = {
+      pictureURI: pictureURI,
+      score: newScore,
+    };
     if (newScore > this.bestScore()) {
-      this.bestPictureIndex = this.scores.length - 1;
+      this.bestPic = index;
     }
-    this.saveCard();
+    return this.saveCard();
   }
 
-  simulateScore(uri: string): number {
-    return Math.random() * 10;
+  removePicture(index: number): Promise<CardStored> {
+    if (index > -1) {
+      this.pictures.splice(index, 1);
+      this.bestPic = this.computeBestPic();
+      return this.saveCard();
+    } else {
+      return Promise.resolve(this.toCardStored());
+    }
   }
 
-  updateScore(index: number, newScore: number){
-    this.scores[index] = newScore;
-    if (newScore > this.bestScore()) {
-      this.bestPictureIndex = index;
-    }
-    this.saveCard();
+  computeBestPic(): number {
+    let scores = this.pictures.map((pic) => pic.score);
+    let bestScore = -1;
+    let bestPic = 0;
+    scores.forEach((score, index) => {
+      if(score > bestScore){
+        bestScore = score;
+        bestPic = index;
+      }
+    });
+    return bestPic;
   }
 
   saveCard(): Promise<CardStored> {
@@ -101,17 +119,19 @@ export class Card {
   toCardStored(): CardStored {
     return {
       title: this.title,
-      picturesURI: this.picturesURI,
-      scores: this.scores,
-      bestPicture: this.bestPictureIndex,
+      pictures: this.pictures,
+      bestPic: this.bestPic,
     }
   }
+}
 
+export interface Picture {
+  pictureURI: string,
+  score: number,
 }
 
 export interface CardStored {
   title: string,
-  picturesURI: string[],
-  scores: number[],
-  bestPicture: number,
+  pictures: Picture[],
+  bestPic: number,
 }
