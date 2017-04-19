@@ -33,7 +33,6 @@ export class LoginService {
   }
 
   isLoggedIn(): boolean {
-    console.log(this.userService.user);
     return this.userService.user != null
   }
 

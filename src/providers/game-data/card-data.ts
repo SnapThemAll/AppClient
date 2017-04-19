@@ -77,7 +77,7 @@ export class Card {
   static fromCardStored(cardStored: CardStored, cardID: string): Card {
     let title = cardStored.title;
     let illustrationURI = cardStored.illustrationURI;
-    let pictures = cardStored.pictures.map((pictureStored) => Picture.fromPictureStored(pictureStored, cardID));
+    let pictures = cardStored.pictures.map((pictureStored) => Picture.fromPictureStored(pictureStored));
 
     return new Card(title, illustrationURI, pictures, cardID);
   }

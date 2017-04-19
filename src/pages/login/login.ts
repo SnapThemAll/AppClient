@@ -23,9 +23,13 @@ export class LoginPage {
 
   fbLogin() {
     let env = this;
-    this.facebookService.login().then(() => {
-      env.dismiss();
-    });
+    this.facebookService.login()
+      .then(() => {
+        env.dismiss();
+      })
+      .catch((error) => {
+        console.log("An error occured during the facebook login:" + error);
+      });
   }
 
 

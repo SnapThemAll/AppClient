@@ -36,9 +36,6 @@ export class FacebookService {
         //Getting name property
         return env.requestAndSaveUserData(token, params)
       })
-      .catch((error) => {
-        console.log("An error occured during the facebook login:" + error);
-      });
   }
 
 
