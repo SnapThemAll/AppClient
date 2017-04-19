@@ -124,13 +124,9 @@ export class CardPage {
 
   private uploadPicture(picture: Picture) {
     let env = this;
-    picture.setUploading(true);
-    env.apiService.uploadPicture(this.card.getID(), picture.getPictureURI())
+    env.apiService.uploadPicture(picture.toPictureToUpload(env.card))
       .subscribe(
-        (score) => {
-          picture.setScore(score);
-          picture.setUploading(false);
-          picture.setUploaded(true);
+        () => {
           env.gameStorageService.saveCard(env.card)
         },
         (error) => {

@@ -4,6 +4,8 @@ import "rxjs/add/operator/map";
 import {Observable} from "rxjs";
 import {File} from "@ionic-native/file";
 import {UserService} from "./user-service";
+import {PicToUpload, Picture} from "./game-data/picture-data";
+import {GameStorageService} from "./game-storage-service";
 
 @Injectable()
 export class ApiService {
@@ -14,6 +16,7 @@ export class ApiService {
     public http: Http,
     private fileModule: File,
     private userService: UserService,
+    private gameStorageService: GameStorageService,
   ) {
     console.log('Hello ApiService Provider');
   }
@@ -39,7 +42,7 @@ export class ApiService {
   }
 
   getPicture(cardName: string, pictureURI: string): Observable<Response> {
-    let fileName = pictureURI.replace(/^.*[\\\/]/, '');
+    let fileName = this.uriToFileName(pictureURI);
     return this.apiGet("/getpic/"  + cardName + "/" + fileName)
   }
 
@@ -52,26 +55,59 @@ export class ApiService {
   }
 
   removePicture(cardName: string, pictureURI: string): Observable<Response> {
-    let fileName = pictureURI.replace(/^.*[\\\/]/, '');
+    let fileName = this.uriToFileName(pictureURI);
     return this.apiGet("/removepic/" + cardName + "/" + fileName)
   }
 
-  uploadPicture(cardName: string, pictureURI: string): Observable<number> {
+  uploadPicture(pictureToUpload: PicToUpload): Observable<Picture> {
+    let env = this;
+    let picture = pictureToUpload.picture;
+    picture.setUploading(true);
+
+    return env.uploadPictureCardNameAndPictureURI(pictureToUpload.card.getID(), pictureToUpload.picture)
+      .map((score) => {
+        picture.setScore(score);
+        picture.setUploaded(true);
+        picture.setUploading(false);
+        env.gameStorageService.saveCard(pictureToUpload.card);
+        return picture;
+      })
+  }
+
+  private uploadPictureCardNameAndPictureURI(cardName: string, picture: Picture): Observable<number> {
     let env = this;
 
     return Observable.fromPromise(
-      env.createFormData(pictureURI)
+      env.createFormData(picture.getPictureURI())
         .then(formData => {
           return env.uploadPictureFormData(cardName, formData).toPromise()
         })
     );
   }
 
-  createFormData(pictureURI: string): Promise<FormData> {
+  alertResponseTextAndHeaders(response: Observable<Response>){
+    response.subscribe((res) => {
+      alert(res.text() + JSON.stringify(res.headers.toJSON(), null, 4));
+    })
+  }
+
+  private uriToFileName(uri: string): string {
+    return uri.replace(/^.*[\\\/]/, '');
+  }
+
+  private uploadPictureFormData(cardName: string, formData: FormData): Observable<number> {
+    let env = this;
+    return env.apiPost("/uploadpic/" + cardName, formData)
+      .map((res: Response) => {
+        return res.json().score;
+      });
+  }
+
+  private createFormData(pictureURI: string): Promise<FormData> {
     let env = this;
 
     let directoryURI = pictureURI.substring(0, pictureURI.lastIndexOf('/'));
-    let fileName = pictureURI.replace(/^.*[\\\/]/, '');
+    let fileName = env.uriToFileName(pictureURI);
     let formData = new FormData();
 
     return env.fileModule.readAsDataURL(directoryURI, fileName)
@@ -80,20 +116,6 @@ export class ApiService {
         formData.append("picture", blob, fileName);
         return formData;
       });
-  }
-
-  uploadPictureFormData(cardName: string, formData: FormData): Observable<number> {
-    let env = this;
-    return env.apiPost("/uploadpic/" + cardName, formData)
-      .map((res: Response) => {
-        return res.json().score;
-      });
-  }
-
-  alertResponseTextAndHeaders(response: Observable<Response>){
-    response.subscribe((res) => {
-      alert(res.text() + JSON.stringify(res.headers.toJSON(), null, 4));
-    })
   }
 
 

@@ -18,34 +18,34 @@
       </ion-item>
 
       <div text-center>
-        <button ion-button color="dark" (click)="loginService.logout()" >
+        <button ion-button color="dark" (click)="logout()" >
           Logout
         </button>
       </div>
 
-      <ion-item *ngIf="userService.user != null">
+      <ion-item>
         <ion-icon name='contacts' item-left></ion-icon>
         <ion-label>
-          {{userService.user.friends.length}} out of {{userService.user.totalCount}} friends are playing
+          {{numFriendsPlaying()}} out of {{numFriends()}} friends are playing
         </ion-label>
       </ion-item>
 
       <div text-center>
-        <button ion-button color="dark" (click)="socialSharingService.inviteFriends()" >
+        <button ion-button color="dark" (click)="inviteFriends()" >
           Invite Friends
         </button>
       </div>
 
-      <ion-item *ngIf="userService.user != null">
+      <ion-item>
         <ion-icon name='cloud-upload' item-left></ion-icon>
         <ion-label>
-          {{picturesNotUploaded.length}} have not been uploaded
+          {{displayPicturesNotUploaded()}}
         </ion-label>
       </ion-item>
 
       <div text-center>
-        <button ion-button color="dark" (click)="socialSharingService.inviteFriends()" >
-          Invite Friends
+        <button ion-button color="dark" (click)="uploadPictures()" >
+          Sync
         </button>
       </div>
 
