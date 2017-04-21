@@ -3,8 +3,6 @@ import {Platform} from "ionic-angular";
 import {StatusBar} from "@ionic-native/status-bar";
 import {SplashScreen} from "@ionic-native/splash-screen";
 import {TabsPage} from "../pages/tabs/tabs";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/toPromise";
 import {VersionStored} from "../providers/start-up-data/load-data";
 import {UserService} from "../providers/user-service";
 import {GameCreationService} from "../providers/game-creation-service";
@@ -39,7 +37,7 @@ export class MyApp {
         .then(() => {
           return Promise.all([
             env.userService.fetch(),
-            env.gameStorageService.retrieveLevels(),
+            env.gameStorageService.loadGame(),
           ]);
         })
         .then(() => {

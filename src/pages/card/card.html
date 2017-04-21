@@ -24,7 +24,7 @@
       </div>
       <p *ngIf="card.bestScore() > 0">Best Score: {{card.bestScore().toFixed(2)}}</p>
       <button
-        (click)="snapItButtonClicked()"
+        (click)="cameraButtonClicked()"
         ion-button color="dark" icon-left
       >
         <ion-icon name='camera'></ion-icon>
@@ -41,7 +41,7 @@
       <p>{{displayScore(picture)}}</p>
 
       <button
-        (click)="snapItButtonClicked()"
+        (click)="cameraButtonClicked()"
         ion-button color="dark" icon-only
       >
         <ion-icon name='camera'></ion-icon>
@@ -57,7 +57,7 @@
 
       <button
         *ngIf="picture.canUpload()"
-        (click)="computeScoreButtonClicked(picture)"
+        (click)="uploadButtonClicked(picture)"
         ion-button color="dark" icon-only
       >
         <ion-icon name='cloud-upload'></ion-icon>

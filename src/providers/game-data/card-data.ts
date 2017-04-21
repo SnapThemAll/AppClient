@@ -1,4 +1,5 @@
-import {Picture, PictureStored} from "./picture-data";
+import {Picture} from "./picture-data";
+import {Utils} from "../utils";
 
 export class Card {
 
@@ -6,14 +7,13 @@ export class Card {
     private title: string,
     private illustrationURI: string,
     private pictures: Picture[],
-    private id: string,
   ) {}
 
   // GETTERS
   getTitle(): string { return this.title; }
   getIllustrationURI(): string { return this.illustrationURI; }
   getPictures(): Picture[] { return this.pictures; } //TODO make it encapsulated
-  getID(): string { return this.id; }
+  getID(): string { return Utils.titleToID(this.title); }
 
   // USEFUL FUNCTIONS
   isEmpty(): boolean {
@@ -69,17 +69,8 @@ export class Card {
     return {
       title: this.title,
       illustrationURI: this.illustrationURI,
-      pictures: this.pictures.map((pic) => pic.toPictureStored()),
+      pictureIDs: this.pictures.map((pic) => pic.getID()),
     }
-  }
-
-  // IMPORT
-  static fromCardStored(cardStored: CardStored, cardID: string): Card {
-    let title = cardStored.title;
-    let illustrationURI = cardStored.illustrationURI;
-    let pictures = cardStored.pictures.map((pictureStored) => Picture.fromPictureStored(pictureStored));
-
-    return new Card(title, illustrationURI, pictures, cardID);
   }
 }
 
@@ -87,5 +78,5 @@ export class Card {
 export interface CardStored {
   title: string,
   illustrationURI: string,
-  pictures: PictureStored[],
+  pictureIDs: string[],
 }

@@ -48,7 +48,7 @@ export class FacebookService {
         return env.userService.remove();
       })
       .catch((error) => {
-        console.log(error);
+        console.log(JSON.stringify(error));
       });
   }
 
@@ -107,7 +107,7 @@ export class FacebookService {
       .then(() => env.apiService.fbAuth())
       .then(() => env.loadScores() )
       .catch((error) => {
-        console.log("An error occured during the facebook api call:" + error);
+        console.log("An error occured during the facebook api call:" + JSON.stringify(error));
       });
   }
 }

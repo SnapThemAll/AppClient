@@ -1,17 +1,18 @@
 import {Component, ViewChild} from "@angular/core";
 import {NavParams, Slides, ViewController, AlertController} from "ionic-angular";
 import {Card} from "../../providers/game-data/card-data";
-import {Camera} from "@ionic-native/camera";
 import {ApiService} from "../../providers/api-service";
 import {GameStorageService} from "../../providers/game-storage-service";
 import {Picture} from "../../providers/game-data/picture-data";
+import {CameraService} from "../../providers/camera-service";
+
 @Component({
   selector: 'page-card',
   templateUrl: 'card.html'
 })
 export class CardPage {
-  card: Card;
   @ViewChild(Slides) slides: Slides;
+  card: Card;
 
   constructor(
     private navParams: NavParams,
@@ -19,7 +20,7 @@ export class CardPage {
     private alertCtrl: AlertController,
     private gameStorageService: GameStorageService,
     private apiService: ApiService,
-    private camera: Camera,
+    private cameraService: CameraService,
   ) {
     this.card = navParams.get("card");
   }
@@ -62,15 +63,28 @@ export class CardPage {
     }
   }
 
-  snapItButtonClicked() {
-    this.takePicture();
+  cameraButtonClicked() {
+    let env = this;
+    env.cameraService.takePicture(env.card.getID())
+      .then((picture) => {
+        env.card.addPicture(picture);
+        env.gameStorageService.savePicture(picture);
+        env.gameStorageService.saveCard(env.card);
+        env.uploadPicture(picture);
+        // visual transition
+        env.slides.update();
+        env.slideToWhenReady(this.card.size() - 1, 500);
+      })
+      .catch((error) => {
+        console.log("Error trying to take a picture: " + JSON.stringify(error))
+      })
   }
 
   removeButtonClicked(picture: Picture): any {
     this.presentConfirm(picture);
   }
 
-  computeScoreButtonClicked(picture: Picture): any {
+  uploadButtonClicked(picture: Picture): any {
     this.uploadPicture(picture);
   }
 
@@ -101,7 +115,7 @@ export class CardPage {
   private removePicture(picture: Picture): any {
     let env = this;
     if(picture.isUploaded()) {
-      env.apiService.removePicture(env.card.getID(), picture.getPictureURI())
+      env.apiService.removePicture(picture)
         .subscribe(
           () => {
             env.slides.slidePrev();
@@ -111,7 +125,7 @@ export class CardPage {
           },
           (error) => {
             env.apiService.fbAuth();
-            console.log("Error while trying to remove a picture: " + error);
+            console.log("Error while trying to remove a picture: " + JSON.stringify(error));
             alert("Connection to the server failed. Try again");
           })
     } else {
@@ -124,42 +138,21 @@ export class CardPage {
 
   private uploadPicture(picture: Picture) {
     let env = this;
-    env.apiService.uploadPicture(picture.toPictureToUpload(env.card))
+    env.apiService.uploadPicture(picture)
       .subscribe(
-        () => {
-          env.gameStorageService.saveCard(env.card)
+        (picture) => {
+          env.gameStorageService.savePicture(picture)
         },
         (error) => {
           env.apiService.fbAuth();
           picture.setUploading(false);
-          console.log("Error while trying to upload a picture: " + error);
-          alert("Connection to the server failed. Try again");
+          console.log("Error while trying to upload a picture: " + JSON.stringify(error));
+          alert("Upload to the server failed. Try again");
         }
       );
 
   }
 
 
-  private takePicture(): Promise<any> {
-    return this.camera.getPicture({
-      quality: 75,
-      targetWidth: 1000,
-      targetHeight: 1000,
-      //saveToPhotoAlbum : true,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      cameraDirection : this.camera.Direction.BACK,
-      encodingType : this.camera.EncodingType.JPEG
-    }).then((imageURI) => {
-      // imageData is a base64 encoded string
-      //base64Image = "data:image/jpeg;base64," + imageData;
-      let picture = new Picture(imageURI);
-      this.card.addPicture(picture);
-      this.uploadPicture(picture);
-      this.slides.update();
-      this.slideToWhenReady(this.card.size() - 1, 500);
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
 
 }

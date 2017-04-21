@@ -1,18 +1,22 @@
-import {Card} from "./card-data";
-
 export class Picture {
 
   private uploading: boolean = false;
 
   constructor(
+    private fileName: string,
+    private cardID: string,
     private pictureURI: string,
     private score: number = 0,
     private uploaded: boolean = false,
   ) {}
 
   // GETTERS
+  getFileName(): string { return this.fileName; }
+  getcardID(): string { return this.cardID; }
+  //getFolderURI(dataDirectory: string): string { return dataDirectory + this.cardID; }
   getPictureURI(): string { return this.pictureURI; }
   getScore(): number { return this.score; }
+  getID(): string { return this.fileName; }
   isUploading(): boolean { return this.uploading; }
   isUploaded(): boolean { return this.uploaded; }
 
@@ -43,37 +47,18 @@ export class Picture {
   // EXPORT
   toPictureStored(): PictureStored {
     return {
-      pictureURI: this.pictureURI,
+      fileName: this.fileName,
+      cardID: this.cardID,
       score: this.score,
       uploaded: this.uploaded,
     }
   }
-
-  toPictureToUpload(card: Card): PicToUpload {
-    return {
-      card: card,
-      picture: this,
-    }
-  }
-
-  // IMPORT
-  static fromPictureStored(pictureStored: PictureStored): Picture {
-    return new Picture(
-      pictureStored.pictureURI,
-      pictureStored.score
-    )
-  }
-
 }
 
 export interface PictureStored {
-  pictureURI: string,
+  fileName: string,
+  cardID: string,
   score: number,
   uploaded: boolean,
 }
 
-
-export interface PicToUpload {
-  card: Card,
-  picture: Picture,
-}

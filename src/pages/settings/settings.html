@@ -39,13 +39,26 @@
       <ion-item>
         <ion-icon name='cloud-upload' item-left></ion-icon>
         <ion-label>
-          {{displayPicturesNotUploaded()}}
+          {{displayPicturesToUpload()}}
         </ion-label>
       </ion-item>
 
       <div text-center>
         <button ion-button color="dark" (click)="uploadPictures()" >
-          Sync
+          Upload
+        </button>
+      </div>
+
+      <ion-item>
+        <ion-icon name='cloud-download' item-left></ion-icon>
+        <ion-label>
+          {{displayPicturesToDownload()}}
+        </ion-label>
+      </ion-item>
+
+      <div text-center>
+        <button ion-button color="dark" (click)="downloadPictures()" >
+          Download
         </button>
       </div>
 

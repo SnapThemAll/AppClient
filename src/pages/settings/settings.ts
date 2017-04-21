@@ -3,8 +3,8 @@ import {LoginService} from "../../providers/login-service";
 import {UserService} from "../../providers/user-service";
 import {SocialSharingService} from "../../providers/social-sharing";
 import {GameStorageService} from "../../providers/game-storage-service";
-import {PicToUpload} from "../../providers/game-data/picture-data";
 import {ApiService} from "../../providers/api-service";
+import {Picture} from "../../providers/game-data/picture-data";
 
 @Component({
   selector: 'page-settings',
@@ -12,7 +12,7 @@ import {ApiService} from "../../providers/api-service";
 })
 export class SettingsPage {
 
-  picturesNotUploaded: PicToUpload[];
+  picturesNotUploaded: Picture[];
 
   constructor(
     private loginService: LoginService,
@@ -26,16 +26,20 @@ export class SettingsPage {
 
   ionViewDidEnter(){
     console.log("ionViewDidEnter Settings Page");
-    this.picturesNotUploaded = this.loadPicturesNotUploaded();
+    this.refreshContent()
   }
 
-  displayPicturesNotUploaded(): string {
+  displayPicturesToUpload(): string {
     let num = this.picturesNotUploaded.length;
     if(num == 0){
       return "All snaps have been uploaded";
     } else {
       return num + " snap" + (num > 1 ? "s" : "") + " have not been uploaded yet";
     }
+  }
+
+  displayPicturesToDownload(): string {
+    return "Hello"
   }
 
   logout(){
@@ -64,43 +68,44 @@ export class SettingsPage {
 
   uploadPictures(){
     let env = this;
+    let didAuth = false;
     env.picturesNotUploaded
-      .map((pic) =>
-        env.apiService.uploadPicture(pic)
-          .subscribe(() => {
-            env.refreshContent();
-          })
+      .forEach((picture) =>
+        env.apiService.uploadPicture(picture)
+          .subscribe(
+            (picture) => {
+              env.gameStorageService.savePicture(picture);
+              env.refreshContent();
+            },
+            (error) => {
+              if(!didAuth){
+                didAuth = true;
+                env.apiService.fbAuth();
+              }
+              picture.setUploading(false);
+              console.log("Error while trying to upload a picture: " + JSON.stringify(error));
+            }
+          )
       )
+  }
+
+  downloadPictures(){
+    let env = this;
+    env.apiService.getPictures()
+      .forEach((pictures) => {
+        pictures.forEach((picture) => {
+          env.gameStorageService.game.getLevels()[0].getCards()[0].addPicture(picture);
+        })
+      })
   }
 
   private refreshContent() {
     this.picturesNotUploaded = this.loadPicturesNotUploaded();
   }
 
-  private loadPicturesNotUploaded(): PicToUpload[] {
-    return this.gameStorageService.levels
-      .map((level) => level.getCards()
-        .map((card) => card.getPictures()
-          .filter((pic) => !pic.isUploaded())
-          .map((pic) => pic.toPictureToUpload(card))
-        )
-        .reduce((a, b) => a.concat(b))
-      )
-      .reduce((a, b) => a.concat(b))
+  private loadPicturesNotUploaded(): Picture[] {
+    return this.gameStorageService.game.getAllPictures()
+      .filter((pic) => !pic.isUploaded())
   }
 
-  /*
-   countPicturesNotUploaded(): number {
-   return this.gameStorageService.levels
-   .map(
-   (level) => level.getCards()
-   .map((card) => card.getPictures()
-   .filter((pic) => !pic.isUploaded())
-   .length
-   )
-   .reduce((a, b) => a + b)
-   )
-   .reduce((a, b) => a + b)
-   }
-   */
 }

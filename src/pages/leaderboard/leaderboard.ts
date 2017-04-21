@@ -34,7 +34,7 @@ export class LeaderboardPage {
       this.friends = user.friends.concat({
         id: user.id,
         name: user.name,
-        score: this.gameStorageService.totalScore(),
+        score: this.gameStorageService.game.totalScore(),
       }).sort((f1, f2) => f2.score - f1.score)
     }
   }

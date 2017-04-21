@@ -25,7 +25,7 @@ export class UserService {
         return env.user;
       })
       .catch((error) => {
-        console.log("Error when retrieving user data from Storage:" + error);
+        console.log("Error when retrieving user data from Storage:" + JSON.stringify(error));
       });
   }
 
@@ -37,7 +37,7 @@ export class UserService {
         env.user = user;
       })
       .catch((error) => {
-        console.log("An error occured during the storage of the logged user:" + error);
+        console.log("An error occured during the storage of the logged user:" + JSON.stringify(error));
       });
   }
 
