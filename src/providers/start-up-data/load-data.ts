@@ -1,6 +1,7 @@
 import {Storage} from "@ionic/storage";
 import {LevelStored} from "../game-data/level-data";
 import {CardStored} from "../game-data/card-data";
+import {Utils} from "../utils"
 
 export interface LevelData {
   title: string,
@@ -24,9 +25,9 @@ export class Data {
 
   constructor(public levelsData: LevelData[]) {
     this.levelsStored = this.toLevelsStored();
-    this.levelIDs = this.levelsStored.map((levelStored) => Data.titleToID(levelStored.title));
+    this.levelIDs = this.levelsStored.map((levelStored) => Utils.titleToID(levelStored.title));
     this.cardsStored = this.toCardsStored();
-    this.cardIDs = this.cardsStored.map((cardStored) => Data.titleToID(cardStored.title));
+    this.cardIDs = this.cardsStored.map((cardStored) => Utils.titleToID(cardStored.title));
   }
 
   storeData(storage: Storage): Promise<any> {
@@ -46,7 +47,7 @@ export class Data {
       return {
         title: levelData.title,
         scoreToUnlock: levelData.scoreToUnlock,
-        cardIDs: levelData.cardTitles.map((title) => Data.titleToID(title)),
+        cardIDs: levelData.cardTitles.map((title) => Utils.titleToID(title)),
       };
     });
   }
@@ -57,14 +58,10 @@ export class Data {
         let fileType = "png";
         return {
           title: cardTitle,
-          illustrationURI:  "assets/cards/" + fileType + "/" + Data.titleToID(cardTitle) + "." + fileType,
-          pictures: [],
+          illustrationURI:  "assets/cards/" + fileType + "/" + Utils.titleToID(cardTitle) + "." + fileType,
+          pictureIDs: [],
         };
       })
     ).reduce((a, b) => a.concat(b));
-  }
-
-  private static titleToID(title: String): string {
-    return title.replace(/ +/g, "_").toLocaleLowerCase();
   }
 }

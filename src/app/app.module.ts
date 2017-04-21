@@ -26,6 +26,8 @@ import {GameCreationService} from "../providers/game-creation-service";
 import {LoginService} from "../providers/login-service";
 import {SocialSharingService} from "../providers/social-sharing";
 import {GameStorageService} from "../providers/game-storage-service";
+import {CameraService} from "../providers/camera-service";
+import {FileManager} from "../providers/file-manager";
 
 
 @NgModule({
@@ -67,13 +69,15 @@ import {GameStorageService} from "../providers/game-storage-service";
     File,
     Transfer,
     SocialSharing,
-    UserService,
-    FacebookService,
     ApiService,
+    CameraService,
     GameCreationService,
     GameStorageService,
+    FacebookService,
     LoginService,
     SocialSharingService,
+    UserService,
+    FileManager,
   ]
 })
 export class AppModule {}

@@ -28,7 +28,7 @@ export class LoginPage {
         env.dismiss();
       })
       .catch((error) => {
-        console.log("An error occured during the facebook login:" + error);
+        console.log("An error occured during the facebook login:" + JSON.stringify(error));
       });
   }
 

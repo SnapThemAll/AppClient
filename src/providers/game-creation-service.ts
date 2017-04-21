@@ -5,17 +5,11 @@ import {Data, VersionStored} from "./start-up-data/load-data";
 import {Storage} from "@ionic/storage";
 
 
-/*
-  Generated class for the GameCreationService provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
 export class GameCreationService {
 
   constructor(
-    public http: Http,
+    private http: Http,
     private storage: Storage,
   ) {
     console.log('Hello GameCreationService Provider');
@@ -27,7 +21,7 @@ export class GameCreationService {
     return env.getVersion(dbVersion)
       .then((versionIsDifferent) => {
         if (versionIsDifferent) {
-          return env.storeDataFromJson();
+          return env.storeDataFromJson("assets/levels.json");
         } else {
           return Promise.resolve();
         }
@@ -55,12 +49,12 @@ export class GameCreationService {
     });
   }
 
-  storeDataFromJson(): Promise<any> {
+  storeDataFromJson(url: string): Promise<any> {
     let env = this;
 
     console.log("Setting up database...");
 
-    return env.http.get("assets/levels.json")
+    return env.http.get(url)
       .map(res => res.json().levels)
       .map((levelsData) => {
         let data = new Data(levelsData);

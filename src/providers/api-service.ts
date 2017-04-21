@@ -2,10 +2,9 @@ import {Injectable} from "@angular/core";
 import {Http, Response} from "@angular/http";
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs";
-import {File} from "@ionic-native/file";
 import {UserService} from "./user-service";
-import {PicToUpload, Picture} from "./game-data/picture-data";
-import {GameStorageService} from "./game-storage-service";
+import {Picture} from "./game-data/picture-data";
+import {FileManager} from "./file-manager";
 
 @Injectable()
 export class ApiService {
@@ -14,9 +13,8 @@ export class ApiService {
 
   constructor(
     public http: Http,
-    private fileModule: File,
+    private fileManager: FileManager,
     private userService: UserService,
-    private gameStorageService: GameStorageService,
   ) {
     console.log('Hello ApiService Provider');
   }
@@ -41,46 +39,60 @@ export class ApiService {
       })
   }
 
-  getPicture(cardName: string, pictureURI: string): Observable<Response> {
-    let fileName = this.uriToFileName(pictureURI);
-    return this.apiGet("/getpic/"  + cardName + "/" + fileName)
+  getPicture(fileName: string, cardID: string,): Observable<Blob> {
+    return this.apiGet("/getpic/"  + cardID + "/" + fileName)
+      .map((res: Response) => res.blob())
   }
 
-  getPictureData(): Observable<Response> {
+  getPictureData(): Observable<PictureData[]> {
     return this.apiGet("/getpicdata")
+      .map((res: Response) => res.json())
+  }
+
+  private pictureDatasToObs(pictures: PictureData[]): Observable<Picture[]> {
+    let env = this;
+    let arrayOfObservables: Observable<Picture>[] = pictures.map((picData) =>
+        env.getPicture(picData.fileName, picData.cardID)
+          .flatMap((blob) => Observable.fromPromise(env.fileManager.savePicture(blob, picData.fileName, picData.cardID)))
+          .map((picture) => picture.setUploaded(true))
+      );
+    return Observable.combineLatest(arrayOfObservables);
+  }
+
+  getPictures(): Observable<Picture[]> {
+    let env = this;
+     return env.getPictureData()
+       .flatMap((pictures) => env.pictureDatasToObs(pictures))
   }
 
   getScore(id: string): Observable<Response> {
     return this.apiGet("/getscore/" + id)
   }
 
-  removePicture(cardName: string, pictureURI: string): Observable<Response> {
-    let fileName = this.uriToFileName(pictureURI);
-    return this.apiGet("/removepic/" + cardName + "/" + fileName)
+  removePicture(picture: Picture): Observable<Response> {
+    return this.apiGet("/removepic/" + picture.getcardID() + "/" + picture.getFileName())
   }
 
-  uploadPicture(pictureToUpload: PicToUpload): Observable<Picture> {
+  uploadPicture(picture: Picture): Observable<Picture> {
     let env = this;
-    let picture = pictureToUpload.picture;
     picture.setUploading(true);
 
-    return env.uploadPictureCardNameAndPictureURI(pictureToUpload.card.getID(), pictureToUpload.picture)
+    return env.uploadPictureAndGetScore(picture)
       .map((score) => {
         picture.setScore(score);
         picture.setUploaded(true);
         picture.setUploading(false);
-        env.gameStorageService.saveCard(pictureToUpload.card);
         return picture;
       })
   }
 
-  private uploadPictureCardNameAndPictureURI(cardName: string, picture: Picture): Observable<number> {
+  private uploadPictureAndGetScore(picture: Picture): Observable<number> {
     let env = this;
 
     return Observable.fromPromise(
-      env.createFormData(picture.getPictureURI())
+      env.fileManager.pictureToFormData(picture)
         .then(formData => {
-          return env.uploadPictureFormData(cardName, formData).toPromise()
+          return env.uploadPictureFormData(picture.getcardID(), formData).toPromise()
         })
     );
   }
@@ -91,40 +103,18 @@ export class ApiService {
     })
   }
 
-  private uriToFileName(uri: string): string {
-    return uri.replace(/^.*[\\\/]/, '');
-  }
-
-  private uploadPictureFormData(cardName: string, formData: FormData): Observable<number> {
+  private uploadPictureFormData(cardID: string, formData: FormData): Observable<number> {
     let env = this;
-    return env.apiPost("/uploadpic/" + cardName, formData)
+    return env.apiPost("/uploadpic/" + cardID, formData)
       .map((res: Response) => {
         return res.json().score;
       });
   }
 
-  private createFormData(pictureURI: string): Promise<FormData> {
-    let env = this;
+}
 
-    let directoryURI = pictureURI.substring(0, pictureURI.lastIndexOf('/'));
-    let fileName = env.uriToFileName(pictureURI);
-    let formData = new FormData();
-
-    return env.fileModule.readAsDataURL(directoryURI, fileName)
-      .then((dataURI: string) => {
-        let blob = env.dataURItoBlob(dataURI, "image/jpeg");
-        formData.append("picture", blob, fileName);
-        return formData;
-      });
-  }
-
-
-  private dataURItoBlob(dataURI, dataTYPE) {
-    let binary = atob(dataURI.split(',')[1]), array = [];
-    for(let i = 0; i < binary.length; i++) {
-      array.push(binary.charCodeAt(i));
-    }
-    return new Blob([new Uint8Array(array)], {type: dataTYPE});
-  }
-
+export interface PictureData {
+  fileName: string,
+  cardID: string,
+  score: number,
 }

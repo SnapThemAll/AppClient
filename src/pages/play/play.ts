@@ -32,11 +32,11 @@ export class PlayPage {
   }
 
   levels(): Level[] {
-    return this.gameStorageService.levels;
+    return this.gameStorageService.game.getLevels();
   }
 
   score(): number {
-    return this.gameStorageService.totalScore();
+    return this.gameStorageService.game.totalScore();
   }
 
   presentToast(message: string) {

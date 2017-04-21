@@ -1,4 +1,5 @@
 import {Card} from "./card-data";
+import {Utils} from "../utils";
 
 export class Level {
 
@@ -6,14 +7,13 @@ export class Level {
     private title: string,
     private scoreToUnlock: number,
     private cards: Card[],
-    private id: string,) {
-  }
+  ) {}
 
   // GETTERS
   getTitle(): string { return this.title; }
   getScoreToUnlock(): number { return this.scoreToUnlock; }
   getCards(): Card[] { return this.cards; } //TODO should I encapsulate this ?
-  getID(): string { return this.id; }
+  getID(): string { return Utils.titleToID(this.title); }
 
   // USEFUL FUNCTIONS
   isLocked(totalScore: number): boolean {
