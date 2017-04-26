@@ -28,6 +28,7 @@ import {SocialSharingService} from "../providers/social-sharing";
 import {GameStorageService} from "../providers/game-storage-service";
 import {CameraService} from "../providers/camera-service";
 import {FileManager} from "../providers/file-manager";
+import {ToastService} from "../providers/toast-service";
 
 
 @NgModule({
@@ -78,6 +79,7 @@ import {FileManager} from "../providers/file-manager";
     SocialSharingService,
     UserService,
     FileManager,
+    ToastService,
   ]
 })
 export class AppModule {}

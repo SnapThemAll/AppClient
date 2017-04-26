@@ -5,6 +5,7 @@ import {ApiService} from "../../providers/api-service";
 import {GameStorageService} from "../../providers/game-storage-service";
 import {Picture} from "../../providers/game-data/picture-data";
 import {CameraService} from "../../providers/camera-service";
+import {ToastService} from "../../providers/toast-service";
 
 @Component({
   selector: 'page-card',
@@ -21,6 +22,7 @@ export class CardPage {
     private gameStorageService: GameStorageService,
     private apiService: ApiService,
     private cameraService: CameraService,
+    private toastService: ToastService,
   ) {
     this.card = navParams.get("card");
   }
@@ -91,8 +93,22 @@ export class CardPage {
   private presentConfirm(picture: Picture) {
     let alert = this.alertCtrl.create({
       title: 'Remove picture',
-      message: 'Are you sure you want to remove this picture on the device and on the server?',
+      message: 'Do you want to remove the picture from your phone or server ?',
       buttons: [
+        {
+          text: 'Phone Only',
+          handler: () => {
+            this.removePictoreOnPhone(picture);
+            console.log('Phone Only clicked');
+          }
+        },
+        {
+          text: 'Phone & Server',
+          handler: () => {
+            this.removePictureOnServerAndPhone(picture);
+            console.log('Phone & Server clicked');
+          }
+        },
         {
           text: 'Cancel',
           role: 'cancel',
@@ -100,57 +116,52 @@ export class CardPage {
             console.log('Cancel clicked');
           }
         },
-        {
-          text: 'Confirm',
-          handler: () => {
-            this.removePicture(picture);
-            console.log('Confirm clicked');
-          }
-        }
       ]
     });
     alert.present();
   }
 
-  private removePicture(picture: Picture): any {
+  private removePictoreOnPhone(picture: Picture): any {
+    this.slides.slidePrev();
+    this.card.removePicture(picture);
+    this.gameStorageService.saveCard(this.card);
+    this.slides.update();
+  }
+
+  private removePictureOnServerAndPhone(picture: Picture): any {
     let env = this;
     if(picture.isUploaded()) {
       env.apiService.removePicture(picture)
         .subscribe(
           () => {
-            env.slides.slidePrev();
-            env.card.removePicture(picture);
-            env.gameStorageService.saveCard(env.card);
-            env.slides.update();
+            env.removePictoreOnPhone(picture);
           },
           (error) => {
             env.apiService.fbAuth();
             console.log("Error while trying to remove a picture: " + JSON.stringify(error));
-            alert("Connection to the server failed. Try again");
+            env.toastService.bottomToast("Connection to the server failed. Try again");
           })
     } else {
-      env.slides.slidePrev();
-      env.card.removePicture(picture);
-      env.slides.update();
+      env.toastService.bottomToast("You can't remove a picture from server if it has not been uploaded first.");
     }
   }
 
 
   private uploadPicture(picture: Picture) {
     let env = this;
-    env.apiService.uploadPicture(picture)
-      .subscribe(
-        (picture) => {
-          env.gameStorageService.savePicture(picture)
-        },
-        (error) => {
-          env.apiService.fbAuth();
-          picture.setUploading(false);
-          console.log("Error while trying to upload a picture: " + JSON.stringify(error));
-          alert("Upload to the server failed. Try again");
-        }
-      );
-
+    if(!picture.isUploading()) {
+      env.apiService.uploadPicture(picture)
+        .subscribe(
+          (picture) => {
+            env.gameStorageService.savePicture(picture)
+          },
+          (error) => {
+            env.apiService.fbAuth();
+            picture.setUploading(false);
+            console.log("Error while trying to upload a picture: " + JSON.stringify(error));
+            env.toastService.bottomToast("Upload to the server failed. Try again");
+          });
+    }
   }
 
 

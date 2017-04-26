@@ -52,17 +52,17 @@ export class ApiService {
   private pictureDatasToObs(pictures: PictureData[]): Observable<Picture[]> {
     let env = this;
     let arrayOfObservables: Observable<Picture>[] = pictures.map((picData) =>
-        env.getPicture(picData.fileName, picData.cardID)
-          .flatMap((blob) => Observable.fromPromise(env.fileManager.savePicture(blob, picData.fileName, picData.cardID)))
-          .map((picture) => picture.setUploaded(true))
-      );
+      env.getPicture(picData.fileName, picData.cardID)
+        .flatMap((blob) => Observable.fromPromise(env.fileManager.savePicture(blob, picData.fileName, picData.cardID)))
+        .map((picture) => picture.setUploaded(true))
+    );
     return Observable.combineLatest(arrayOfObservables);
   }
 
   getPictures(): Observable<Picture[]> {
     let env = this;
-     return env.getPictureData()
-       .flatMap((pictures) => env.pictureDatasToObs(pictures))
+    return env.getPictureData()
+      .flatMap((pictures) => env.pictureDatasToObs(pictures))
   }
 
   getScore(id: string): Observable<Response> {
