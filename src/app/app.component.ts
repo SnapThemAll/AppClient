@@ -29,7 +29,7 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       let dbVersion: VersionStored = {
         key: "db_version",
-        value: "0.0.1"
+        value: "0.0.2"
       };
 
 

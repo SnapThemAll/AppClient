@@ -70,23 +70,25 @@ export class SettingsPage {
     let env = this;
     let didAuth = false;
     env.picturesNotUploaded
-      .forEach((picture) =>
-        env.apiService.uploadPicture(picture)
-          .subscribe(
-            (picture) => {
-              env.gameStorageService.savePicture(picture);
-              env.refreshContent();
-            },
-            (error) => {
-              if(!didAuth){
-                didAuth = true;
-                env.apiService.fbAuth();
+      .forEach((picture) => {
+        if (!picture.isUploading()) {
+          env.apiService.uploadPicture(picture)
+            .subscribe(
+              (picture) => {
+                env.gameStorageService.savePicture(picture);
+                env.refreshContent();
+              },
+              (error) => {
+                if (!didAuth) {
+                  didAuth = true;
+                  env.apiService.fbAuth();
+                }
+                picture.setUploading(false);
+                console.log("Error while trying to upload a picture: " + JSON.stringify(error));
               }
-              picture.setUploading(false);
-              console.log("Error while trying to upload a picture: " + JSON.stringify(error));
-            }
-          )
-      )
+            )
+        }
+      })
   }
 
   downloadPictures(){

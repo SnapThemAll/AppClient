@@ -18,10 +18,10 @@ export class SocialSharingService {
 
   inviteFriends() {
     this.socialSharing.share(
-      "message",
-      "subject",
+      "Hey let's play Snap Them All together, it's fun and interesting.",
+      "Play SnapThemAll",
       null,
-      "gregunz.io"
+      "snap-them-all.com"
     )
   }
 }

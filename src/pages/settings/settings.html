@@ -7,48 +7,48 @@
 </ion-header>
 
 <ion-content>
-  <ion-content>
-    <ion-list no-border no-lines>
+  <ion-list no-border no-lines>
 
-      <ion-item>
-        <ion-icon name='logo-facebook' item-left></ion-icon>
-        <ion-label>
-          Logged with facebook
-        </ion-label>
-      </ion-item>
+    <ion-item>
+      <ion-icon name='logo-facebook' item-left></ion-icon>
+      <ion-label>
+        Logged with facebook
+      </ion-label>
+    </ion-item>
 
-      <div text-center>
-        <button ion-button color="dark" (click)="logout()" >
-          Logout
-        </button>
-      </div>
+    <div text-center>
+      <button ion-button color="dark" (click)="logout()" >
+        Logout
+      </button>
+    </div>
 
-      <ion-item>
-        <ion-icon name='contacts' item-left></ion-icon>
-        <ion-label>
-          {{numFriendsPlaying()}} out of {{numFriends()}} friends are playing
-        </ion-label>
-      </ion-item>
+    <ion-item>
+      <ion-icon name='contacts' item-left></ion-icon>
+      <ion-label>
+        {{numFriendsPlaying()}} out of {{numFriends()}} friends are playing
+      </ion-label>
+    </ion-item>
 
-      <div text-center>
-        <button ion-button color="dark" (click)="inviteFriends()" >
-          Invite Friends
-        </button>
-      </div>
+    <div text-center>
+      <button ion-button color="dark" (click)="inviteFriends()" >
+        Invite Friends
+      </button>
+    </div>
 
-      <ion-item>
-        <ion-icon name='cloud-upload' item-left></ion-icon>
-        <ion-label>
-          {{displayPicturesToUpload()}}
-        </ion-label>
-      </ion-item>
+    <ion-item>
+      <ion-icon name='cloud-upload' item-left></ion-icon>
+      <ion-label>
+        {{displayPicturesToUpload()}}
+      </ion-label>
+    </ion-item>
 
-      <div text-center>
-        <button ion-button color="dark" (click)="uploadPictures()" >
-          Upload
-        </button>
-      </div>
+    <div text-center>
+      <button ion-button color="dark" (click)="uploadPictures()" >
+        Upload
+      </button>
+    </div>
 
+    <div *ngIf="false">
       <ion-item>
         <ion-icon name='cloud-download' item-left></ion-icon>
         <ion-label>
@@ -61,7 +61,8 @@
           Download
         </button>
       </div>
+    </div>
 
-    </ion-list>
+  </ion-list>
 
-  </ion-content>
+</ion-content>
