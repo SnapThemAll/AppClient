@@ -12,7 +12,7 @@ export class Picture {
 
   // GETTERS
   getFileName(): string { return this.fileName; }
-  getcardID(): string { return this.cardID; }
+  getCardID(): string { return this.cardID; }
   //getFolderURI(dataDirectory: string): string { return dataDirectory + this.cardID; }
   getPictureURI(): string { return this.pictureURI; }
   getScore(): number { return this.score; }
