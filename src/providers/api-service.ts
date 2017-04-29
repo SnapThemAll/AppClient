@@ -70,7 +70,7 @@ export class ApiService {
   }
 
   removePicture(picture: Picture): Observable<Response> {
-    return this.apiGet("/removepic/" + picture.getcardID() + "/" + picture.getFileName())
+    return this.apiGet("/removepic/" + picture.getCardID() + "/" + picture.getFileName())
   }
 
   uploadPicture(picture: Picture): Observable<Picture> {
@@ -92,7 +92,7 @@ export class ApiService {
     return Observable.fromPromise(
       env.fileManager.pictureToFormData(picture)
         .then(formData => {
-          return env.uploadPictureFormData(picture.getcardID(), formData).toPromise()
+          return env.uploadPictureFormData(picture.getCardID(), formData).toPromise()
         })
     );
   }
