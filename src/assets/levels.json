@@ -3,43 +3,99 @@
   "levels":
   [
     {
-      "title": "Let's get started",
+      "title": "Every day stuff",
       "scoreToUnlock": 0,
       "cardTitles": [
-        "Aquarium Fish",
-        "Car",
-        "Train",
-        "Keyboard",
-        "Lamp",
-        "Flower",
-        "Clock",
-        "Cloud",
-        "Bottles",
-        "Woman"
+		"Backpack",
+		"Coin",
+		"Eyeglasses",
+		"Flashlight",
+		"Playing Card",
+		"Socks",
+		"Swiss Army Knife",
+		"T Shirt",
+		"Umbrella",
+		"Watch"
       ]
     },
     {
-      "title": "Gonna snap them all",
+      "title": "We have a search warrant to enter home",
       "scoreToUnlock": 0,
       "cardTitles": [
-        "TV",
-        "Motorcycle",
-        "Man",
-        "Plates",
-        "Bike",
-        "Baby"
+		"Coffee Mug",
+		"Fridge",
+		"Frying Pan",
+		"Mattress",
+		"Microwave",
+		"Screwdriver",
+		"Spoon",
+		"Teddy Bear",
+		"Toaster",
+		"Washing Machine"
       ]
     },
     {
-      "title": "title level 3",
-      "scoreToUnlock": 20,
+      "title": "Reveal the geek inside of you!",
+      "scoreToUnlock": 0,
       "cardTitles": [
-        "TV",
-        "Motorcycle",
-        "Man",
-        "Plates",
-        "Bike",
-        "Baby"
+		"Calculator",
+		"CD",
+		"Computer Monitor",
+		"Computer Mouse",
+		"Floppy Disk",
+		"Head Phones",
+		"Joy Stick",
+		"Keyboard",
+		"Laptop",
+		"PCI Card"
+      ]
+    },
+    {
+      "title": "Are you a food lover?",
+      "scoreToUnlock": 0,
+      "cardTitles": [
+		"Beer Mug",
+		"Cake",
+		"Fried Egg",
+		"Hamburger",
+		"Soda Can",
+		"Spaghetti",
+		"Sushi",
+		"Tomato",
+		"Watermelon",
+		"Wine Bottle"
+      ]
+    },
+    {
+      "title": "If it stand still. Snap it quick!",
+      "scoreToUnlock": 0,
+      "cardTitles": [
+		"Crab",
+		"Dog",
+		"Face",
+		"Frog",
+		"Goldfish",
+		"Horse",
+		"House Fly",
+		"People",
+		"Snail",
+		"Spider"
+      ]
+    },
+    {
+      "title": "You can have fun with these!",
+      "scoreToUnlock": 0,
+      "cardTitles": [
+		"Baseball Bat",
+		"Basketball Hoop",
+		"Billiards",
+		"Bowling Ball",
+		"Canoe",
+		"Mountain Bike",
+		"Skateboard",
+		"Soccer Ball",
+		"Tennis Ball",
+		"Tennis Racket"
       ]
     }
   ]

@@ -19,7 +19,7 @@
     <ion-slide>
       <div class="squareContainer">
         <div class="imageContainer">
-          <img src="{{card.getIllustrationURI()}}"/>
+          <img class="illustration" src="{{card.getIllustrationURI()}}"/>
         </div>
       </div>
       <p *ngIf="card.bestScore() > 0">Best Score: {{card.bestScore().toFixed(2)}}</p>
