@@ -25,10 +25,10 @@ page-level {
     }
 
     .card-img {
-      object-fit: cover ;
+      object-fit: contain ;
       width: 100%;
       height: 100%;
-      border-radius: 50%;
+      //border-radius: 50%;
       opacity: 1;
     }
 
