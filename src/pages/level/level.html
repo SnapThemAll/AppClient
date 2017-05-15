@@ -6,11 +6,21 @@
 
 <ion-content>
   <div class="card-background-page">
-    <div class="cardContainer" *ngFor="let card of cards; let idx = index;" (click)="imgClicked(idx)">
-      <div class="card">
-        <img class="card-img" src="{{card.getIllustrationURI()}}"/>
-        <!--<div class="card-title">{{card.getTitle()}}</div>-->
-        <div *ngIf="card.bestScore() > 0" class="card-subtitle">{{card.bestScore().toFixed(2)}} / 10</div>
+    <div class="cardSquareContainer" *ngFor="let card of cards; let idx = index;" (click)="imgClicked(idx)">
+      <div class="cardContainer">
+
+        <div class="card-info-top">
+          <div>{{card.getTitle()}}</div>
+        </div>
+
+        <div class="card-img">
+          <img src="{{card.getIllustrationURI()}}"/>
+        </div>
+
+        <div class="card-info-bottom">
+          <div *ngIf="card.bestScore() > 0">{{card.bestScore().toFixed(2)}} / 10</div>
+        </div>
+
       </div>
     </div>
   </div>

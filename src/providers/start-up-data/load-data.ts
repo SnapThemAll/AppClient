@@ -16,14 +16,13 @@ export interface VersionStored {
 }
 
 export class Data {
-  LEVEL_IDS = "level_ids";
 
   cardsStored: CardStored[];
   levelsStored: LevelStored[];
   cardIDs: string[];
   levelIDs: string[];
 
-  constructor(public levelsData: LevelData[]) {
+  constructor(public levelStorageKey: string, public levelsData: LevelData[]) {
     this.levelsStored = this.toLevelsStored();
     this.levelIDs = this.levelsStored.map((levelStored) => Utils.titleToID(levelStored.title));
     this.cardsStored = this.toCardsStored();
@@ -35,7 +34,7 @@ export class Data {
 
     return Promise.all(
       [
-        storage.set(env.LEVEL_IDS, env.levelIDs),
+        storage.set(env.levelStorageKey, env.levelIDs),
         Promise.all(env.levelIDs.map((levelID, index) => storage.set(levelID, env.levelsStored[index]))),
         Promise.all(env.cardIDs.map((cardID, index) => storage.set(cardID, env.cardsStored[index]))),
       ]
@@ -58,7 +57,7 @@ export class Data {
         let fileType = "png";
         return {
           title: cardTitle,
-          illustrationURI:  "assets/cards/" + fileType + "/" + Utils.titleToID(cardTitle) + "." + fileType,
+          illustrationURI:  "assets/img/cards/" + Utils.titleToID(cardTitle) + "." + fileType,
           pictureIDs: [],
         };
       })

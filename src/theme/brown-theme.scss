@@ -10,17 +10,17 @@ $list-background-color: $content-background-color;
 
 // Texture
 .toolbar{
-  background-image: url("../assets/backgrounds/texture_dark_1350x2400.jpg");
+  background-image: url("../assets/img/backgrounds/texture_dark_1350x2400.jpg");
   background-size: cover;
 }
 
 .tabbar {
-  background-image: url("../assets/backgrounds/texture_dark_1350x2400.jpg") !important;
+  background-image: url("../assets/img/backgrounds/texture_dark_1350x2400.jpg") !important;
   background-size: cover !important;
 }
 
 ion-content{
-  background-image: url("../assets/backgrounds/texture_light_1350x2400.jpg");
+  background-image: url("../assets/img/backgrounds/texture_light_1350x2400.jpg");
   background-size: cover;
 }
 

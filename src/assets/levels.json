@@ -1,101 +1,101 @@
 {
-  "version": "0.0.1",
+  "version": "0.0.4",
   "levels":
   [
     {
       "title": "Every day stuff",
       "scoreToUnlock": 0,
       "cardTitles": [
-		"Backpack",
-		"Coin",
-		"Eyeglasses",
-		"Flashlight",
-		"Playing Card",
-		"Socks",
-		"Swiss Army Knife",
-		"T Shirt",
-		"Umbrella",
-		"Watch"
-      ]
-    },
-    {
-      "title": "We have a search warrant to enter home",
-      "scoreToUnlock": 0,
-      "cardTitles": [
-		"Coffee Mug",
-		"Fridge",
-		"Frying Pan",
-		"Mattress",
-		"Microwave",
-		"Screwdriver",
-		"Spoon",
-		"Teddy Bear",
-		"Toaster",
-		"Washing Machine"
-      ]
-    },
-    {
-      "title": "Reveal the geek inside of you!",
-      "scoreToUnlock": 0,
-      "cardTitles": [
-		"Calculator",
-		"CD",
-		"Computer Monitor",
-		"Computer Mouse",
-		"Floppy Disk",
-		"Head Phones",
-		"Joy Stick",
-		"Keyboard",
-		"Laptop",
-		"PCI Card"
+        "Backpack",
+        "Coin",
+        "Eyeglasses",
+        "Flashlight",
+        "Playing Card",
+        "Socks",
+        "Swiss Army Knife",
+        "T Shirt",
+        "Umbrella",
+        "Watch"
       ]
     },
     {
       "title": "Are you a food lover?",
       "scoreToUnlock": 0,
       "cardTitles": [
-		"Beer Mug",
-		"Cake",
-		"Fried Egg",
-		"Hamburger",
-		"Soda Can",
-		"Spaghetti",
-		"Sushi",
-		"Tomato",
-		"Watermelon",
-		"Wine Bottle"
+        "Beer Mug",
+        "Cake",
+        "Fried Egg",
+        "Hamburger",
+        "Soda Can",
+        "Spaghetti",
+        "Sushi",
+        "Tomato",
+        "Watermelon",
+        "Wine Bottle"
+      ]
+    },
+    {
+      "title": "Reveal the geek inside of you!",
+      "scoreToUnlock": 0,
+      "cardTitles": [
+        "Calculator",
+        "CD",
+        "Computer Monitor",
+        "Computer Mouse",
+        "Floppy Disk",
+        "Head Phones",
+        "Joy Stick",
+        "Keyboard",
+        "Laptop",
+        "PCI Card"
+      ]
+    },
+    {
+      "title": "Search warrant to enter home",
+      "scoreToUnlock": 0,
+      "cardTitles": [
+        "Coffee Mug",
+        "Fridge",
+        "Frying Pan",
+        "Mattress",
+        "Microwave",
+        "Screwdriver",
+        "Spoon",
+        "Teddy Bear",
+        "Toaster",
+        "Washing Machine"
       ]
     },
     {
       "title": "If it stand still. Snap it quick!",
       "scoreToUnlock": 0,
       "cardTitles": [
-		"Crab",
-		"Dog",
-		"Face",
-		"Frog",
-		"Goldfish",
-		"Horse",
-		"House Fly",
-		"People",
-		"Snail",
-		"Spider"
+        "Crab",
+        "Dog",
+        "Face",
+        "Frog",
+        "Goldfish",
+        "Horse",
+        "House Fly",
+        "People",
+        "Snail",
+        "Spider"
       ]
     },
     {
       "title": "You can have fun with these!",
       "scoreToUnlock": 0,
       "cardTitles": [
-		"Baseball Bat",
-		"Basketball Hoop",
-		"Billiards",
-		"Bowling Ball",
-		"Canoe",
-		"Mountain Bike",
-		"Skateboard",
-		"Soccer Ball",
-		"Tennis Ball",
-		"Tennis Racket"
+        "Baseball Bat",
+        "Basketball Hoop",
+        "Billiards",
+        "Bowling Ball",
+        "Canoe",
+        "Mountain Bike",
+        "Skateboard",
+        "Soccer Ball",
+        "Tennis Ball",
+        "Tennis Racket"
       ]
     }
   ]
