@@ -139,7 +139,8 @@ export class CardPage {
           (error) => {
             env.apiService.fbAuth();
             console.log("Error while trying to remove a picture: " + JSON.stringify(error));
-            env.toastService.bottomToast("Connection to the server failed. Try again");
+            let message = "Connection to the server failed. Try again";
+            env.toastService.bottomToast(message);
           })
     } else {
       env.toastService.bottomToast("You can't remove a picture from server if it has not been uploaded first.");
@@ -159,7 +160,11 @@ export class CardPage {
             env.apiService.fbAuth();
             picture.setUploading(false);
             console.log("Error while trying to upload a picture: " + JSON.stringify(error));
-            env.toastService.bottomToast("Upload to the server failed. Try again");
+            let message = "Connection to the server failed. Try again";
+            if(error.status == 422){
+              message = error._body
+            }
+            env.toastService.bottomToast(message);
           });
     }
   }
