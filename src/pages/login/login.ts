@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
-import {Platform, ViewController} from "ionic-angular";
+import {Platform, ViewController, ModalController} from "ionic-angular";
 import {FacebookService} from "../../providers/facebook-service";
+import {TutorialPage} from "../tutorial/tutorial";
 
 @Component({
   selector: 'page-login',
@@ -8,28 +9,43 @@ import {FacebookService} from "../../providers/facebook-service";
 })
 export class LoginPage {
 
+  browserTestingMode = true;
+
   constructor(
-    public platform: Platform,
-    public viewCtrl: ViewController,
-    public facebookService: FacebookService,
+    private platform: Platform,
+    private viewCtrl: ViewController,
+    private modalCtrl: ModalController,
+    private facebookService: FacebookService,
   ) {
     platform.registerBackButtonAction(() => {}, 1)
   }
 
 
-  dismiss() {
+  private dismiss() {
     this.viewCtrl.dismiss();
   }
 
   fbLogin() {
     let env = this;
-    this.facebookService.login()
-      .then(() => {
-        env.dismiss();
-      })
-      .catch((error) => {
-        console.log("An error occured during the facebook login:" + JSON.stringify(error));
+    if(env.browserTestingMode){
+      //env.dismiss();
+      let tutorialModal = env.modalCtrl.create({
+        TutorialPage
       });
+      tutorialModal.present()
+    } else {
+      this.facebookService.login()
+        .then(() => {
+          env.dismiss();
+          let tutorialModal = env.modalCtrl.create({
+            TutorialPage
+          });
+          tutorialModal.present()
+        })
+        .catch((error) => {
+          console.log("An error occured during the facebook login:" + JSON.stringify(error));
+        });
+    }
   }
 
 

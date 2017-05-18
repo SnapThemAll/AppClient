@@ -29,6 +29,7 @@ import {GameStorageService} from "../providers/game-storage-service";
 import {CameraService} from "../providers/camera-service";
 import {FileManager} from "../providers/file-manager";
 import {ToastService} from "../providers/toast-service";
+import {TutorialPage} from "../pages/tutorial/tutorial";
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import {ToastService} from "../providers/toast-service";
     CardPage,
     UserPage,
     LoginPage,
+    TutorialPage,
   ],
   imports: [
     BrowserModule,
@@ -51,10 +53,10 @@ import {ToastService} from "../providers/toast-service";
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
     TabsPage,
     LeaderboardPage,
     SettingsPage,
+    TutorialPage,
     PlayPage,
     LevelPage,
     CardPage,
