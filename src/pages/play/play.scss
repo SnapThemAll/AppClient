@@ -22,14 +22,21 @@ page-play {
 
   $lineHeight: 50px;
 
-  .item-md ion-thumbnail {
-    min-width: $lineHeight;
-    min-height: $lineHeight;
-  }
+  .item-md {
 
-  .item-md ion-thumbnail img {
-    width: $lineHeight;
-    height: $lineHeight;
+    ion-thumbnail {
+      min-width: $lineHeight;
+      min-height: $lineHeight;
+
+      img {
+        width: $lineHeight;
+        height: $lineHeight;
+      }
+    }
+
+    p {
+      color: #210b0b;
+    }
   }
 }
 
