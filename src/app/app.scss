@@ -24,9 +24,22 @@
 
 @font-face {
   font-family: AppFont;
-  src: url("../assets/fonts/OpenSans-Light.ttf");
+  src: url("../assets/fonts/OpenSans-Regular.ttf");
 }
 
-body, span, button, h1, h2, h3, h4, h5, h6, p, ion-item, ion-title {
+body, span, button, h1, h2, h3, h4, h5, h6, p, ion-item {
   font-family: 'AppFont' !important;
+}
+
+@font-face {
+  font-family: SnapTitleFont;
+  src: url("../assets/fonts/KTF-Roadstar.ttf")
+}
+
+ion-title {
+  font-family: 'SnapTitleFont' !important;
+
+  .toolbar-title-md {
+    font-size: 2.5rem;
+  }
 }

@@ -1,5 +1,5 @@
 import {Component, ViewChild} from "@angular/core";
-import {NavParams, Slides, ViewController, AlertController} from "ionic-angular";
+import {Platform, NavParams, Slides, ViewController, AlertController} from "ionic-angular";
 import {Card} from "../../providers/game-data/card-data";
 import {ApiService} from "../../providers/api-service";
 import {GameStorageService} from "../../providers/game-storage-service";
@@ -16,6 +16,7 @@ export class CardPage {
   card: Card;
 
   constructor(
+    private platform: Platform,
     private navParams: NavParams,
     private viewCtrl: ViewController,
     private alertCtrl: AlertController,
@@ -25,6 +26,8 @@ export class CardPage {
     private toastService: ToastService,
   ) {
     this.card = navParams.get("card");
+
+    platform.registerBackButtonAction(() => { this.dismiss() });
   }
 
   ionViewDidEnter(){
@@ -66,6 +69,14 @@ export class CardPage {
   }
 
   cameraButtonClicked() {
+    if(this.card.getPictures().length < 10){
+      this.takePicture();
+    } else {
+      this.toastService.middleToast("You can't have more than 10 pictures per category")
+    }
+  }
+
+  takePicture() {
     let env = this;
     env.cameraService.takePicture(env.card.getID())
       .then((picture) => {
@@ -93,20 +104,17 @@ export class CardPage {
   private presentConfirm(picture: Picture) {
     let alert = this.alertCtrl.create({
       title: 'Remove picture',
-      message: 'Do you want to remove the picture from your phone or server ?',
+      message: 'Do you want to remove the picture from your phone (and server if it has been uploaded already) ?',
       buttons: [
         {
-          text: 'Phone Only',
+          text: 'Yes',
           handler: () => {
-            this.removePictoreOnPhone(picture);
-            console.log('Phone Only clicked');
-          }
-        },
-        {
-          text: 'Phone & Server',
-          handler: () => {
-            this.removePictureOnServerAndPhone(picture);
-            console.log('Phone & Server clicked');
+            if(picture.isUploaded()){
+              this.removePictureOnServerAndPhone(picture)
+            } else {
+              this.removePictoreOnPhone(picture);
+            }
+            console.log('Yes clicked');
           }
         },
         {
@@ -139,7 +147,7 @@ export class CardPage {
           (error) => {
             env.apiService.fbAuth();
             console.log("Error while trying to remove a picture: " + JSON.stringify(error));
-            let message = "Connection to the server failed. Try again";
+            let message = "Connection to the server failed. Check your connection and try again";
             env.toastService.bottomToast(message);
           })
     } else {

@@ -10,21 +10,55 @@
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list no-lines>
-    <ion-item *ngFor="let friend of friends; let rank = index"  (click)="itemSelected(friend)">
-      <p item-left>{{rank + 1}}.</p>
-      <ion-label>
-        {{ friend.name }}
-      </ion-label>
-      <p item-right>{{ friend.score.toFixed(2) }}</p>
-    </ion-item>
-  </ion-list>
-  <div text-center>
-    Swipe down to reload
-  </div>
-  <div text-center *ngIf="friends.length <= 5">
-    <button ion-button color="dark" (click)="socialSharingService.inviteFriends()" >
-      Invite Friends
-    </button>
-  </div>
+  <ion-slides pager>
+
+    <ion-slide>
+      <div text-center class="title">
+        <ion-item>
+          <ion-icon name='globe' item-left></ion-icon>
+          <ion-label text-center>
+            World Ranking
+          </ion-label>
+          <ion-icon name='globe' item-right></ion-icon>
+        </ion-item>
+      </div>
+      <ion-list no-lines>
+        <ion-item *ngFor="let worldUser of worldUsers; let rank = index"  (click)="itemSelected(friend)">
+          <p item-left>{{rank + 1}}.</p>
+          <ion-label>
+            {{ worldUser.name }}
+          </ion-label>
+          <p item-right>{{ worldUser.score.toFixed(2) }}</p>
+        </ion-item>
+      </ion-list>
+    </ion-slide>
+
+    <ion-slide>
+      <div text-center class="title">
+        <ion-item>
+          <ion-icon name='contacts' item-left></ion-icon>
+          <ion-label text-center>
+            Friends Ranking
+          </ion-label>
+          <ion-icon name='contacts' item-right></ion-icon>
+        </ion-item>
+      </div>
+      <ion-list no-lines>
+        <ion-item *ngFor="let friend of friends; let rank = index"  (click)="itemSelected(friend)">
+          <p item-left>{{rank + 1}}.</p>
+          <ion-label>
+            {{ friend.name }}
+          </ion-label>
+          <p item-right>{{ friend.score.toFixed(2) }}</p>
+        </ion-item>
+      </ion-list>
+      <div text-center *ngIf="friends.length <= 8">
+        <button ion-button color="dark" (click)="socialSharingService.inviteFriends()" >
+          Invite Friends
+        </button>
+      </div>
+    </ion-slide>
+
+  </ion-slides>
+
 </ion-content>

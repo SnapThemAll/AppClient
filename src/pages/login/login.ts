@@ -9,15 +9,13 @@ import {TutorialPage} from "../tutorial/tutorial";
 })
 export class LoginPage {
 
-  browserTestingMode = true;
-
   constructor(
     private platform: Platform,
     private viewCtrl: ViewController,
     private modalCtrl: ModalController,
     private facebookService: FacebookService,
   ) {
-    platform.registerBackButtonAction(() => {}, 1)
+    platform.registerBackButtonAction(() => {})
   }
 
 
@@ -27,25 +25,18 @@ export class LoginPage {
 
   fbLogin() {
     let env = this;
-    if(env.browserTestingMode){
-      //env.dismiss();
-      let tutorialModal = env.modalCtrl.create({
-        TutorialPage
-      });
-      tutorialModal.present()
-    } else {
       this.facebookService.login()
         .then(() => {
-          env.dismiss();
-          let tutorialModal = env.modalCtrl.create({
+          let tutorialModal = env.modalCtrl.create(
             TutorialPage
+          );
+          tutorialModal.present().then(() => {
+            env.dismiss();
           });
-          tutorialModal.present()
         })
         .catch((error) => {
           console.log("An error occured during the facebook login:" + JSON.stringify(error));
         });
-    }
   }
 
 

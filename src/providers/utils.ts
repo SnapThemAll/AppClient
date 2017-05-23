@@ -2,7 +2,7 @@
 export class Utils {
 
   static titleToID(title: String): string {
-    return title.replace(/ +/g, "_").toLocaleLowerCase();
+    return title.replace(/ +/g, "-").toLocaleLowerCase();
   }
 
   static uriToFileName(uri: string): string {

@@ -1,0 +1,12 @@
+page-feedback {
+
+  textarea {
+    resize: both;
+  }
+
+  .item-md.item-block .item-inner {
+    border-bottom: 0;
+    border-bottom-color: transparent;
+    box-shadow: inset -1px 0 0 transparent !important;
+  }
+}

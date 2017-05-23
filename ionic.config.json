@@ -1,12 +1,11 @@
 {
   "name": "Snap Them All",
   "app_id": "318ab6c5",
-  "v2": true,
-  "typescript": true,
   "proxies": [
     {
       "path": "/api",
-      "proxyUrl": "http://api.snap-them-all.com/"
+      "proxyUrl": "http://api.snap-them-all.com"
     }
-  ]
+  ],
+  "type": "ionic-angular"
 }

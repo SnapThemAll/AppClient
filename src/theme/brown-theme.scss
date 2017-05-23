@@ -1,14 +1,15 @@
+//COLORS
+$light: #f4f4f4;
+$dark:  #222;
+
 
 // Content + StatusBar + TabBar transparent => apply a texture
-$top-bottom-background-color: transparent;
-$content-background-color: transparent;
+$toolbar-background: transparent;
+$tabs-background: transparent;
+$background-color: transparent;
+$list-background-color: transparent;
 
-$toolbar-background: $top-bottom-background-color;
-$tabs-background: $top-bottom-background-color;
-$background-color: $content-background-color;
-$list-background-color: $content-background-color;
-
-// Texture
+// Texture for tool bar, tab bar and content
 .toolbar{
   background-image: url("../assets/img/backgrounds/texture_dark_1350x2400.jpg");
   background-size: cover;
@@ -25,10 +26,16 @@ ion-content{
 }
 
 // Tab icons colors
-$tabs-tab-color-active: #dbdbdb;
+$tabs-tab-color-active: $light;
 $tabs-tab-color-inactive: #7c7c7c;
 
 
 $tabs-ios-tab-color-inactive: $tabs-tab-color-inactive;
 $tabs-md-tab-color-inactive: $tabs-tab-color-inactive;
 
+//title color font
+ion-title {
+  .toolbar-title-md {
+    color: $light;
+  }
+}
