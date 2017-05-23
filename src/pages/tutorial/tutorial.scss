@@ -41,11 +41,16 @@ page-tutorial {
     padding: 0 20px;
     font-size: 14px;
     line-height: 1.5;
-    color: #60646B;
+    color: #210b0b;
 
     b {
       color: #000000;
+      font-weight: bold;
     }
+  }
+
+  .go-button {
+    margin-top: 60px;
   }
 
 }

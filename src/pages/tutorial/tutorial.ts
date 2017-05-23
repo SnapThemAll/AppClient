@@ -13,13 +13,14 @@ export class TutorialPage {
       description:
       "Snap Them All is a game where your goal is to take <b>snaps</b> of almost everything. " +
       "Our algorithm gives you back a <b>score</b> reprensenting how much your snap helps us.",
-      image: "assets/img/tutorial/welcome.png",
+      image: "../../assets/img/tutorial/welcome.png",
     },
     {
       title: "What is a good snap?",
-      description: "A good snap is unique. Hence you should be <b>creative</b>. " +
-      "Think about the <b>angle</b> chosen, the <b>location</b>, the <b>background</b>, etc..",
-      image: "assets/img/tutorial/good_snap.png",
+      description: "A good snap is unique. " +
+      "This means you should think about the <b>angle</b>, the <b>location</b>, the <b>background</b>, etc.. \n\n" +
+      "Be yourself, be <b>creative</b>.",
+      image: "../../assets/img/tutorial/good_snap.png",
     }
     // ,
     // {
