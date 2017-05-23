@@ -35,20 +35,21 @@
       </button>
     </div>
 
-    <ion-item>
-      <ion-icon name='cloud-upload' item-left></ion-icon>
-      <ion-label>
-        {{displayPicturesToUpload()}}
-      </ion-label>
-    </ion-item>
-
-    <div text-center>
-      <button ion-button color="dark" (click)="uploadPictures()" >
-        Upload
-      </button>
+    <div *ngIf="picturesNotUploaded.length > 0">
+      <ion-item>
+        <ion-icon name='cloud-upload' item-left></ion-icon>
+        <ion-label>
+          {{displayPicturesToUpload()}}
+        </ion-label>
+      </ion-item>
+      <div text-center>
+        <button ion-button color="dark" (click)="uploadPictures()" >
+          Upload
+        </button>
+      </div>
     </div>
 
-    <div *ngIf="false">
+    <div *ngIf="numPicturesOnline() > 0">
       <ion-item>
         <ion-icon name='cloud-download' item-left></ion-icon>
         <ion-label>
@@ -59,6 +60,36 @@
       <div text-center>
         <button ion-button color="dark" (click)="downloadPictures()" >
           Download
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <ion-item>
+        <ion-icon name='help-buoy' item-left></ion-icon>
+        <ion-label>
+          How to play ?
+        </ion-label>
+      </ion-item>
+
+      <div text-center>
+        <button ion-button color="dark" (click)="displayTutorial()" >
+          Need Help
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <ion-item>
+        <ion-icon name='paper-plane' item-left></ion-icon>
+        <ion-label>
+          Leave us a message/feedback
+        </ion-label>
+      </ion-item>
+
+      <div text-center>
+        <button ion-button color="dark" (click)="leaveFeedback()" >
+          Send
         </button>
       </div>
     </div>

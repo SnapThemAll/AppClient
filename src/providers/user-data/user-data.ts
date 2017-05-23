@@ -13,3 +13,8 @@ export interface Friend {
   name: string,
   score: number,
 }
+
+export interface WorldUser {
+  name: string,
+  score: number,
+}

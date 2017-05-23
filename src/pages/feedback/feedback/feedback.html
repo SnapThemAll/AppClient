@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Contact Us
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Back</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-textarea autosize [(ngModel)]="msg" placeholder="Leave your message here"></ion-textarea>
+  </ion-item>
+
+  <div text-center>
+    <button ion-button color="dark" (click)="send(msg)">
+      Send
+    </button>
+  </div>
+</ion-content>

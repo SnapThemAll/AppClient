@@ -1,5 +1,5 @@
 {
-  "version": "0.0.4",
+  "version": "0.0.5",
   "levels":
   [
     {
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "title": "Are you a food lover?",
+      "title": "Are you a food lover ?",
       "scoreToUnlock": 0,
       "cardTitles": [
         "Beer Mug",
@@ -35,23 +35,7 @@
       ]
     },
     {
-      "title": "Reveal the geek inside of you!",
-      "scoreToUnlock": 0,
-      "cardTitles": [
-        "Calculator",
-        "CD",
-        "Computer Monitor",
-        "Computer Mouse",
-        "Floppy Disk",
-        "Head Phones",
-        "Joy Stick",
-        "Keyboard",
-        "Laptop",
-        "PCI Card"
-      ]
-    },
-    {
-      "title": "Search warrant to enter home",
+      "title": "Snap your whole home",
       "scoreToUnlock": 0,
       "cardTitles": [
         "Coffee Mug",
@@ -67,24 +51,24 @@
       ]
     },
     {
-      "title": "If it stand still. Snap it quick!",
+      "title": "Geek is the new sexy",
       "scoreToUnlock": 0,
       "cardTitles": [
-        "Crab",
-        "Dog",
-        "Face",
-        "Frog",
-        "Goldfish",
-        "Horse",
-        "House Fly",
-        "People",
-        "Snail",
-        "Spider"
+        "Calculator",
+        "CD",
+        "Computer Monitor",
+        "Computer Mouse",
+        "Floppy Disk",
+        "Head Phones",
+        "Joy Stick",
+        "Keyboard",
+        "Laptop",
+        "PCI Card"
       ]
     },
     {
       "title": "You can have fun with these!",
-      "scoreToUnlock": 0,
+      "scoreToUnlock": 10,
       "cardTitles": [
         "Baseball Bat",
         "Basketball Hoop",
@@ -96,6 +80,22 @@
         "Soccer Ball",
         "Tennis Ball",
         "Tennis Racket"
+      ]
+    },
+    {
+      "title": "You should snap it quick!",
+      "scoreToUnlock": 50,
+      "cardTitles": [
+        "Crab",
+        "Dog",
+        "Butterfly",
+        "Frog",
+        "Goldfish",
+        "Horse",
+        "House Fly",
+        "People",
+        "Snail",
+        "Spider"
       ]
     }
   ]

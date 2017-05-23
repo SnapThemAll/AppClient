@@ -59,7 +59,6 @@ export class FacebookService {
     return this.requestAndSaveUserData(token, params)
   }
 
-
   private loadScores(): Promise<any>{
     let env = this;
     if(env.userService.user != null){
@@ -98,6 +97,10 @@ export class FacebookService {
               name: friend.name,
               score: 0,
             };
+          }).concat({
+            id: fbUser.id,
+            name: fbUser.name,
+            score: 0,
           }),
           totalCount: fbUser.friends.summary.total_count,
         };

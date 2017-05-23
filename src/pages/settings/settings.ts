@@ -3,8 +3,12 @@ import {LoginService} from "../../providers/login-service";
 import {UserService} from "../../providers/user-service";
 import {SocialSharingService} from "../../providers/social-sharing";
 import {GameStorageService} from "../../providers/game-storage-service";
-import {ApiService} from "../../providers/api-service";
+import {ToastService} from "../../providers/toast-service";
+import {ApiService, PictureData} from "../../providers/api-service";
 import {Picture} from "../../providers/game-data/picture-data";
+import {ModalController, Platform} from "ionic-angular";
+import {TutorialPage} from "../tutorial/tutorial";
+import {FeedbackPage} from "../feedback/feedback/feedback";
 
 @Component({
   selector: 'page-settings',
@@ -12,16 +16,22 @@ import {Picture} from "../../providers/game-data/picture-data";
 })
 export class SettingsPage {
 
-  picturesNotUploaded: Picture[];
+  picturesNotUploaded: Picture[] = [];
+  picturesToDownload: PictureData[] = [];
 
   constructor(
+    private platform: Platform,
     private loginService: LoginService,
     private userService: UserService,
+    private modalCtrl: ModalController,
     private socialSharingService: SocialSharingService,
     private gameStorageService: GameStorageService,
+    private toastService: ToastService,
     private apiService: ApiService,
   ) {
-    this.refreshContent()
+    this.refreshContent();
+
+    platform.registerBackButtonAction(() => {});
   }
 
   ionViewDidEnter(){
@@ -39,7 +49,7 @@ export class SettingsPage {
   }
 
   displayPicturesToDownload(): string {
-    return "Hello"
+    return "You have " + (this.numPicturesOnline()) + " snap" + (this.numPicturesOnline() > 1 ? "s" : "") + " on the server"
   }
 
   logout(){
@@ -56,10 +66,17 @@ export class SettingsPage {
 
   numFriendsPlaying(): number {
     if(this.userService.user != null){
-      return this.userService.user.friends.length
+      return this.userService.user.friends.length - 1
     } else {
       return 0
     }
+  }
+
+  numPicturesOnline(): number {
+    let numberOnDeviceUploaded =
+      this.gameStorageService.game.getAllPictures().filter((pic) => pic.isUploaded()).length;
+    let numberOnServer = this.picturesToDownload.length;
+    return numberOnServer - numberOnDeviceUploaded;
   }
 
   inviteFriends() {
@@ -92,17 +109,37 @@ export class SettingsPage {
   }
 
   downloadPictures(){
-    let env = this;
-    env.apiService.getPictures()
-      .forEach((pictures) => {
-        pictures.forEach((picture) => {
-          env.gameStorageService.game.getLevels()[0].getCards()[0].addPicture(picture);
-        })
-      })
+    this.toastService.middleToast("This feature is not available yet. We're working on it.")
+    // let env = this;
+    // env.apiService.getPictures()
+    //   .forEach((pictures) => {
+    //     pictures.forEach((picture) => {
+    //       env.gameStorageService.game.getLevels()[0].getCards()[0].addPicture(picture);
+    //     })
+    //   })
+  }
+
+  displayTutorial(){
+    let modalTutorial = this.modalCtrl.create(
+      TutorialPage
+    );
+    modalTutorial.present();
+  }
+
+  leaveFeedback(){
+    let modalFeedback = this.modalCtrl.create(
+      FeedbackPage
+    );
+    modalFeedback.present();
   }
 
   private refreshContent() {
-    this.picturesNotUploaded = this.loadPicturesNotUploaded();
+    let env = this;
+    env.picturesNotUploaded = env.loadPicturesNotUploaded();
+    env.apiService.getPictureData()
+      .subscribe((picturesData) => {
+        env.picturesToDownload = picturesData;
+      })
   }
 
   private loadPicturesNotUploaded(): Picture[] {

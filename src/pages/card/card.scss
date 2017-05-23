@@ -3,7 +3,12 @@ page-card {
 
     ion-slides {
       width: 100%;
-      height: auto;
+      height: 100%;
+
+      .slide-zoom {
+        position: fixed;
+        top: 0;
+      }
 
       .squareContainer {
         position: relative;
@@ -26,10 +31,6 @@ page-card {
       }
       .illustration {
         padding: 25px;
-      }
-      .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets {
-        position: fixed;
-        bottom: 10px;
       }
       .swiper-pagination-bullet-active{
         //opacity: 0.8;

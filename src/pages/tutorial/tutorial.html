@@ -1,16 +1,35 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>Tutorial</ion-title>
-  </ion-navbar>
-
+  <ion-toolbar>
+    <ion-title>
+      How to play ?
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()" color="light">Skip</button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 
 <ion-content padding>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-  esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-  in culpa qui officia deserunt mollit anim id est laborum.
+  <ion-slides pager>
+
+    <ion-slide *ngFor="let slide of slides">
+      <img [src]="slide.image" class="slide-image"/>
+      <h2 class="slide-title" [innerHTML]="slide.title"></h2>
+      <p [innerHTML]="slide.description"></p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="../../assets/img/tutorial/snapper_runner.png" class="slide-image"/>
+      <h2 class="slide-title">Ready to Play?</h2>
+
+      <div text-center>
+        <button ion-button icon-right large color="dark" (click)="dismiss()">
+          GO
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+      </div>
+    </ion-slide>
+
+  </ion-slides>
 </ion-content>

@@ -5,11 +5,12 @@ import {Observable} from "rxjs";
 import {UserService} from "./user-service";
 import {Picture} from "./game-data/picture-data";
 import {FileManager} from "./file-manager";
+import {WorldUser} from "./user-data/user-data";
 
 @Injectable()
 export class ApiService {
 
-  private apiUrl = "http://api.snap-them-all.com";
+  private apiUrl = "http://localhost/api";
 
   constructor(
     public http: Http,
@@ -49,6 +50,11 @@ export class ApiService {
       .map((res: Response) => res.json())
   }
 
+  getWorldUsers(): Observable<WorldUser[]> {
+    return this.apiGet("/getworldusers")
+      .map((res: Response) => res.json())
+  }
+
   private pictureDatasToObs(pictures: PictureData[]): Observable<Picture[]> {
     let env = this;
     let arrayOfObservables: Observable<Picture>[] = pictures.map((picData) =>
@@ -84,6 +90,10 @@ export class ApiService {
         picture.setUploading(false);
         return picture;
       })
+  }
+
+  uploadFeedback(msg: String): Observable<Response> {
+    return this.apiPost("/uploadfeedback", msg)
   }
 
   private uploadPictureAndGetScore(picture: Picture): Observable<number> {

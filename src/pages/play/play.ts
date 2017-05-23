@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController} from "ionic-angular";
+import {NavController, Platform} from "ionic-angular";
 import {LevelPage} from "../level/level";
 import {Level} from "../../providers/game-data/level-data";
 import {LoginService} from "../../providers/login-service";
@@ -15,6 +15,7 @@ import {ToastService} from "../../providers/toast-service";
 export class PlayPage {
 
   constructor(
+    private platform: Platform,
     private navCtrl: NavController,
     private loginService: LoginService,
     private apiService: ApiService,
@@ -25,7 +26,10 @@ export class PlayPage {
       loginService.login();
     } else {
       apiService.fbAuth();
+
     }
+
+    platform.registerBackButtonAction(() => {});
   }
 
   ionViewDidEnter(){

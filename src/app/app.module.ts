@@ -9,7 +9,7 @@ import {UserPage} from "../pages/user/user";
 import {LoginPage} from "../pages/login/login";
 import {LevelPage} from "../pages/level/level";
 import {CardPage} from "../pages/card/card";
-import {IonicStorageModule } from "@ionic/storage";
+import {IonicStorageModule} from "@ionic/storage";
 import {UserService} from "../providers/user-service";
 import {FacebookService} from "../providers/facebook-service";
 import {ApiService} from "../providers/api-service";
@@ -30,6 +30,9 @@ import {CameraService} from "../providers/camera-service";
 import {FileManager} from "../providers/file-manager";
 import {ToastService} from "../providers/toast-service";
 import {TutorialPage} from "../pages/tutorial/tutorial";
+import {WorldUsersService} from "../providers/world-users-service";
+import {FeedbackPage} from "../pages/feedback/feedback/feedback";
+import {AutosizeDirective} from "../directives/autosize/autosize";
 
 
 @NgModule({
@@ -42,8 +45,10 @@ import {TutorialPage} from "../pages/tutorial/tutorial";
     LevelPage,
     CardPage,
     UserPage,
-    LoginPage,
     TutorialPage,
+    FeedbackPage,
+    LoginPage,
+    AutosizeDirective,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +66,8 @@ import {TutorialPage} from "../pages/tutorial/tutorial";
     LevelPage,
     CardPage,
     UserPage,
+    TutorialPage,
+    FeedbackPage,
     LoginPage,
   ],
   providers: [
@@ -80,6 +87,7 @@ import {TutorialPage} from "../pages/tutorial/tutorial";
     LoginService,
     SocialSharingService,
     UserService,
+    WorldUsersService,
     FileManager,
     ToastService,
   ]
