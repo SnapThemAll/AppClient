@@ -1,5 +1,24 @@
 page-leaderboard {
 
+  .half-navbar {
+    min-height: 40px;
+    width: 50%;
+    float: left;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .selected-navbar {
+    background-image: url("../../assets/img/backgrounds/texture_light_1350x2400.jpg");
+    background-size: cover;
+
+    button{
+      color: #210b0b;
+    }
+  }
+
   ion-content {
 
     .scroll-content {

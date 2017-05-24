@@ -19,7 +19,7 @@ page-card {
         padding-bottom: 100%;
         margin-bottom: 10px;
       }
-      .imageContainer {
+      .pictureContainer {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -31,6 +31,9 @@ page-card {
       }
       .illustration {
         padding: 25px;
+      }
+      .picture {
+        object-fit: cover !important;
       }
       .swiper-pagination-bullet-active{
         //opacity: 0.8;

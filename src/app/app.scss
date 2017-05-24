@@ -27,19 +27,29 @@
   src: url("../assets/fonts/OpenSans-Regular.ttf");
 }
 
+
+@font-face {
+  font-family: SnapTitleFont;
+  src: url("../assets/fonts/KGSorryNotSorry.ttf")
+}
+
 body, span, button, h1, h2, h3, h4, h5, h6, p, ion-item {
   font-family: 'AppFont' !important;
 }
 
-@font-face {
-  font-family: SnapTitleFont;
-  src: url("../assets/fonts/KTF-Roadstar.ttf")
-}
-
-ion-title {
+ion-title, .tab-button-text, .snap-title-font, .button-inner{
   font-family: 'SnapTitleFont' !important;
 
-  .toolbar-title-md {
-    font-size: 2.5rem;
-  }
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.button-inner {
+  font-size: 1.7rem;
+}
+
+.toolbar-title-md {
+  font-size: 2.5rem;
 }
