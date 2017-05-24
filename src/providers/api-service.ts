@@ -4,7 +4,7 @@ import "rxjs/add/operator/map";
 import {Observable} from "rxjs";
 import {Picture} from "./game-data/picture-data";
 import {FileManager} from "./file-manager";
-import {WorldUser} from "./user-data/user-data";
+import {Player} from "./user-data/user-data";
 
 @Injectable()
 export class ApiService {
@@ -48,7 +48,7 @@ export class ApiService {
       .map((res: Response) => res.json())
   }
 
-  getWorldUsers(): Observable<WorldUser[]> {
+  getWorldUsers(): Observable<Player[]> {
     return this.apiGet("/getworldusers")
       .map((res: Response) => res.json())
   }
@@ -69,8 +69,10 @@ export class ApiService {
       .flatMap((pictures) => env.pictureDatasToObs(pictures))
   }
 
-  getScore(id: string): Observable<Response> {
+  getScore(id: string): Observable<number> {
     return this.apiGet("/getscore/" + id)
+      .map((res: Response) => res.json())
+      .map((res)=> res.score)
   }
 
   removePicture(picture: Picture): Observable<Response> {

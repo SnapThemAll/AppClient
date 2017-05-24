@@ -167,7 +167,7 @@ export class CardPage {
             picture.setUploading(false);
             console.log("Error while trying to upload a picture: " + JSON.stringify(error));
             let message = "Connection to the server failed. Try again";
-            if(error.status == 422){
+            if(error.status == 403){
               message = error._body
             }
             env.toastService.bottomToast(message);

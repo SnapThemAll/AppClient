@@ -30,15 +30,17 @@ export class LoginPage {
   fbLogin() {
     let env = this;
       this.facebookService.login()
-        .then(() => {
+        .then((user) => {
           let tutorialModal = env.modalCtrl.create(
             TutorialPage
           );
           tutorialModal.present().then(() => {
             env.dismiss();
           });
+          return env.userService.saveUser(user);
         })
         .then(() => env.apiService.fbAuth(env.userService.user.authToken))
+        .then(() => env.userService.updatePlayers())
         .catch((error) => {
           console.log("An error occured during the facebook login:" + JSON.stringify(error));
         });

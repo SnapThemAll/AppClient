@@ -17,7 +17,7 @@ export class FacebookService {
   }
 
 
-  login(): Promise<any> {
+  login(): Promise<User> {
     let env = this;
 
     //the permissions your facebook app needs from the user
@@ -30,7 +30,7 @@ export class FacebookService {
         let token = response.authResponse.accessToken;
 
         //Getting name property
-        return env.requestAndSaveUserData(token, params)
+        return env.requestUser(token, params)
       })
   }
 
@@ -48,32 +48,23 @@ export class FacebookService {
       });
   }
 
-  update(authToken: string): Promise<any> {
+  update(authToken: string): Promise<User> {
     let token = authToken;
     let params = [];
 
-    return this.requestAndSaveUserData(token, params)
+    return this.requestUser(token, params)
   }
 
-  private requestAndSaveUserData(token: string, params: string[]): Promise<User>{
+  private requestUser(token: string, params: string[]): Promise<User>{
     let env = this;
     return env.facebook.api("/me?fields=id,name,friends{id,name}", params)
       .then((fbUser) => {
-
         return {
           id: fbUser.id,
           name: fbUser.name,
           pictureURL: "https://graph.facebook.com/" + fbUser.id + "/picture?type=large",
           authToken: token,
-          friends: fbUser.friends.data.map((friend) => {
-            return {
-              id: friend.id,
-              name: friend.name,
-            };
-          }).concat({
-            id: fbUser.id,
-            name: fbUser.name,
-          }),
+          friends: fbUser.friends.data,
           totalCount: fbUser.friends.summary.total_count,
         };
       })

@@ -13,13 +13,7 @@ export interface Friend {
   name: string,
 }
 
-export interface FriendUser {
-  id: string,
-  name: string,
-  score: number,
-}
-
-export interface WorldUser {
+export interface Player {
   name: string,
   score: number,
 }

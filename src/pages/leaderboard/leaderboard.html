@@ -23,12 +23,12 @@
         </ion-item>
       </div>
       <ion-list no-lines>
-        <ion-item *ngFor="let worldUser of worldUsers; let rank = index"  (click)="itemSelected(worldUser)">
+        <ion-item *ngFor="let worldPlayer of worldPlayers; let rank = index" (click)="itemSelected(worldPlayer)">
           <p item-left>{{rank + 1}}.</p>
           <ion-label>
-            {{ worldUser.name }}
+            {{ worldPlayer.name }}
           </ion-label>
-          <p item-right>{{ worldUser.score.toFixed(2) }}</p>
+          <p item-right>{{ worldPlayer.score.toFixed(2) }}</p>
         </ion-item>
       </ion-list>
     </ion-slide>
@@ -44,15 +44,15 @@
         </ion-item>
       </div>
       <ion-list no-lines>
-        <ion-item *ngFor="let friendUser of friendUsers; let rank = index" (click)="itemSelected(friendUser)">
+        <ion-item *ngFor="let friendPlayer of friendPlayers; let rank = index" (click)="itemSelected(friendPlayer)">
           <p item-left>{{rank + 1}}.</p>
           <ion-label>
-            {{ friendUser.name }}
+            {{ friendPlayer.name }}
           </ion-label>
-          <p item-right>{{ friendUser.score.toFixed(2) }}</p>
+          <p item-right>{{ friendPlayer.score.toFixed(2) }}</p>
         </ion-item>
       </ion-list>
-      <div text-center *ngIf="friendUsers.length <= 8">
+      <div text-center *ngIf="friendPlayers.length <= 8">
         <button ion-button color="dark" (click)="inviteFriends()" >
           Invite Friends
         </button>

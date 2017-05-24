@@ -24,15 +24,23 @@ export class Card {
     return this.pictures.length;
   }
 
-  bestPicture(): Picture {
-    return this.pictures[this.computeBestPic()];
-  }
+  // bestPicture(): Picture {
+  //   return this.pictures[this.computeBestPic()];
+  // }
 
-  bestScore(): number {
+  // bestScore(): number {
+  //   if(this.isEmpty()){
+  //     return 0;
+  //   } else {
+  //     return this.bestPicture().getScore();
+  //   }
+  // }
+
+  totalScore(): number {
     if(this.isEmpty()){
       return 0;
     } else {
-      return this.bestPicture().getScore();
+      return this.pictures.map((pic) => pic.getScore()).reduce((score1, score2) => score1 + score2);
     }
   }
 
@@ -51,18 +59,18 @@ export class Card {
   }
 
   // PRIVATE
-  private computeBestPic(): number {
-    let scores = this.pictures.map((pic) => pic.getScore());
-    let bestScore = -1;
-    let bestPic = 0;
-    scores.forEach((score, index) => {
-      if(score > bestScore){
-        bestScore = score;
-        bestPic = index;
-      }
-    });
-    return bestPic;
-  }
+  // private computeBestPic(): number {
+  //   let scores = this.pictures.map((pic) => pic.getScore());
+  //   let bestScore = -1;
+  //   let bestPic = 0;
+  //   scores.forEach((score, index) => {
+  //     if(score > bestScore){
+  //       bestScore = score;
+  //       bestPic = index;
+  //     }
+  //   });
+  //   return bestPic;
+  // }
 
   // EXPORT
   toCardStored(): CardStored {
