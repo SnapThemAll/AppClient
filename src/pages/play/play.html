@@ -16,9 +16,9 @@
       <ion-thumbnail item-left>
         <img src="assets/img/numbers/{{idx + 1}}.png"/>
       </ion-thumbnail>
-      <h2>Level {{idx + 1}}</h2>
-      <p>{{level.getTitle()}}</p>
-      <p *ngIf="level.isUnlocked(score())" item-right>{{level.score()}} / {{level.getCards().length * 10}}</p>
+      <h2 class="level-head-title">Level {{idx + 1}}</h2>
+      <p class="level-title">{{level.getTitle()}}</p>
+      <p class="level-score" *ngIf="level.isUnlocked(score()) && level.score() > 0" item-right>{{level.score()}}</p>
       <p *ngIf="level.isLocked(score())" item-right>Locked [{{level.getScoreToUnlock()}}]</p>
     </ion-item>
     <ion-item>

@@ -1,0 +1,14 @@
+page-settings {
+
+  .item-md{
+    min-height: 30px;
+    height: 30px;
+    margin-top: 10px;
+  }
+
+  .item-md ion-icon[item-left] + .item-inner, .item-md ion-icon[item-left] + .item-input {
+    margin-left: 10px;
+  }
+}
+
+

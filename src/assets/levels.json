@@ -1,5 +1,5 @@
 {
-  "version": "0.0.5",
+  "version": "0.0.6",
   "levels":
   [
     {
@@ -35,7 +35,7 @@
       ]
     },
     {
-      "title": "Snap your whole home",
+      "title": "Gonna snap your home",
       "scoreToUnlock": 0,
       "cardTitles": [
         "Coffee Mug",
@@ -67,7 +67,7 @@
       ]
     },
     {
-      "title": "You can have fun with these!",
+      "title": "Let's have fun !",
       "scoreToUnlock": 10,
       "cardTitles": [
         "Baseball Bat",
@@ -83,7 +83,7 @@
       ]
     },
     {
-      "title": "You should snap it quick!",
+      "title": "Snap it if you can !",
       "scoreToUnlock": 50,
       "cardTitles": [
         "Crab",

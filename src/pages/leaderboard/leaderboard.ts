@@ -10,8 +10,10 @@ import {Platform} from "ionic-angular";
 })
 export class LeaderboardPage {
 
-  friendPlayers: Player[] = [];
   worldPlayers: Player[] = [];
+  friendPlayers: Player[] = [];
+
+  worldSelected: boolean = true;
 
   constructor(
     private platform: Platform,
@@ -41,6 +43,14 @@ export class LeaderboardPage {
 
   inviteFriends() {
     this.socialSharingService.inviteFriends();
+  }
+
+  selectFriend() {
+    this.worldSelected = false;
+  }
+
+  selectWorld() {
+    this.worldSelected = true;
   }
 
 

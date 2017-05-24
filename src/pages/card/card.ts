@@ -60,19 +60,20 @@ export class CardPage {
 
   displayScore(picture: Picture): string {
     if ( picture.isUploading() ) {
-      return "Computing score..."
+      return "Computing..."
     } else if ( !picture.isUploaded() ){
-      return "Upload picture to compute score"
+      return "Upload to compute your score"
     } else {
       return "Score: " + picture.getScore().toFixed(2)
     }
   }
 
   cameraButtonClicked() {
-    if(this.card.getPictures().length < 10){
+    if(this.card.getPictures().length < 5){
       this.takePicture();
     } else {
-      this.toastService.middleToast("You can't have more than 10 pictures per category")
+      this.toastService.middleToast("You can't have more than 5 pictures per category." +
+        " You can still remove the pictures with a lower score. Remember: be creative!")
     }
   }
 
@@ -104,7 +105,7 @@ export class CardPage {
   private presentConfirm(picture: Picture) {
     let alert = this.alertCtrl.create({
       title: 'Remove picture',
-      message: 'Do you want to remove the picture from your phone (and server if it has been uploaded already) ?',
+      message: 'Do you want to remove this picture ?',
       buttons: [
         {
           text: 'Yes',
@@ -146,7 +147,7 @@ export class CardPage {
           },
           (error) => {
             console.log("Error while trying to remove a picture: " + JSON.stringify(error));
-            let message = "Connection to the server failed. Check your connection and try again";
+            let message = "You need an internet connection to relay the deletion to our servers.";
             env.toastService.bottomToast(message);
           })
     } else {

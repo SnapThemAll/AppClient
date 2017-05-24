@@ -1,64 +1,68 @@
 <ion-header>
+
   <ion-navbar>
     <ion-title>
       Leaderboard
     </ion-title>
   </ion-navbar>
+
+  <ion-navbar (click)="selectWorld()" [class.selected-navbar]="worldSelected" class="half-navbar">
+    <ion-buttons>
+      <button ion-button icon-left color="light">
+        <ion-icon name='globe'></ion-icon>
+        <div right class="snap-title-font">
+          WORLD
+        </div>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-navbar (click)="selectFriend()" [class.selected-navbar]="!worldSelected" class="half-navbar">
+    <ion-buttons>
+      <button ion-button icon-right color="light">
+        <div left class="snap-title-font">
+          FRIENDS
+        </div>
+        <ion-icon name='contacts'></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
 </ion-header>
+
 
 <ion-content>
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-slides pager>
 
-    <ion-slide>
-      <div text-center class="title">
-        <ion-item>
-          <ion-icon name='globe' item-left></ion-icon>
-          <ion-label text-center>
-            World Ranking
-          </ion-label>
-          <ion-icon name='globe' item-right></ion-icon>
-        </ion-item>
-      </div>
-      <ion-list no-lines>
-        <ion-item *ngFor="let worldPlayer of worldPlayers; let rank = index" (click)="itemSelected(worldPlayer)">
-          <p item-left>{{rank + 1}}.</p>
-          <ion-label>
-            {{ worldPlayer.name }}
-          </ion-label>
-          <p item-right>{{ worldPlayer.score.toFixed(2) }}</p>
-        </ion-item>
-      </ion-list>
-    </ion-slide>
+  <div *ngIf="worldSelected">
+    <ion-list no-lines>
+      <ion-item *ngFor="let worldPlayer of worldPlayers; let rank = index" (click)="itemSelected(worldPlayer)">
+        <p item-left>{{rank + 1}}.</p>
+        <ion-label>
+          {{ worldPlayer.name }}
+        </ion-label>
+        <p item-right>{{ worldPlayer.score.toFixed(2) }}</p>
+      </ion-item>
+    </ion-list>
+  </div>
 
-    <ion-slide>
-      <div text-center class="title">
-        <ion-item>
-          <ion-icon name='contacts' item-left></ion-icon>
-          <ion-label text-center>
-            Friends Ranking
-          </ion-label>
-          <ion-icon name='contacts' item-right></ion-icon>
-        </ion-item>
-      </div>
-      <ion-list no-lines>
-        <ion-item *ngFor="let friendPlayer of friendPlayers; let rank = index" (click)="itemSelected(friendPlayer)">
-          <p item-left>{{rank + 1}}.</p>
-          <ion-label>
-            {{ friendPlayer.name }}
-          </ion-label>
-          <p item-right>{{ friendPlayer.score.toFixed(2) }}</p>
-        </ion-item>
-      </ion-list>
-      <div text-center *ngIf="friendPlayers.length <= 8">
-        <button ion-button color="dark" (click)="inviteFriends()" >
-          Invite Friends
-        </button>
-      </div>
-    </ion-slide>
-
-  </ion-slides>
+  <div *ngIf="!worldSelected">
+    <ion-list no-lines>
+      <ion-item *ngFor="let friendPlayer of friendPlayers; let rank = index" (click)="itemSelected(friendPlayer)">
+        <p item-left>{{rank + 1}}.</p>
+        <ion-label>
+          {{ friendPlayer.name }}
+        </ion-label>
+        <p item-right>{{ friendPlayer.score.toFixed(2) }}</p>
+      </ion-item>
+    </ion-list>
+    <div text-center *ngIf="friendPlayers.length <= 5">
+      <button ion-button color="dark" (click)="inviteFriends()" >
+        Invite Friends
+      </button>
+    </div>
+  </div>
 
 </ion-content>
