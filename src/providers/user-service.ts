@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import "rxjs/add/operator/map";
-import {FriendUser, User, WorldUser} from "./user-data/user-data";
+import {Player, User} from "./user-data/user-data";
 import {Storage} from "@ionic/storage";
 import {ApiService} from "./api-service";
 import {FacebookService} from "./facebook-service";
@@ -9,12 +9,12 @@ import {FacebookService} from "./facebook-service";
 export class UserService {
 
   user: User;
-  friendUsers: FriendUser[];
-  worldUsers: WorldUser[];
+  friendPlayers: Player[] = [];
+  worldPlayers: Player[] = [];
 
   private userKeyToStore = "user";
-  private friendUsersKeyToStore = "friend-users";
-  private worldUsersKeyToStore = "world-users";
+  private friendPlayersKeyToStore = "friend-users";
+  private worldPlayersKeyToStore = "world-users";
 
   constructor(
     private storage: Storage,
@@ -30,14 +30,14 @@ export class UserService {
     return env.storage.get(env.userKeyToStore)
       .then((data) => {
         env.user = data;
-        return env.storage.get(env.friendUsersKeyToStore)
+        return env.storage.get(env.friendPlayersKeyToStore)
       })
       .then((data) => {
-        env.friendUsers = data;
-        return env.storage.get(env.worldUsersKeyToStore)
+        env.friendPlayers = data;
+        return env.storage.get(env.worldPlayersKeyToStore)
       })
       .then((data) => {
-        env.worldUsers = data;
+        env.worldPlayers = data;
       })
       .catch((error) => {
         console.log("Error when retrieving user data from Storage:" + JSON.stringify(error));
@@ -56,24 +56,24 @@ export class UserService {
       });
   }
 
-  saveFriendUsers(friendUsers: FriendUser[]): Promise<any>{
+  saveFriendUsers(friendPlayers: Player[]): Promise<any>{
     let env = this;
 
-    return env.storage.set(env.friendUsersKeyToStore, friendUsers)
+    return env.storage.set(env.friendPlayersKeyToStore, friendPlayers)
       .then(() => {
-        env.friendUsers = friendUsers;
+        env.friendPlayers = friendPlayers;
       })
       .catch((error) => {
         console.log("An error occured during the storage of friend users:" + JSON.stringify(error));
       });
   }
 
-  saveWorldUsers(worldUsers: WorldUser[]): Promise<any>{
+  saveWorldUsers(worldPlayers: Player[]): Promise<any>{
     let env = this;
 
-    return env.storage.set(env.worldUsersKeyToStore, worldUsers)
+    return env.storage.set(env.worldPlayersKeyToStore, worldPlayers)
       .then(() => {
-        env.worldUsers = worldUsers;
+        env.worldPlayers = worldPlayers;
       })
       .catch((error) => {
         console.log("An error occured during the storage of world users:" + JSON.stringify(error));
@@ -91,24 +91,33 @@ export class UserService {
   update(): Promise<any> {
     let env = this;
     return env.facebookService.update(env.user.authToken) // this update user (from facebook)
-      .then(() =>
-        Promise.all(
-          env.user.friends.map((friend) =>
-            env.apiService.getScore(friend.id).toPromise()
-              .then((res) => {
-                return {
-                  id: friend.id,
-                  name: friend.name,
-                  score: res.json().score,
-                }
-              })
-          )
-        )
-      ).then((friendUsers) => {
-        env.saveFriendUsers(friendUsers.sort((f1, f2) => f2.score - f1.score));
-        return env.apiService.getWorldUsers().toPromise();
-      })
-      .then((worldUsers) => env.saveWorldUsers(worldUsers.sort((f1, f2) => f2.score - f1.score)));
+      .then((user) => env.saveUser(user))
+      .then(() => env.updatePlayers())
+      .catch((error) => console.log("Error while updating user service:" + JSON.stringify(error)));
+
+
+  }
+
+  updatePlayers(): Promise<any> {
+    let env = this;
+    return Promise.all(
+      env.user.friends.concat({
+        id: env.user.id,
+        name: env.user.name,
+      }).map((friend) =>
+        env.apiService.getScore(friend.id).toPromise()
+          .then((score) => {
+            return {
+              name: friend.name,
+              score: score,
+            }
+          })
+      )
+    ).then((friendPlayers) => {
+      env.saveFriendUsers(friendPlayers.sort((f1, f2) => f2.score - f1.score));
+      return env.apiService.getWorldUsers().toPromise();
+    }).then((worldPlayers) => env.saveWorldUsers(worldPlayers.sort((f1, f2) => f2.score - f1.score)))
+      .catch((error) => console.log("Error while updating players:" + JSON.stringify(error)));
   }
 
 }

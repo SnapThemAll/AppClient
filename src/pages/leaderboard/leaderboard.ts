@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {UserService} from "../../providers/user-service";
-import {FriendUser, WorldUser} from "../../providers/user-data/user-data";
+import {Player} from "../../providers/user-data/user-data";
 import {SocialSharingService} from "../../providers/social-sharing";
 import {Platform} from "ionic-angular";
 
@@ -10,17 +10,17 @@ import {Platform} from "ionic-angular";
 })
 export class LeaderboardPage {
 
-  friendUsers: FriendUser[] = [];
-  worldUsers: WorldUser[] = [];
+  friendPlayers: Player[] = [];
+  worldPlayers: Player[] = [];
 
   constructor(
     private platform: Platform,
     private userService: UserService,
     private socialSharingService: SocialSharingService,
   ) {
-    if(!this.platform.is("mobileweb")) { //Trick so that ionic serve works
-      this.friendUsers = this.userService.friendUsers;
-      this.worldUsers = this.userService.worldUsers;
+    if(this.platform.is("cordova")) { //Trick so that ionic serve works
+      this.friendPlayers = this.userService.friendPlayers;
+      this.worldPlayers = this.userService.worldPlayers;
     }
 
     platform.registerBackButtonAction(() => {})
@@ -44,13 +44,19 @@ export class LeaderboardPage {
   }
 
 
-  itemSelected(worldUser: WorldUser) {
-    console.log("Selected Item :", worldUser);
+  itemSelected(player: Player) {
+    console.log("Selected Item :", player);
   }
 
   private update(): Promise<any> {
-    if (!this.platform.is("mobileweb")) { //Trick so that ionic serve works
-      return this.userService.update();
+    let env = this;
+    if (env.platform.is("cordova")) { //Trick so that "ionic serve" works
+      console.log("Updating users and players");
+      return env.userService.update()
+        .then(() => {
+          env.friendPlayers = env.userService.friendPlayers;
+          env.worldPlayers = env.userService.worldPlayers;
+        });
     } else {
       return Promise.resolve()
     }

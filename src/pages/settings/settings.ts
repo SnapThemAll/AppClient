@@ -66,7 +66,7 @@ export class SettingsPage {
 
   numFriendsPlaying(): number {
     if(this.userService.user != null){
-      return this.userService.user.friends.length - 1
+      return this.userService.user.friends.length;
     } else {
       return 0
     }
