@@ -86,7 +86,7 @@ export class CardPage {
         env.uploadPicture(picture);
         // visual transition
         env.slides.update();
-        env.slideToWhenReady(this.card.size() - 1, 500);
+        env.slideToWhenReady(this.card.size(), 500);
       })
       .catch((error) => {
         console.log("Error trying to take a picture: " + JSON.stringify(error))
@@ -145,7 +145,6 @@ export class CardPage {
             env.removePictoreOnPhone(picture);
           },
           (error) => {
-            env.apiService.fbAuth();
             console.log("Error while trying to remove a picture: " + JSON.stringify(error));
             let message = "Connection to the server failed. Check your connection and try again";
             env.toastService.bottomToast(message);
@@ -165,7 +164,6 @@ export class CardPage {
             env.gameStorageService.savePicture(picture)
           },
           (error) => {
-            env.apiService.fbAuth();
             picture.setUploading(false);
             console.log("Error while trying to upload a picture: " + JSON.stringify(error));
             let message = "Connection to the server failed. Try again";

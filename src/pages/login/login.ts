@@ -2,6 +2,8 @@ import {Component} from "@angular/core";
 import {Platform, ViewController, ModalController} from "ionic-angular";
 import {FacebookService} from "../../providers/facebook-service";
 import {TutorialPage} from "../tutorial/tutorial";
+import {ApiService} from "../../providers/api-service";
+import {UserService} from "../../providers/user-service";
 
 @Component({
   selector: 'page-login',
@@ -13,7 +15,9 @@ export class LoginPage {
     private platform: Platform,
     private viewCtrl: ViewController,
     private modalCtrl: ModalController,
+    private userService: UserService,
     private facebookService: FacebookService,
+    private apiService: ApiService,
   ) {
     platform.registerBackButtonAction(() => {})
   }
@@ -34,6 +38,7 @@ export class LoginPage {
             env.dismiss();
           });
         })
+        .then(() => env.apiService.fbAuth(env.userService.user.authToken))
         .catch((error) => {
           console.log("An error occured during the facebook login:" + JSON.stringify(error));
         });

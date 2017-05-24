@@ -5,7 +5,6 @@ import {LeaderboardPage} from "../pages/leaderboard/leaderboard";
 import {SettingsPage} from "../pages/settings/settings";
 import {PlayPage} from "../pages/play/play";
 import {TabsPage} from "../pages/tabs/tabs";
-import {UserPage} from "../pages/user/user";
 import {LoginPage} from "../pages/login/login";
 import {LevelPage} from "../pages/level/level";
 import {CardPage} from "../pages/card/card";
@@ -30,7 +29,6 @@ import {CameraService} from "../providers/camera-service";
 import {FileManager} from "../providers/file-manager";
 import {ToastService} from "../providers/toast-service";
 import {TutorialPage} from "../pages/tutorial/tutorial";
-import {WorldUsersService} from "../providers/world-users-service";
 import {FeedbackPage} from "../pages/feedback/feedback/feedback";
 import {AutosizeDirective} from "../directives/autosize/autosize";
 
@@ -44,7 +42,6 @@ import {AutosizeDirective} from "../directives/autosize/autosize";
     PlayPage,
     LevelPage,
     CardPage,
-    UserPage,
     TutorialPage,
     FeedbackPage,
     LoginPage,
@@ -61,11 +58,9 @@ import {AutosizeDirective} from "../directives/autosize/autosize";
     TabsPage,
     LeaderboardPage,
     SettingsPage,
-    TutorialPage,
     PlayPage,
     LevelPage,
     CardPage,
-    UserPage,
     TutorialPage,
     FeedbackPage,
     LoginPage,
@@ -87,7 +82,6 @@ import {AutosizeDirective} from "../directives/autosize/autosize";
     LoginService,
     SocialSharingService,
     UserService,
-    WorldUsersService,
     FileManager,
     ToastService,
   ]

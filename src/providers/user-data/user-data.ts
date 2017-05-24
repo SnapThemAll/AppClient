@@ -11,6 +11,11 @@ export interface User {
 export interface Friend {
   id: string,
   name: string,
+}
+
+export interface FriendUser {
+  id: string,
+  name: string,
   score: number,
 }
 
