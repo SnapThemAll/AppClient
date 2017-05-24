@@ -20,25 +20,25 @@ export class ToastService {
     this.toastOnScreen = false;
   }
 
-  topToast(message: string, duration?: number) {
-    this.presentToast(message, duration ? duration : this.defaultDuration, 'top')
+  topToast(message: string, superposition?: boolean, duration?: number) {
+    this.presentToast(message, superposition, duration, 'top')
   }
 
-  middleToast(message: string, duration?: number) {
-    this.presentToast(message, duration ? duration : this.defaultDuration, 'middle')
+  middleToast(message: string, superposition?: boolean, duration?: number) {
+    this.presentToast(message, superposition, duration, 'middle')
   }
 
-  bottomToast(message: string, duration?: number) {
-    this.presentToast(message, duration ? duration : this.defaultDuration, 'bottom')
+  bottomToast(message: string, superposition?: boolean, duration?: number) {
+    this.presentToast(message, superposition , duration, 'bottom')
   }
 
-  private presentToast(message: string, duration: number, position: string) {
+  private presentToast(message: string, superposition: boolean, duration: number, position: string) {
     let env = this;
-    if(!env.toastOnScreen) {
+    if( (superposition ? superposition : false) || !env.toastOnScreen) {
       env.toastOnScreen = true;
       let toast = env.toastCtrl.create({
         message: message,
-        duration: duration,
+        duration: duration ? duration : this.defaultDuration,
         position: position
       });
 

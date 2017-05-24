@@ -6,6 +6,7 @@ import {LoginService} from "../../providers/login-service";
 import {ApiService} from "../../providers/api-service";
 import {GameStorageService} from "../../providers/game-storage-service";
 import {ToastService} from "../../providers/toast-service";
+import {UserService} from "../../providers/user-service";
 
 @Component({
   selector: 'page-play',
@@ -19,14 +20,14 @@ export class PlayPage {
     private navCtrl: NavController,
     private loginService: LoginService,
     private apiService: ApiService,
+    private userService: UserService,
     private gameStorageService: GameStorageService,
     private toastService: ToastService,
   ) {
     if(!loginService.isLoggedIn()){
       loginService.login();
     } else {
-      apiService.fbAuth();
-
+      apiService.fbAuth(this.userService.user.authToken);
     }
 
     platform.registerBackButtonAction(() => {});

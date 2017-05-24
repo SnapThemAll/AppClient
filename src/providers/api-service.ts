@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {Http, Response} from "@angular/http";
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs";
-import {UserService} from "./user-service";
 import {Picture} from "./game-data/picture-data";
 import {FileManager} from "./file-manager";
 import {WorldUser} from "./user-data/user-data";
@@ -10,12 +9,11 @@ import {WorldUser} from "./user-data/user-data";
 @Injectable()
 export class ApiService {
 
-  private apiUrl = "http://localhost/api";
+  private apiUrl = "http://api.snap-them-all.com";
 
   constructor(
     public http: Http,
     private fileManager: FileManager,
-    private userService: UserService,
   ) {
     console.log('Hello ApiService Provider');
   }
@@ -32,9 +30,9 @@ export class ApiService {
     return this.apiGet("/authenticate/token/" + provider + "?access_token=" + accessToken )
   }
 
-  fbAuth(): any {
+  fbAuth(token: string): any {
     let env = this;
-    env.authenticate("facebook", env.userService.user.authToken)
+    env.authenticate("facebook", token)
       .subscribe((res) => {
         console.log("Authenticating to the server: " + res.text())
       })

@@ -93,12 +93,13 @@ export class SettingsPage {
             .subscribe(
               (picture) => {
                 env.gameStorageService.savePicture(picture);
+                env.toastService.bottomToast(picture.getCardID() + " uploaded", true);
                 env.refreshContent();
               },
               (error) => {
                 if (!didAuth) {
                   didAuth = true;
-                  env.apiService.fbAuth();
+                  env.apiService.fbAuth(env.userService.user.authToken);
                 }
                 picture.setUploading(false);
                 console.log("Error while trying to upload a picture: " + JSON.stringify(error));
