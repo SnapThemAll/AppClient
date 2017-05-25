@@ -55,6 +55,7 @@ export class CardPage {
 
 
   dismiss() {
+    this.toastService.dismissAll();
     this.viewCtrl.dismiss();
   }
 
@@ -73,7 +74,7 @@ export class CardPage {
       this.takePicture();
     } else {
       this.toastService.middleToast("You can't have more than 5 pictures per category." +
-        " You can still remove the pictures with a lower score. Remember: be creative!")
+        " You can still remove the pictures with a lower score. Remember: be creative!", false, 5000)
     }
   }
 

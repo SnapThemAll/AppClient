@@ -22,7 +22,7 @@
           <img class="illustration" src="{{card.getIllustrationURI()}}"/>
         </div>
       </div>
-      <p class="snap-title-font bold" *ngIf="card.totalScore() > 0">Total Score: {{card.totalScore().toFixed(2)}}</p>
+      <p class="snap-title-font bold" *ngIf="card.getPictures().length > 0">Total Score: {{card.totalScore().toFixed(2)}}</p>
       <button
         (click)="cameraButtonClicked()"
         ion-button color="dark" icon-left

@@ -2,13 +2,11 @@ import {Component} from "@angular/core";
 import {LoginService} from "../../providers/login-service";
 import {UserService} from "../../providers/user-service";
 import {SocialSharingService} from "../../providers/social-sharing";
-import {GameStorageService} from "../../providers/game-storage-service";
 import {ToastService} from "../../providers/toast-service";
-import {ApiService, PictureData} from "../../providers/api-service";
-import {Picture} from "../../providers/game-data/picture-data";
 import {ModalController, Platform} from "ionic-angular";
 import {TutorialPage} from "../tutorial/tutorial";
 import {FeedbackPage} from "../feedback/feedback/feedback";
+import {UpdateService} from "../../providers/update-service";
 
 @Component({
   selector: 'page-settings',
@@ -16,8 +14,10 @@ import {FeedbackPage} from "../feedback/feedback/feedback";
 })
 export class SettingsPage {
 
-  picturesNotUploaded: Picture[] = [];
-  picturesToDownload: PictureData[] = [];
+  numberOfPicturesToUpload: number = 0;
+  numberOfPicturesToDownload: number = 0;
+  numberOfFriends: number = 0;
+  numberOfFriendsPlaying: number = 0;
 
   constructor(
     private platform: Platform,
@@ -25,91 +25,76 @@ export class SettingsPage {
     private userService: UserService,
     private modalCtrl: ModalController,
     private socialSharingService: SocialSharingService,
-    private gameStorageService: GameStorageService,
     private toastService: ToastService,
-    private apiService: ApiService,
+    private updateService: UpdateService,
   ) {
-    this.refreshContent();
+
+    let env = this;
+    if(this.platform.is("cordova")){
+      env.numberOfFriends = env.userService.user.totalCount;
+      env.numberOfFriendsPlaying = env.userService.user.friends.length;
+      env.numberOfPicturesToUpload = env.updateService.picturesToUpload.length;
+      env.numberOfPicturesToDownload = env.updateService.picturesToDownload.length;
+    }
 
     platform.registerBackButtonAction(() => {});
   }
 
+  ionViewWillLeave(){
+    this.toastService.dismissAll();
+  }
+
   ionViewDidEnter(){
     console.log("ionViewDidEnter Settings Page");
-    this.refreshContent()
+    this.load();
+  }
+
+  load() {
+    let env = this;
+
+    if( env.platform.is("cordova") ){
+      console.log("updating SettingsPage content");
+      env.numberOfFriends = env.userService.user.totalCount;
+      env.numberOfFriendsPlaying = env.userService.user.friends.length;
+      env.updateService.refresh()
+        .then(() => {
+          env.numberOfPicturesToDownload = env.updateService.picturesToDownload.length;
+        });
+      env.numberOfPicturesToUpload = env.updateService.picturesToUpload.length;
+    }
   }
 
   displayPicturesToUpload(): string {
-    let num = this.picturesNotUploaded.length;
+    let num = this.numberOfPicturesToUpload;
     if(num == 0){
       return "All snaps have been uploaded";
     } else {
-      return num + " snap" + (num > 1 ? "s" : "") + " have not been uploaded yet";
+      return num + " snap" + (num > 1 ? "s have" : " has") + " not been uploaded yet";
     }
   }
 
   displayPicturesToDownload(): string {
-    return "You have " + (this.numPicturesOnline()) + " snap" + (this.numPicturesOnline() > 1 ? "s" : "") + " on the server"
+    let num = this.numberOfPicturesToDownload;
+    return "You have " + num + " snap" + (num > 1 ? "s" : "") + " on the server"
   }
 
-  logout(){
+  logoutButton(){
     this.loginService.logout();
   }
 
-  numFriends(): number {
-    if(this.userService.user != null){
-      return this.userService.user.totalCount;
-    } else {
-      return 0
-    }
-  }
-
-  numFriendsPlaying(): number {
-    if(this.userService.user != null){
-      return this.userService.user.friends.length;
-    } else {
-      return 0
-    }
-  }
-
-  numPicturesOnline(): number {
-    let numberOnDeviceUploaded =
-      this.gameStorageService.game.getAllPictures().filter((pic) => pic.isUploaded()).length;
-    let numberOnServer = this.picturesToDownload.length;
-    return numberOnServer - numberOnDeviceUploaded;
-  }
-
-  inviteFriends() {
+  inviteButton() {
     this.socialSharingService.inviteFriends();
   }
 
-  uploadPictures(){
+  uploadButton(){
     let env = this;
-    let didAuth = false;
-    env.picturesNotUploaded
-      .forEach((picture) => {
-        if (!picture.isUploading()) {
-          env.apiService.uploadPicture(picture)
-            .subscribe(
-              (picture) => {
-                env.gameStorageService.savePicture(picture);
-                env.toastService.bottomToast(picture.getCardID() + " uploaded", true);
-                env.refreshContent();
-              },
-              (error) => {
-                if (!didAuth) {
-                  didAuth = true;
-                  env.apiService.fbAuth(env.userService.user.authToken);
-                }
-                picture.setUploading(false);
-                console.log("Error while trying to upload a picture: " + JSON.stringify(error));
-              }
-            )
-        }
-      })
+    env.updateService.uploadAllPictures()
+      .forEach((promise) => promise.then(() => {
+        env.numberOfPicturesToUpload = env.updateService.picturesToUpload.length
+      }));
   }
 
-  downloadPictures(){
+  downloadButton(){
     this.toastService.middleToast("This feature is not available yet. We're working on it.")
     // let env = this;
     // env.apiService.getPictures()
@@ -120,32 +105,18 @@ export class SettingsPage {
     //   })
   }
 
-  displayTutorial(){
+  helpButton(){
     let modalTutorial = this.modalCtrl.create(
       TutorialPage
     );
     modalTutorial.present();
   }
 
-  leaveFeedback(){
+  feedbackButton(){
     let modalFeedback = this.modalCtrl.create(
       FeedbackPage
     );
     modalFeedback.present();
-  }
-
-  private refreshContent() {
-    let env = this;
-    env.picturesNotUploaded = env.loadPicturesNotUploaded();
-    env.apiService.getPictureData()
-      .subscribe((picturesData) => {
-        env.picturesToDownload = picturesData;
-      })
-  }
-
-  private loadPicturesNotUploaded(): Picture[] {
-    return this.gameStorageService.game.getAllPictures()
-      .filter((pic) => !pic.isUploaded())
   }
 
 }

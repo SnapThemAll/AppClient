@@ -17,7 +17,7 @@
     </ion-item>
 
     <div text-center>
-      <button ion-button color="dark" (click)="logout()" >
+      <button ion-button color="dark" (click)="logoutButton()" >
         Logout
       </button>
     </div>
@@ -25,17 +25,17 @@
     <ion-item>
       <ion-icon name='contacts' item-left></ion-icon>
       <ion-label>
-        {{numFriendsPlaying()}} out of {{numFriends()}} friends are playing
+        {{numberOfFriendsPlaying}} out of {{numberOfFriends}} friends are playing
       </ion-label>
     </ion-item>
 
     <div text-center>
-      <button ion-button color="dark" (click)="inviteFriends()" >
+      <button ion-button color="dark" (click)="inviteButton()" >
         Invite Friends
       </button>
     </div>
 
-    <div *ngIf="picturesNotUploaded.length > 0">
+    <div *ngIf="numberOfPicturesToUpload > 0">
       <ion-item>
         <ion-icon name='cloud-upload' item-left></ion-icon>
         <ion-label>
@@ -43,13 +43,13 @@
         </ion-label>
       </ion-item>
       <div text-center>
-        <button ion-button color="dark" (click)="uploadPictures()" >
+        <button ion-button color="dark" (click)="uploadButton()" >
           Upload
         </button>
       </div>
     </div>
 
-    <div *ngIf="numPicturesOnline() > 0">
+    <div *ngIf="numberOfPicturesToDownload > 0">
       <ion-item>
         <ion-icon name='cloud-download' item-left></ion-icon>
         <ion-label>
@@ -58,7 +58,7 @@
       </ion-item>
 
       <div text-center>
-        <button ion-button color="dark" (click)="downloadPictures()" >
+        <button ion-button color="dark" (click)="downloadButton()" >
           Download
         </button>
       </div>
@@ -73,7 +73,7 @@
       </ion-item>
 
       <div text-center>
-        <button ion-button color="dark" (click)="displayTutorial()" >
+        <button ion-button color="dark" (click)="helpButton()" >
           Need Help
         </button>
       </div>
@@ -83,12 +83,12 @@
       <ion-item>
         <ion-icon name='paper-plane' item-left></ion-icon>
         <ion-label>
-          Leave us a message/feedback
+          Leave us a message :)
         </ion-label>
       </ion-item>
 
       <div text-center>
-        <button ion-button color="dark" (click)="leaveFeedback()" >
+        <button ion-button color="dark" (click)="feedbackButton()" >
           Send
         </button>
       </div>
