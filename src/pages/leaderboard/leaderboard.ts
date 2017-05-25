@@ -25,7 +25,7 @@ export class LeaderboardPage {
       this.worldPlayers = this.userService.worldPlayers;
     }
 
-    platform.registerBackButtonAction(() => {})
+    platform.registerBackButtonAction(() => {});
   }
 
   ionViewDidEnter(){

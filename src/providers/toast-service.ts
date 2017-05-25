@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {ToastController} from "ionic-angular";
+import {Toast, ToastController} from "ionic-angular";
 
 /*
   Generated class for the ToastService provider.
@@ -11,13 +11,12 @@ import {ToastController} from "ionic-angular";
 export class ToastService {
 
   defaultDuration: number = 2000; //in ms
-  toastOnScreen: boolean;
+  toastsOnScreen: Toast[] = [];
 
   constructor(
     private toastCtrl: ToastController,
   ) {
     console.log('Hello ToastService Provider');
-    this.toastOnScreen = false;
   }
 
   topToast(message: string, superposition?: boolean, duration?: number) {
@@ -32,18 +31,23 @@ export class ToastService {
     this.presentToast(message, superposition , duration, 'bottom')
   }
 
+  dismissAll(): void {
+    this.toastsOnScreen.forEach((toast) => toast.dismissAll());
+  }
+
   private presentToast(message: string, superposition: boolean, duration: number, position: string) {
     let env = this;
-    if( (superposition ? superposition : false) || !env.toastOnScreen) {
-      env.toastOnScreen = true;
+    if( (superposition ? superposition : false) || env.toastsOnScreen.length == 0) {
       let toast = env.toastCtrl.create({
         message: message,
         duration: duration ? duration : this.defaultDuration,
         position: position
       });
 
+      this.toastsOnScreen.push(toast);
+
       toast.onDidDismiss(() => {
-        env.toastOnScreen = false;
+        this.toastsOnScreen.pop(); //TODO: Might be poping the wrong one !
         console.log('Dismissed toast');
       });
 

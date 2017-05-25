@@ -24,6 +24,7 @@ export class PlayPage {
     private gameStorageService: GameStorageService,
     private toastService: ToastService,
   ) {
+
     if(!loginService.isLoggedIn()){
       loginService.login();
     } else {
@@ -31,6 +32,10 @@ export class PlayPage {
     }
 
     platform.registerBackButtonAction(() => {});
+  }
+
+  ionViewWillLeave(){
+    this.toastService.dismissAll();
   }
 
   ionViewDidEnter(){

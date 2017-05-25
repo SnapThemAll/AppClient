@@ -28,6 +28,7 @@ import {GameStorageService} from "../providers/game-storage-service";
 import {CameraService} from "../providers/camera-service";
 import {FileManager} from "../providers/file-manager";
 import {ToastService} from "../providers/toast-service";
+import {UpdateService} from "../providers/update-service";
 import {TutorialPage} from "../pages/tutorial/tutorial";
 import {FeedbackPage} from "../pages/feedback/feedback/feedback";
 import {AutosizeDirective} from "../directives/autosize/autosize";
@@ -84,6 +85,7 @@ import {AutosizeDirective} from "../directives/autosize/autosize";
     UserService,
     FileManager,
     ToastService,
+    UpdateService,
   ]
 })
 export class AppModule {}
