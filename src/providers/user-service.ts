@@ -114,9 +114,13 @@ export class UserService {
           })
       )
     ).then((friendPlayers) => {
-      env.saveFriendUsers(friendPlayers.sort((f1, f2) => f2.score - f1.score));
+      env.saveFriendUsers(friendPlayers
+        .filter((player) => player.score > 0 || player.name != env.user.name)
+        .sort((player1, player2) => player2.score - player1.score));
       return env.apiService.getWorldUsers().toPromise();
-    }).then((worldPlayers) => env.saveWorldUsers(worldPlayers.sort((f1, f2) => f2.score - f1.score)))
+    }).then((worldPlayers) => env.saveWorldUsers(worldPlayers
+      .filter((player) => player.score > 0 || player.name != env.user.name)
+      .sort((player1, player2) => player2.score - player1.score)))
       .catch((error) => console.log("Error while updating players:" + JSON.stringify(error)));
   }
 
