@@ -24,13 +24,6 @@ export class PlayPage {
     private gameStorageService: GameStorageService,
     private toastService: ToastService,
   ) {
-
-    if(!loginService.isLoggedIn()){
-      loginService.login();
-    } else {
-      apiService.fbAuth(this.userService.user.authToken);
-    }
-
     platform.registerBackButtonAction(() => {});
   }
 
@@ -40,6 +33,11 @@ export class PlayPage {
 
   ionViewDidEnter(){
     console.log("ionViewDidEnter Play Page");
+    if(!this.loginService.isLoggedIn()){
+      this.loginService.login();
+    } else {
+      this.apiService.fbAuth(this.userService.user.authToken);
+    }
   }
 
   levels(): Level[] {
