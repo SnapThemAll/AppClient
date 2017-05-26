@@ -4,6 +4,7 @@ import {Card} from "../../providers/game-data/card-data";
 import {ApiService} from "../../providers/api-service";
 import {GameStorageService} from "../../providers/game-storage-service";
 import {Picture} from "../../providers/game-data/picture-data";
+import {UserService} from "../../providers/user-service";
 import {CameraService} from "../../providers/camera-service";
 import {ToastService} from "../../providers/toast-service";
 
@@ -22,6 +23,7 @@ export class CardPage {
     private alertCtrl: AlertController,
     private gameStorageService: GameStorageService,
     private apiService: ApiService,
+    private userService: UserService,
     private cameraService: CameraService,
     private toastService: ToastService,
   ) {
@@ -171,6 +173,8 @@ export class CardPage {
             let message = "Connection to the server failed. Try again";
             if(error.status == 403){
               message = error._body
+            } else {
+              env.apiService.fbAuth(env.userService.user.authToken)
             }
             env.toastService.bottomToast(message);
           });
